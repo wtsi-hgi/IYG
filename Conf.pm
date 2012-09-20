@@ -63,17 +63,15 @@ and provides a method to access the credentials hash by key.
 
 =head1 ATTRIBUTES
 
-=over 4
+=over
 
-=item *
-
-=head3 conf_path
+=item * conf_path
 
 Path to the configuration file, each key-value pair must be on its own line
 in the format "key=value". Comments must be preceded by '#' at the beginning
 of the line.
 
-=head3 credentials
+=item * credentials
 
 Hash containing key-value pairs representing configuration options.
 Note that no sanity checking is performed upon the configuration file, for
@@ -84,11 +82,9 @@ application to function being missing.
 
 =head3 METHODS
 
-=over 4
+=over
 
-=item *
-
-=head3 getCredential
+=item * getCredential
 
 Query the credentials hash for a given key and returns the value if found.
 Non-existent values return empty.

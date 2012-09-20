@@ -63,11 +63,9 @@ is generated and returned for display through use of CGI and Template::HTML.
 
 =head1 ATTRIBUTES
 
-=over 4
+=over
 
-=item *
-
-=head3 prepath
+=item * prepath
 
 Allows modification of the template path for scripts that are not in the root
 folder (as HTML::Template seems to require an absolute path). For example,
@@ -75,32 +73,30 @@ the "handlers" inside /results require this prepath to be set manually to "../"
 By default, the prepath is empty, so scripts in the root directory do not need
 to provide this parameter.
 
-=head3 template
+=item * template
 
 The name of the HTML template that will be used to build the page.
 This needs only to be the name as the .tmpl extension and directory
 path is appended to the parameter as necessary.
 The template parameter is required on construction.
 
-=head3 params
+=item * params
 
 A hash of key-value parameters that are to be passed to the page for display.
 An example may be the page's title. Pages are rendered using HTML::Template
 with variables displayed using the <TMPL_VAR> syntax.
 
-=head3 cgi
+=item * cgi
 
-Wraps a CGI object for access to CGI parameters in the main scripts.
+Wraps a CGI object to provide access to CGI parameters.
 
 =back
 
 =head1 METHODS
 
-=over 4
+=over
 
-=item *
-
-=head3 render
+=item * render
 
 Generates and returns the HTML necessary to display the page contents with
 an acceptable header. Note that this method DOES NOT actually display the page 

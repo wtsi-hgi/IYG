@@ -160,33 +160,31 @@ Facilitates connection to the IYG database and wraps a DBI connection handler.
 
 =head1 ATTRIBUTES
 
-=over 4
+=over
 
-=item *
-
-=head3 db_host
+=item * db_host
 
 Database Host (usually localhost or 127.0.0.1)
 If you are unable to connect to the database via a socket, try connecting over
 TCP/IP by providing '127.0.0.1' instead of 'localhost'.
 
-=head3 db_port
+=item * db_port
 
 Database Connection Port (usually unspecified or 3380)
 
-=head3 db_name
+=item * db_name
 
 Database Name
 
-=head3 db_user
+=item * db_user
 
 Database User
 
-=head3 db_pass
+=item * db_pass
 
 Database Password
 
-=head3 dbh
+=item * dbh
 
 The connected DBI object.
 
@@ -194,33 +192,31 @@ The connected DBI object.
 
 =head1 METHODS
 
-=over 4
+=over
 
-=item *
-
-=head3 getDbh
+=item * getDbh
 
 Returns the connected DBI object. Not advised as this breaks the encapsulation
 that this wrapper provides, but will allow scripts to use the DBI object
 directly if wanted.
 
-=head3 connectDb
+=item * connectDb
 
 Connects to the database with the given credentials and returns the 
 L<DBI> database handler for the execution of queries.
 
-=head3 disconnectDb
+=item * disconnectDb
 
 Explicitly disconnect the database handler from the database following the
 execution of all desired queries.
 
-=head3 query_trait
+=item * query_trait
 
 Execute query and return the result set for a given trait id.
 Primarily used when loading the results of a particular trait to populate
 the template's name and description fields.
 
-=head3 query_all_genotypes_for_variant
+=item * query_all_genotypes_for_variant
 
 Execute query and return the result set of all genotype variants for a
 particular SNP and trait. This populates the table of genotypes for the
@@ -228,13 +224,13 @@ trait result template, showing the different genotypes and offering - if
 available - contextual descriptions on how this genotype has an effect on
 the trait in question.
 
-=head3 query_all_snp_results_for_trait
+=item * query_all_snp_results_for_trait
 
 Execute query and return the result set of all SNPs that cause have an effect
 on a particular trait, if the user profile has a result for that SNP.
 Populates the "SNP boxes" on the trait results pages.
 
-=head3 query_all_traits_with_results
+=item * query_all_traits_with_results
 
 Execute query and return the result set for all traits that this user has at
 least one SNP result for. This populates the main "trait list" page the user

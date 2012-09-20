@@ -76,16 +76,14 @@ Barcode Decryption mechanism.
 
 =head1 ATTRIBUTES
 
-=over 4
+=over
 
-=item *
-
-=head3 page
+=item * page
 
 Holds an IYG::Page object to allow scripts to access the page renderer and
 any CGI variables.
 
-=head3 dbh
+=item * dbh
 
 Connects to the IYG database on construction and holds an IYG::Db database 
 wrapper, allowing scripts to access various stored queries inside the class.
@@ -94,15 +92,13 @@ wrapper, allowing scripts to access various stored queries inside the class.
 
 =head1 METHODS
 
-=over 4
+=over
 
-=item *
-
-=head3 getDb
+=item * getDb
 
 Returns the database handler for the execution of queries.
 
-=head3 decryptBarcode
+=item * decryptBarcode
 
 Returns a decrypted barcode given the secret key passphrase and encrypted
 PGP message.

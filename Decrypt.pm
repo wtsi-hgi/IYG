@@ -61,16 +61,14 @@ the barcode login script.
 
 =head1 ATTRIBUTES
 
-=over 4
+=over
 
-=item *
-
-=head3 secret
+=item * secret
 
 The passphrase for the private key that forms a pair with the public key
 used to encrypt the message.
 
-=head3 message
+=item * message
 
 The PGP encoded message to be decrypted.
 
@@ -78,11 +76,9 @@ The PGP encoded message to be decrypted.
 
 =head1 METHODS
 
-=over 4
+=over
 
-=item *
-
-=head3 decrypt
+=item * decrypt
 
 Decrypt and return the result (in this context; a barcode)
 

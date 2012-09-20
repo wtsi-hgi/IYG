@@ -37,13 +37,13 @@ Notably you should be aware that:
 * A Renderer Moose class to handle tasks such as checking for the presence of a user's public id or barcode and calling the appropriate Result "Handler" would also have been nice
 * Moose classing in general was somewhat abused
 
-##Contributors                                                                
-* Sam Nicholls &lt;sn8@sanger.ac.uk&gt;                                        
-                                                                               
+##Contributors
+* Sam Nicholls &lt;sn8@sanger.ac.uk&gt;
+
 ##License
 ###IYG Web
 IYG Web (including IYG Web Lib) is distributed under the GNU Affero General Public License (AGPL 3).
-See LICENSE.txt
+<br />See LICENSE.txt
 
 ###Bootstrap
 IYG Web is distributed with Twitter Bootstrap which is available under Apache License v2.0
@@ -53,10 +53,10 @@ IYG Web makes use of jQuery and jQuery UI APIs, both of which are distributed un
 
 ###Javascript Encryption
 IYG Web is distributed with a series of Javascript files inside the encrypt/ directory, check the headers of these files for license information.
-Note the ambiguous reference to "the BSD License" at encrypt/sha1.js:6 refers to the Modified BSD License.
+<br />Note the ambiguous reference to "the BSD License" at encrypt/sha1.js:6 refers to the Modified BSD License.
 
 ###IE Upgrade Warning
 IYG Web is distributed with "ie6-upgrade-warning", which is made available under the MIT License.
 
-##Copyright                                                                   
-Copyright &copy; 2012 Genome Research Ltd. 
+##Copyright
+Copyright &copy; 2012 Genome Research Ltd.
