@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title><TMPL_VAR NAME=TITLE></title>
+  <link href="/resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="/templates/custom.css" rel="stylesheet" type="text/css">
+  <script src="/resource/jquery_1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="/resource/jquery-ui_1.8.7/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="/resource/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+  <link href="/resource/jquery-ui_1.8.7/jquery-ui.css" rel="stylesheet" type="text/css">
+
+  <script>
+    $(document).ready(function(){
+      $('.collapse').collapse();
+      $("[rel=tooltip]").tooltip();
+    });
+  </script>
+   <!--[if lte IE 7]>
+	<script src="resource/ie6/warning.js"></script><script>window.onload=function(){e("resource/ie6/")}</script>
+  <![endif]-->
+

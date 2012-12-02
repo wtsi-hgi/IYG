@@ -1,0 +1,110 @@
+#!/usr/bin/perl
+#Copyright (c) 2012 Genome Research Ltd. 
+#Author: NAME <EMAIL> #TODO Name and Email
+#
+#This file is part of IYG Web.
+#
+#IYG Web is free software: you can redistribute it and/or modify it under 
+#the terms of the GNU Affero General Public License as published by the Free 
+#Software Foundation; either version 3 of the License, or (at your option) any 
+#later version. 
+#
+#This program is distributed in the hope that it will be useful, but WITHOUT 
+#ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+#FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more 
+#details.
+#
+#You should have received a copy of the GNU Affero General Public License along
+#with this program. If not, see <http://www.gnu.org/licenses/>.
+
+use strict;
+use warnings;
+
+# Start Application
+use IYG::App;
+my $app = IYG::App->new();
+
+# Ensure a profile_id was received, or load the login template.
+if(!defined($app->page->cgi->param('profile'))){
+    print $app->page->render({
+        prepath => "../",
+        template => 'login',
+        params => {
+            TITLE => 'Login',
+        },
+    });
+}
+else{
+    #TODO Perform your queries.
+    #  Will probably need to use the IYG::Db::query_trait() function to gain
+    #  trait information first.
+    #
+    #  You can use the database connection directly:
+    #     my $dbh = $app->dbh->getDbh();
+    #  Or use a query in the IYG::Db class:
+    #     my $resultSet = $app->dbh->your_query({eg_param => 1});
+
+    #TODO You probably want to perform a check to ensure results were returned
+    if($resultSet->rows > 0){
+        #TODO Process your results.
+
+        # Load the required template and pass the parameters for display.
+        print $app->page->render({
+            prepath => "../",
+            template => "custom/template_name", #TODO Enter template path (without .tmpl)
+            params => {
+                TITLE => "Page Title",
+                PROFILE_ID => $app->page->cgi->param('profile'), # Do not remove
+                #EXAMPLE => [@example_array] #TODO Pass your results to the renderer
+            },
+        });
+    }
+    else{
+        # No results returned, load the login template.
+        #TODO Should probably find a way to return user to trait page instead?
+        print $app->page->render({
+            prepath => "../",
+            template => 'login',
+            params => {
+                TITLE => 'Login',
+            },
+        });
+    }
+  
+  #TODO You should call ->finish on any result sets here
+  # exampleResultSet->finish;
+  $app->dbh->disconnectDb();
+}
+
+exit;
+#TODO Fill in PerlDoc
+__END__
+
+=head1 NAME
+
+results/[name].pl: <Trait Name> Trait Result Handler
+
+=head1 ADDRESS
+
+_HOST_/results/[name]
+
+=head1 PURPOSE
+
+Loads and renders data for <Trait Name>.
+
+=head1 EXPECTED INPUTS
+
+The script expects the following POST variables:
+
+=over
+
+=item * profile
+
+The public_id of the current user. Failure to provide this will cause the script
+to load the login template.
+
+=back
+
+=head1 TEMPLATE
+
+/templates/custom/[template].tmpl
