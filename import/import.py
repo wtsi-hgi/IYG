@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 """Import genotyping data to an Inside your Genome Database"""
+from gnome_sudoku.main import profile_me
+from gi.overrides.GLib import Variant
 
 __author__ = "Sam Nicholls <sn8@sanger.ac.uk>"
 __copyright__ = "Copyright (c) 2012 Genome Research Ltd."
@@ -31,6 +33,8 @@ class Data_Loader:
 
     def __init__(self, args):
         """Initialise the Database Connection and Cursor, call Execute"""
+        print args.host, args.barcodes
+        
         self.db = self.connect(args.user, args.host, args.port, args.name)
         self.cur = self.db.cursor()
         self.execute(args)
@@ -51,6 +55,7 @@ class Data_Loader:
             print "[FAIL]\tUnable to Establish Database Connection"
             print "\tError %d: %s" % (e.args[0], e.args[1])
             exit(0)
+            
 
     def execute(self, args):
         """Open file handlers and calls functions in the required order to 
@@ -60,14 +65,17 @@ class Data_Loader:
         snps_file = open(args.snps, 'r')
         trait_variants_file = open(args.trait_variants, 'r')
         results_map_file = open(args.results + '.map', 'r')
+        #separate option
         results_ped_file = open(args.results + '.ped', 'r')
 
 
+        # option : -- purgeall, if not: purge everything except for results
         self.purge_db()
-
+# --
         users = self.import_profiles(barcodes_file)
         snps = self.import_snps(snps_file)
         self.import_trait_variants(trait_variants_file, snps)
+        # --flag to do this, if yoiu specified either map, ped or results.csv, do purge all and import results
         self.import_results(results_map_file, results_ped_file, users, snps)
 
         self.db.close()
@@ -353,7 +361,7 @@ class Data_Loader:
                     errors['snps'].append(current_snp_rs)
                 continue
 
-        
+        valuesTuples = []
         lineno = 1
         for row in results:
             fields = row.strip().split(" ")
@@ -396,17 +404,33 @@ class Data_Loader:
                     popcounts[variant_dbid] = 1
                 else:
                     popcounts[variant_dbid] += 1
-                
-                try:
-                    self.cur.execute(
-                                     "INSERT INTO results (profile_id, variant_id, confidence) "
-                                     "VALUES (%s, %s, 101)", (profile_dbid, variant_dbid))
-                    self.db.commit()
-                except MySQLdb.Error, e:
-                    print "[FAIL]\tResult at Line# %s not added to database" % lineno
-                    print "\tError %d: %s" % (e.args[0], e.args[1])
-            
+             
+                '''query = """INSERT INTO `data` (frame, sensor_row, sensor_col, value) VALUES (%s, %s, %s, %s ) """
+
+                for row, col, frame in zip(rows, cols, frames):
+                        values.append((frame, row, col, data[row,col,frame]))
+                    cur.executemany(query, values)'''
+
+                valuesTuples.append((profile_dbid, variant_dbid)) 
+#                try:
+#                    self.cur.execute(
+#                                     "INSERT INTO results (profile_id, variant_id, confidence) "
+#                                     "VALUES (%s, %s, 101)", (profile_dbid, variant_dbid))
+#                    self.db.commit()
+#                except MySQLdb.Error, e:
+#                    print "[FAIL]\tResult at Line# %s not added to database" % lineno
+#                    print "\tError %d: %s" % (e.args[0], e.args[1])
+#          
             lineno += 1
+          
+        try:
+            query = """INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 101)"""
+            self.cur.executemany(query, valuesTuples)
+            
+        except MySQLdb.Error, e:
+            print "[FAIL]\tResults not added in the database"
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+               
         
         results.close()
         self.update_popfreqs(snps, popcounts)
@@ -442,13 +466,13 @@ if __name__ == "__main__":
         help=("Database Name [default: iyg]"))
     parser.add_argument('user', metavar="user",
         help=("Database User"))
-    parser.add_argument('barcodes', metavar="barcodes",
+    parser.add_argument('--barcodes', metavar="barcodes",
         help=("New line delimited list of *consenting* barcodes"))
-    parser.add_argument('snps', metavar="snps",
+    parser.add_argument('--snps', metavar="snps",
         help=("SNP Data File"))
-    parser.add_argument('trait_variants', metavar="trait_variants",
+    parser.add_argument('--trait_variants', metavar="trait_variants",
         help=("Trait-Variant Relationship File"))
-    parser.add_argument('results', metavar="results",
+    parser.add_argument('--results', metavar="results",
         help=("Fluidigm Results (Converted to CSV)"))
     Data_Loader(parser.parse_args())
-
+# everything except for results
