@@ -1,0 +1,127 @@
+MarkerName	Category	Trait	ShortName
+	Ancestry - Autosomal	Ancestry Informative Markers	AIM
+rs10421769	Ancestry - Autosomal	Neanderthal	Neanderthal
+rs1704745	Ancestry - Autosomal	Neanderthal	Neanderthal
+rs4238771	Ancestry - Autosomal	Neanderthal	Neanderthal
+rs4896067	Ancestry - Autosomal	Neanderthal	Neanderthal
+rs6737672	Ancestry - Autosomal	Neanderthal	Neanderthal
+rs8176719	Blood ABO	ABO loss of function	ABO
+rs1053878	Blood ABO	ABO loss of function	ABO
+rs7853989	Blood ABO	ABO loss of function	ABO
+rs8176740	Blood ABO	ABO loss of function	ABO
+rs8176743	Blood ABO	ABO loss of function	ABO
+rs8176746	Blood ABO	ABO loss of function	ABO
+rs41302905	Blood ABO	ABO loss of function	ABO
+rs8176747	Blood ABO	ABO loss of function	ABO
+rs8176749	Blood ABO	ABO loss of function	ABO
+rs560887	Blood Glucose Levels	Fasting glucose-related traits	FG
+rs4607517	Blood Glucose Levels	Fasting glucose-related traits	FG
+rs1387153	Blood Glucose Levels	Fasting plasma glucose	FPG
+rs7944584	Blood Glucose Levels	Fasting glucose-related traits	FG
+rs2191349	Blood Glucose Levels	Fasting glucose-related traits	FG
+rs10885122	Blood Glucose Levels	Fasting glucose-related traits	FG
+rs1378942	Blood Pressure	Blood Pressure	BP
+rs11191548	Blood Pressure	Blood Pressure	BP
+rs4766578	Blood Pressure	Blood Pressure	BP
+rs1458038	Blood Pressure	Blood Pressure	BP
+rs6015450	Blood Pressure	Blood Pressure	BP
+rs4590817	Blood Pressure	Blood Pressure	BP
+rs932764	Blood Pressure	Blood Pressure	BP
+rs1558902	Anthropometrics	Body Mass Index	BMI
+rs571312	Anthropometrics	Body Mass Index	BMI
+rs10938397	Anthropometrics	Body Mass Index	BMI
+rs10767664	Anthropometrics	Body Mass Index	BMI
+rs543874	Anthropometrics	Body Mass Index	BMI
+rs2815752	Anthropometrics	Body Mass Index	BMI
+rs713586	Anthropometrics	Body Mass Index	BMI
+rs2472297	Caffeine Consumption	Coffee consumption	CAFE
+rs6968865	Caffeine Consumption	Coffee consumption	CAFE
+rs382140	Caffeine Consumption	Coffee consumption	CAFE
+rs629301	Cholesterol	Total Cholesterol	TC
+rs12678919	Cholesterol	HDL Cholesterol	HDLC
+rs6511720	Cholesterol	Total Cholesterol	TC
+rs1367117	Cholesterol	Total Cholesterol	TC
+rs4299376	Cholesterol	Total Cholesterol	TC
+rs2131925	Cholesterol	Total Cholesterol	TC
+rs4971516	Cholesterol	LDL Cholesterol	LDLC
+rs1864163	Cholesterol	HDL Cholesterol	HDLC
+rs2074356	Cholesterol	HDL Cholesterol	HDLC
+rs12913832	Eye Colour	Eye Colour	EYE
+rs1408799	Eye Colour	Eye Colour	EYE
+rs12896399	Eye Colour	Eye Colour	EYE
+rs12203592	Eye Colour	Eye Colour	EYE
+rs9894429	Eye Colour	Eye Colour	EYE
+rs16891982	Eye Colour	Eye Colour	EYE
+rs1003719	Eye Colour	Eye Colour	EYE
+rs1393350	Eye Colour	Eye Colour	EYE
+rs10195252	Anthropometrics	Waist-hip ratio	WHR
+rs4846567	Anthropometrics	Waist-hip ratio	WHR
+rs6905288	Anthropometrics	Waist-hip ratio	WHR
+rs984222	Anthropometrics	Waist-hip ratio	WHR
+rs1055144	Anthropometrics	Waist-hip ratio	WHR
+rs1011731	Anthropometrics	Waist-hip ratio	WHR
+rs1294421	Anthropometrics	Waist-hip ratio	WHR
+rs4988235	Lactose Intolerance	Hypolactasia	LACT
+rs2497938	Male Pattern Baldness	Male-pattern baldness	BALD
+rs2180439	Male Pattern Baldness	Male-pattern baldness	BALD
+rs6625163	Male Pattern Baldness	Male-pattern baldness	BALD
+MT-A663G	Ancestry - Maternal	MT-Haplogroup-A	MTA
+MT-T14318C	Ancestry - Maternal	MT-Haplogroup-C	MTC
+MT-C5178a	Ancestry - Maternal	MT-Haplogroup-D	MTD
+MT-T3027C	Ancestry - Maternal	MT-Haplogroup-E+M58+N8+F1e1a+U5a1d	MTE
+MT-G10310A	Ancestry - Maternal	MT-Haplogroup-F+D4e4b+H3ar+B4c1a	MTF
+MT-A4833G	Ancestry - Maternal	MT-Haplogroup-G+D4i2	MTG
+MT-T7028C	Ancestry - Maternal	MT-Haplogroup-H+U5b1a	MTH
+MT-G3010A	Ancestry - Maternal	MT-Haplogroup-H1+C1c2+M34+D4+H30b+H65a+H79a+J1+P4b1+U3a1	MTH1
+MT-C14872T	Ancestry - Maternal	MT-Haplogroup-H13	MTH13
+MT-T6776C	Ancestry - Maternal	MT-Haplogroup-H3+M22	MTH3
+MT-T8200C	Ancestry - Maternal	MT-Haplogroup-H30+G1	MTH30
+MT-T5004C	Ancestry - Maternal	MT-Haplogroup-H4+D1j1a+D2b1a	MTH4
+MT-T4336C	Ancestry - Maternal	MT-Haplogroup-H5a+U6d	MTH5A
+MT-T14766C	Ancestry - Maternal	MT-Haplogroup-HV+M2b+E1a1+B2a1a	MTHV
+MT-T10034C	Ancestry - Maternal	MT-Haplogroup-I+F1a2+H4a1a1a1	MTI
+MT-A12612G	Ancestry - Maternal	MT-Haplogroup-J+N9a3+F4a2+R14+K1a4c	MTJ
+MT-A10550G	Ancestry - Maternal	MT-Haplogroup-K	MTK
+MT-T14783C	Ancestry - Maternal	MT-Haplogroup-M+P10	MTM
+MT-C10873T	Ancestry - Maternal	MT-Haplogroup-N	MTN
+MT-G8697A	Ancestry - Maternal	MT-Haplogroup-T+K2a2	MTT
+MT-A12308G	Ancestry - Maternal	MT-Haplogroup-U	MTU
+MT-A5390G	Ancestry - Maternal	MT-Haplogroup-U2e	MTU2E
+MT-C11332T	Ancestry - Maternal	MT-Haplogroup-U4	MTU4
+MT-G9477A	Ancestry - Maternal	MT-Haplogroup-U5+D4c1a1a	MTU5
+MT-G4580A	Ancestry - Maternal	MT-Haplogroup-V+M3a	MTV
+MT-A11947G	Ancestry - Maternal	MT-Haplogroup-W	MTW
+MT-C6371T	Ancestry - Maternal	MT-Haplogroup-X	MTX
+rs1815739	Muscle Performance	ACTN3 stop mutation	MUSC
+rs1051730	Nicotine Addiction Susceptibility	Smoking behavior	SMOK
+rs1451240	Nicotine Addiction Susceptibility	Nicotine dependence	NICO
+rs4105144	Nicotine Addiction Susceptibility	Smoking behavior	SMOK
+rs1329650	Nicotine Addiction Susceptibility	Smoking behavior	SMOK
+rs601338	Norovirus Resistance	FUT2 secretor/non-secretor	FUT2
+rs1354034	Platelet Traits	Platelet counts	PC
+rs342293	Platelet Traits	Mean platelet volume	MPV
+rs2138852	Platelet Traits	Mean platelet volume	MPV
+rs1558324	Platelet Traits	Mean platelet volume	MPV
+rs2393967	Platelet Traits	Mean platelet volume	MPV
+rs1668873	Platelet Traits	Mean platelet volume	MPV
+rs12566888	Platelet Traits	Platelet aggregation	PA
+rs37369	Smell	 Urinary metabolites	SMUM
+rs830124	Smell	 Urinary metabolites	SMUM
+rs4921914	Smell	 Urinary metabolites	SMUM
+rs8101881	Smell	 Urinary metabolites	SMUM
+rs4481887	Smell	 Asparagus anosmia	SMAA
+rs17279437	Smell	 Urinary metabolites	SMUM
+rs9295791	Smell	 Detection threshold of cis-3-hexen-1-ol (freshly cut grass)	SMCG
+rs28757581	Smell	 Detection threshold of cis-3-hexen-1-ol (freshly cut grass)	SMCG
+rs10966900	Smell	 Intensity and valance of androstenone 	SMAN
+rs5020278	Smell	 Intensity and valance of androstenone 	SMAN
+rs1953558	Smell	 Isovaleric acid detection	SMIA
+rs713598	Taste	 Bitter taste response	TABI
+rs10772420	Taste	 Intensity of quinine	TAQU
+rs2032597	Ancestry - Paternal	Y-Haplogroup-I (M170)	YI
+rs35284970	Ancestry - Paternal	Y-Haplogroup-C (M130/RPS4Y-711)	YC
+rs2032658	Ancestry - Paternal	Y-Haplogroup-R (M207)	YR
+rs13447352	Ancestry - Paternal	Y-Haplogroup-J (M304)	YJ
+rs9786184	Ancestry - Paternal	Y-Haplogroup-R1b (M343)	YR1B
+rs2032652	Ancestry - Paternal	Y-Haplogroup-F (M89)	YF
+rs2534636	Ancestry - Paternal	Y-Haplogroup-A (SRY10831.1/SRY10831.2)	YA
