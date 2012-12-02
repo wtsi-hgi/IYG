@@ -22,7 +22,8 @@ use warnings;
 
 # Start Application
 use IYG::App;
-my $app = IYG::App->new();
+my $conf_path = $ENV{"IYG_CONF_PATH"};
+my $app = IYG::App->new(conf_path => $conf_path);
 
 # Ensure a profile_id was received, or load login template.
 if(!defined($app->page->cgi->param('profile'))){

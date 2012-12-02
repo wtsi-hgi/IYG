@@ -25,8 +25,9 @@ use IYG::Db;
 use IYG::Decrypt;
 use IYG::Page;
 
-sub _build_conf{ 
+sub _build_conf { 
     my $self = shift;
+    print STDERR "_build_conf\n";
     IYG::Conf->new({
       conf_path => $self->conf_path(),
     }); 
@@ -34,6 +35,7 @@ sub _build_conf{
 
 has conf => (
     is => 'ro',
+    lazy => 1,
     builder => '_build_conf',
 );
 
@@ -44,15 +46,24 @@ has conf_path => (
 
 has page => (
     is => 'ro',
-    default => sub {
-        return IYG::Page->new({
-		prepath => $conf->getDocRoot(),
-	    });
-    }
+    lazy => 1,
+    builder => '_build_page',
 );
+
+sub _build_page {
+    my $self = shift;
+    print STDERR "_build_page\n";
+    my $conf = $self->conf();
+    print STDERR "_build_page have conf $conf\n";
+    return IYG::Page->new({
+	prepath => $conf->getDocRoot(),
+    });
+}
+
 
 has dbh => (
     is => 'ro',
+    lazy => 1,
     builder => '_build_dbh',
 );
 
@@ -75,9 +86,9 @@ sub getDb{
 sub decryptBarcode{
     my $self = shift;
     return IYG::Decrypt->new({
-        secret => $conf->getCredential("decrypt_key"),
+        secret => $self->conf->getCredential("decrypt_key"),
         message => $_[0],
-	secring => $conf->getCredential("decrypt_secring"),
+	secring => $self->conf->getCredential("decrypt_secring"),
     });
 }
 
