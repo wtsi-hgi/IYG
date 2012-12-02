@@ -21,6 +21,12 @@ package IYG::Decrypt;
 use Moose;
 use Crypt::OpenPGP;
 
+has secring => (
+    is => 'ro',
+    isa => 'Str',
+    required => 1,
+);
+
 has secret => (
     is => 'ro',
     isa => 'Str',
@@ -37,10 +43,13 @@ sub decrypt{
     my $self = shift;
 
     # Decrypt
-    my $pgp = Crypt::OpenPGP->new;
+    my $pgp = Crypt::OpenPGP->new(
+	Compat => "GnuPG",
+	SecRing => $self->secring,
+	);
     my($pt, $valid, $sig) = $pgp->decrypt(
         Data => $self->message,
-        Passphrase => $self->secret
+        Passphrase => $self->secret,
     );
     die ("Sorry. Barcode decryption failed... ", $pgp->errstr) unless $pt;
     return $pt;

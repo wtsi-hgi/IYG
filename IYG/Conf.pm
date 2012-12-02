@@ -22,6 +22,7 @@ use Moose;
 
 has conf_path => (
     is => 'ro',
+    required => 1,
 );
 
 has credentials => (
@@ -46,6 +47,15 @@ has credentials => (
 sub getCredential{
     my $self = shift;
     return $self->credentials->{$_[0]};
+}
+
+sub getDocRoot{
+    my $self = shift;
+    if(exists($self->credentials->{"iyg_documentroot"})) {
+	return $self->credentials->{"iyg_documentroot"};
+    } else {
+	return "";
+    }
 }
 
 no Moose;

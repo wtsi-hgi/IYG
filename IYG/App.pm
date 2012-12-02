@@ -26,12 +26,15 @@ use IYG::Decrypt;
 use IYG::Page;
 
 my $conf = IYG::Conf->new({
-    conf_path => "/path/to/iyg.conf"}); #TODO Path to iyg.conf
+	conf_path => "/home/www-data/iyg.conf",
+    });
 
 has page => (
     is => 'ro',
     default => sub {
-        return IYG::Page->new();
+        return IYG::Page->new({
+		prepath => $conf->getDocRoot(),
+	    });
     }
 );
 
@@ -57,7 +60,8 @@ sub decryptBarcode{
     my $self = shift;
     return IYG::Decrypt->new({
         secret => $conf->getCredential("decrypt_key"),
-        message => $_[0]
+        message => $_[0],
+	secring => $conf->getCredential("decrypt_secring"),
     });
 }
 

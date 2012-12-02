@@ -35,12 +35,12 @@ sub render {
     my $self = shift;
 
     my $prepath = "";
-    if($_[0]->{'prepath'}){
-        $prepath = $_[0]->{'prepath'};
+    if($self->prepath()){
+        $prepath = $self->prepath();
     }
 
     my $t = HTML::Template->new(
-        filename => $prepath."templates/".$_[0]->{'template'}.'.tmpl',
+        filename => $prepath."/IYG-Web/templates/".$_[0]->{'template'}.'.tmpl',
         die_on_bad_params => 0
     ); 
     $t->param($_[0]->{'params'});
