@@ -25,9 +25,22 @@ use IYG::Db;
 use IYG::Decrypt;
 use IYG::Page;
 
-my $conf = IYG::Conf->new({
-    conf_path => "/path/to/iyg.conf"}); #TODO Path to iyg.conf
-    });
+sub _build_conf{ 
+    my $self = shift;
+    IYG::Conf->new({
+      conf_path => $self->conf_path(),
+    }); 
+}
+
+has conf => (
+    is => 'ro',
+    builder => '_build_conf',
+);
+
+has conf_path => (
+    is => 'ro',
+    required => 1,
+);
 
 has page => (
     is => 'ro',
@@ -40,16 +53,19 @@ has page => (
 
 has dbh => (
     is => 'ro',
-    default => sub {
-        return IYG::Db->new({
-            db_host => $conf->getCredential("db_host"),
-            db_port => $conf->getCredential("db_port"),
-            db_name => $conf->getCredential("db_name"),
-            db_user => $conf->getCredential("db_user"),
-            db_pass => $conf->getCredential("db_pass")
-        });
-    }
+    builder => '_build_dbh',
 );
+
+sub _build_dbh {
+    my $self = shift;
+    return IYG::Db->new({
+	db_host => $self->conf->getCredential("db_host"),
+	db_port => $self->conf->getCredential("db_port"),
+	db_name => $self->conf->getCredential("db_name"),
+	db_user => $self->conf->getCredential("db_user"),
+	db_pass => $self->conf->getCredential("db_pass")
+    });
+}
 
 sub getDb{
     my $self = shift;

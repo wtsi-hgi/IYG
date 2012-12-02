@@ -22,7 +22,8 @@ use warnings;
 
 # Start Application
 use IYG::App;
-my $app = IYG::App->new();
+my $conf_path = $ENV{"IYG_CONF_PATH"};
+my $app = IYG::App->new(conf_path => $conf_path);
 
 # Render and Load Login
 print $app->page->render({
