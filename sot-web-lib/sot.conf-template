@@ -1,0 +1,11 @@
+###############################################################################
+# IYG SOT Configuration
+################################################################################
+
+################################################################################
+# data_file should be a tab-delimited text file that is readable by the 
+# user running the web server and containing at least four columns 
+# named "MarkerName", "Category", "Trait", and "ShortName"
+################################################################################
+data_file=/var/www/iyg-snps-traits.txt
+
