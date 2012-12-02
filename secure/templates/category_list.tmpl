@@ -1,0 +1,99 @@
+<TMPL_INCLUDE NAME="includes/header.tmpl">
+<!-- category_list.tmpl -->
+    <script>
+      function loadDescendantPads(collapseTargetId) {
+console.log("loadDescendantPads: collapseTargetId="+collapseTargetId);
+	      var padhtmlSelector = '#'+collapseTargetId+' .padhtml';
+	      $(padhtmlSelector).each(function (i) {
+console.log("loadDescendantPads: loadPadId("+$(this).attr('id')+")");
+		loadPadId($(this).attr('id'), $(this));
+	      });
+      }
+
+      function loadPadId(padId, context) {
+	//var padId = "trait_description_"+short_name;
+	$.ajax({
+	  url: 'https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID='+padId,
+	  context: context, //$("#trait_description_"+short_name),
+	  dataType: "json",
+	  success: function(data) {
+	    //console.log("have pad html: "+data.data.html);
+            $(this).html(data.data.html)
+          },
+	  error: function(err) {
+            $(this).html("Error getting description.")
+          }
+	       });
+	}
+
+        $(document).ready(function() {
+	    $('.collapse').collapse();
+            $("[rel=tooltip]").tooltip();
+
+            $('.category').each(function(index) {
+                $(this).css({
+                    'marginTop': "85px",
+                    'opacity': 0
+                }).show().delay(100 * index).
+                animate({
+                    opacity: 1.0,
+                    marginTop: "0px"
+                }, 600);
+            });
+
+            $('#openButton').click(function(){
+                $('.collapse').collapse('show');
+            });
+
+            $('#closeButton').click(function(){
+                $('.collapse').collapse('hide');
+            });
+
+	    $('.collapse').on('shown', function (e) {
+	      var collapseTargetId = $(e.target).attr('id');
+	      loadDescendantPads(collapseTargetId);
+	    });
+
+	    var open_category = "";
+	    if(window.location.hash) {
+	      open_category = window.location.hash.substring(1);
+	    }
+
+	    // this must come after the event handlers are registered
+/*
+	    $('.collapse').each(function(i) {
+	      var collapse_category = $(this).data('category');
+	      if( collapse_category === open_category) {
+		  $(this).collapse('show');
+	      }
+	    });
+*/
+
+        });
+    </script>
+    <div id="mainContainer-header" class="container">
+        <div class="row">
+            <div class="span8 pull-left">
+                <h1><i class="icon-th-list trait-header-icon"></i> Trait and SNP Descriptions</h1>
+            </div>
+            <div class="span4 pull-right">
+                <div class="btn-group pull-right">
+                    <button id="openButton" class="btn">
+                        <i class="icon-folder-open"></i> Open All
+                    </button>
+                    <button id="closeButton" class="btn btn-inverse">
+                        <i class="icon-folder-close icon-white"></i> Close All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container">
+        <div class="traits">
+            <TMPL_LOOP NAME=RESULT>
+                <TMPL_INCLUDE NAME="category_box.tmpl">
+            </TMPL_LOOP>
+          </div>
+        </div>
+<TMPL_INCLUDE NAME="includes/footer.tmpl">

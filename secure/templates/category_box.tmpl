@@ -1,0 +1,21 @@
+<!-- category_box.tmpl -->
+              <div id="category<TMPL_VAR NAME=NAME>"/>
+     		<div class="trait">
+                    <div class="trait-header">
+                        <div class="row" data-toggle="collapse" data-target="#collapse<TMPL_VAR NAME=COUNTER ESCAPE=url>">
+                            <div class="span4">
+                                <h3><b><TMPL_VAR NAME=NAME></b></h3>
+                            </div>
+                            <i class="pull-right icon-search icon-white trait-header-icon"></i>
+                        </div>
+                    </div>
+                    <div id="collapse<TMPL_VAR NAME=COUNTER ESCAPE=url>" class="accordion-body collapse category <TMPL_UNLESS NAME=start_open>in</TMPL_UNLESS>" data-category="<TMPL_VAR NAME=NAME ESCAPE=url>" data-trait-shortname='[<TMPL_LOOP NAME=traits>"<TMPL_VAR NAME=short_name>"<TMPL_UNLESS __last__>,</TMPL_UNLESS></TMPL_LOOP>]'>
+                        <div class="row-fluid accordion-inner">
+			  <TMPL_LOOP NAME=traits>
+			    <TMPL_INCLUDE NAME="trait_box.tmpl">
+			  </TMPL_LOOP>
+			</div>
+                    </div>
+		</div>
+	      </div>
+		

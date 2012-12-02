@@ -1,0 +1,31 @@
+<!-- trait_box.tmpl -->
+<div id="trait<TMPL_VAR NAME=short_name>">
+  <div class="row-fluid">
+    <div class="span9">
+      <h2> <TMPL_VAR NAME=trait_name> <!--(<TMPL_VAR NAME=short_name>) --></h2>
+    </div>
+    <div class="span1">
+      <button type="button" class="btn btn-inverse" onclick="loadDescendantPads('trait<TMPL_VAR NAME=short_name>');">
+	<i class="icon-refresh icon-white"></i>
+      </button>
+    </div>
+    <div class="span2">
+      <form action="trait_edit/<TMPL_VAR NAME=short_name>" method="post">
+	<input type="hidden" name="trait" value="<TMPL_VAR NAME=short_name>" />
+	<button type="submit" class="btn btn-inverse">
+	  <i class="icon-edit icon-white"></i> Edit
+	</button>
+      </form>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <h4>Trait description</h4>
+    <div id="trait_description_<TMPL_VAR NAME=short_name>" class="span11 padhtml">
+    </div>
+  </div>
+  <div class="row-fluid">
+    <h4><TMPL_IF NAME=snps>Inside Your Genome SNP<TMPL_LOOP NAME=snps><TMPL_IF NAME="__last__"><TMPL_UNLESS NAME="__first__">s</TMPL_UNLESS></TMPL_IF></TMPL_LOOP><TMPL_ELSE>Inside Your Genome SNPs for trait not listed</TMPL_IF></h4>
+    <TMPL_INCLUDE NAME="trait_box_part_iyg_snps.tmpl">
+      <br/>
+  </div>
+</div>

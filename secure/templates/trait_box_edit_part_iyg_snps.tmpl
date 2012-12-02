@@ -1,0 +1,32 @@
+<!-- trait_box_part_iyg_snps.tmpl -->
+    <TMPL_LOOP NAME=snps>
+      <div class="snp span11">
+        <div class="snp-header">
+	  <div class="row-fluid">
+            <div class="span4">
+	      <h3><b><TMPL_VAR NAME=snp_id></b></h3>
+            </div>
+	    <div class="span8 snplink">
+	      <div class="row-fluid">
+		<div class="span2">
+		  <a target="iyg_dbsnp" href="http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=<TMPL_VAR NAME=snp_id_nors>">dbSNP</a>
+		  </div>
+		<div class="span2">
+		  <a target="iyg_snpedia" href="http://www.snpedia.com/index.php/<TMPL_VAR NAME=snp_id>">SNPedia</a>
+		  </div>
+		<div class="span2">
+		  <a target="iyg_ensembl" href="http://www.ensembl.org/Homo_sapiens/Location/View?db=core;source=dbSNP;vdb=variation;v=<TMPL_VAR NAME=snp_id>">Ensembl</a>
+		</div>
+		<div class="span3">
+		  <a target="iyg_google_scholar" href="http://scholar.google.com/scholar?hl=en&q=<TMPL_VAR NAME=snp_id>">Google Scholar</a>
+		</div>
+	      </div>
+	    </div>	      
+            <!--<i class="pull-right icon-search icon-white trait-header-icon"></i>-->
+          </div>
+	</div>
+        <div class="row-fluid">
+	  <iframe src="/ep/p/trait_snp_description_<TMPL_VAR NAME=short_name>_<TMPL_VAR NAME=snp_id>" width="100%" class="span12 ep epsnp"></iframe>
+	</div>
+      </div>
+    </TMPL_LOOP>
