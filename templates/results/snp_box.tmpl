@@ -1,0 +1,42 @@
+<div class="trait">
+    <div class="snp-header">
+        <h3># <TMPL_VAR NAME="RS_ID"></h3>
+    </div>
+    <div class="accordion-inner">
+        <div id="populationBar<TMPL_VAR NAME=COUNT>" class="populationBar"><span id="populationBarValue<TMPL_VAR NAME=COUNT>" value="<TMPL_VAR NAME=PERCENT>" class="populationBarValue"></span></div>
+        <br />
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="well"><TMPL_VAR NAME=DESCRIPTION></div>
+            </div>                                             
+            <div class="span6 pull-right">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="center">You</th>
+                            <th class="center">Genotype</th>
+                            <th>Description</th>
+                            <th class="center">%<i class="icon-info-sign icon-white" rel="tooltip" data-original-title="Percent of sampled population with this result."></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <TMPL_LOOP NAME=VARIANTS>
+                            <tr>                               
+                                <td class="centerAndMiddle">
+                                    <TMPL_IF NAME=ISRESULT>
+                                        <i class="icon-barcode"></i><i class="icon-user"></i>
+                                    </TMPL_IF>
+                                </td>
+                                <td class="genotype centerAndMiddle"><TMPL_VAR NAME=GENOTYPE></td>
+                                <td><TMPL_VAR NAME=DESCRIPTION></td>
+                                <td class="centerAndMiddle"><TMPL_VAR NAME=POPULATION_FREQ></td>
+                            </tr>                              
+                        </TMPL_LOOP>                           
+                    </tbody>                                 
+                    <tfoot>                                  
+                    </tfoot>                                 
+                </table>                                       
+            </div>                                             
+        </div>                                                 
+    </div>                                                     
+</div>

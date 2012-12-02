@@ -1,0 +1,43 @@
+<TMPL_INCLUDE NAME="all_header.tmpl">
+    <script>
+        $(document).ready(function() {                                             
+            $('.populationBar').each(function(index) {                             
+                $(this).progressbar();                                             
+                $(this).animate({                                                  
+                    dummy: $('#populationBarValue'+(index+1)).attr('value')        
+                }, {                                                               
+                    duration: 2000,                                                
+                    easing: 'linear',                                              
+                    step: function(now, fx) {                                      
+                        $('#populationBar'+(index+1)).progressbar('value', now);   
+                        $('#populationBarValue'+(index+1)).text(now.toFixed(2) + '%');
+                    }                                                              
+                });                                                                
+            });                                                                    
+        });                                                                        
+    </script>  
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <p class="navbar-text pull-right padded-nav-text"></p>
+        </div>
+    </div>
+    <div id="mainContainer-header" class="container">                          
+        <div class="row">                                                      
+            <div class="span4 pull-left">                                      
+                <h1><i class="icon-list-alt trait-header-icon"></i> Trait Result</h1>
+            </div>                                                             
+            <div class="span4 pull-right">                                     
+                <div class="btn-group pull-right">                             
+                    <form class="no-margin" action="/traits" method="post">  
+                    <input type="hidden" name="profile" value="<TMPL_VAR NAME=PROFILE_ID>" />
+                    <button id="backButton" class="btn">                       
+                        <i class="icon-th-list"></i> Back to Traits            
+                    </button>                                                  
+                    </form>                                                    
+                </div>                                                         
+            </div>                                                             
+        </div>                                                                 
+    </div>
+    <div class="container">

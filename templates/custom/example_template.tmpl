@@ -1,0 +1,16 @@
+<TMPL_INCLUDE NAME="../includes/result_header.tmpl">
+        <div class="variants">
+            <div class="trait">
+                <div class="trait-header">
+                    <b><h2><TMPL_VAR NAME=TRAIT_NAME></h2></b>
+                </div>
+                <div class="accordion-inner">
+                    <TMPL_VAR NAME=TRAIT_DESCRIPTION></p>
+                </div>
+            </div>
+            <!-- Iterate over available SNPs -->
+            <TMPL_LOOP NAME=SNPS>
+                <TMPL_INCLUDE NAME="../results/snp_box.tmpl">
+            </TMPL_LOOP>
+        </div>
+<TMPL_INCLUDE NAME="../includes/footer.tmpl">

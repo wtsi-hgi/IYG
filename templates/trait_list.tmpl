@@ -1,0 +1,52 @@
+<TMPL_INCLUDE NAME="includes/header.tmpl">
+    <script>
+        $(document).ready(function() {
+            $("[rel=tooltip]").tooltip();
+            $('.collapse').collapse();
+
+            $('.trait').each(function(index) {
+                $(this).css({
+                    'marginTop': "85px",
+                    'opacity': 0
+                }).show().delay(100 * index).
+                animate({
+                    opacity: 1.0,
+                    marginTop: "0px"
+                }, 600);
+            });
+
+            $('#openButton').click(function(){
+                $('.collapse').collapse('show');
+            });
+            $('#closeButton').click(function(){
+                $('.collapse').collapse('hide');
+            });
+     
+        });
+    </script>
+    <div id="mainContainer-header" class="container">
+        <div class="row">
+            <div class="span4 pull-left">
+                <h1><i class="icon-th-list trait-header-icon"></i> Traits</h1>
+            </div>
+            <div class="span4 pull-right">
+                <div class="btn-group pull-right">
+                    <button id="openButton" class="btn">
+                        <i class="icon-folder-open"></i> Open All
+                    </button>
+                    <button id="closeButton" class="btn btn-inverse">
+                        <i class="icon-folder-close icon-white"></i> Close All
+                    </button>                                                      
+                </div>                                                             
+            </div>                                                                 
+        </div>                                                                     
+    </div>
+    <br />
+    <div class="container">
+        <div class="traits">
+            <TMPL_LOOP NAME=RESULT>
+                <TMPL_INCLUDE NAME="trait_box.tmpl">
+            </TMPL_LOOP>
+          </div>
+        </div>
+<TMPL_INCLUDE NAME="includes/footer.tmpl">

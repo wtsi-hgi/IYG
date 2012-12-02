@@ -1,0 +1,66 @@
+                <div class="trait" data-toggle="collapse" data-target="#collapse<TMPL_VAR NAME=COUNTER>">
+                    <div class="trait-header">
+                        <div class="row">
+                            <div class="span4">
+                                <h3><b><TMPL_VAR NAME=NAME></b></h3>
+                            </div>
+                            <i class="pull-right icon-search icon-white trait-header-icon"></i>
+                        </div>
+                    </div>
+                    <div id="collapse<TMPL_VAR NAME=COUNTER>" class="accordion-body collapse in">
+                        <div class="row-fluid accordion-inner">
+                            <div class="span3">
+                                <b>Predictability</b><br />
+                                <TMPL_IF NAME=PREDICTABILITY3>
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star"></i>
+                                </TMPL_IF>
+                                <TMPL_IF NAME=PREDICTABILITY2>
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star-empty"></i>
+                                </TMPL_IF>
+                                <TMPL_IF NAME=PREDICTABILITY1>
+                                    <i class="icon-star"></i>
+                                    <i class="icon-star-empty"></i>
+                                    <i class="icon-star-empty"></i>
+                                </TMPL_IF>
+                                <TMPL_IF NAME=PREDICTABILITY0>
+                                    <i class="icon-star-empty"></i>
+                                    <i class="icon-star-empty"></i>
+                                    <i class="icon-star-empty"></i>
+                                </TMPL_IF>
+                            </div>
+                            <div class="span3">
+                                <b>Confidence</b><br />
+                                <TMPL_VAR NAME=TRAIT_CONF>%
+                            </div>
+                           <div class="span4">
+                                <b>Result</b><br />
+                                <TMPL_UNLESS NAME=MULTI_SNP>
+                                    <TMPL_VAR NAME=VALUE>
+                                </TMPL_UNLESS>
+                                <TMPL_IF NAME=MULTI_SNP>
+                                    <i rel='tooltip' data-original-title='The result for this trait is a composite of multiple SNPs, click "More" for a breakdown' class='icon-info-sign'></i>
+                                </TMPL_IF>
+                            </div>
+                            <div class="span2 pull-right">
+                                    <form action="/<TMPL_VAR NAME=HANDLER />" method="post">
+
+                                    <input type="hidden" name="profile" value="<TMPL_VAR NAME=PUBLIC_ID>" />
+                                    <input type="hidden" name="type" value="<TMPL_VAR NAME=COMPLEX_FLAG>" />
+                                    <input type="hidden" name="trait" value="<TMPL_VAR NAME=TRAIT_ID>" />
+                                    <TMPL_UNLESS NAME=COMPLEX_FLAG>
+                                        <input type="hidden" name="snp" value="<TMPL_VAR NAME=SNP_ID>" />
+                                        <input type="hidden" name="variant" value="<TMPL_VAR NAME=VARIANT_ID>" />
+                                    </TMPL_UNLESS>
+                                    <button type="submit" class="btn btn-inverse">
+                                        <i class="icon-search icon-white"></i> More
+                                    </button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>

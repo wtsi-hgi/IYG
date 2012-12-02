@@ -1,0 +1,118 @@
+body{
+  padding: 60px 0 0 0;
+  margin: 0px auto;
+  background-image: url("/resource/bg.png");
+  background-repeat: repeat;
+}
+
+.well{
+  padding: 5px;
+}
+
+#mainContainer-header{
+  border-color: #5eabcc;
+  border-style: solid;
+  border-width: 0 0 5px 0;
+}
+
+#mainContainer{
+  padding: 20px 0 0 0;
+  background-color: #bedfeb;
+  border-color: #5eabcc;
+  border-style: solid;
+  border-width: 5px 0;
+}
+
+.content{
+  padding: 15px 20px;
+}
+
+th {
+  background-color: #000;
+  color: #FFF;
+  border-color: #F59B00;
+  border-style: solid;
+  border-width: 0 0 5px 0;
+}
+
+th.center{
+  text-align: center;
+}
+
+tr {
+  background-color: #FFF;
+  color: #000;
+}
+
+td.centerAndMiddle{
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.genotype{
+  font-weight: bold;
+}
+
+.ui-progressbar span { 
+  width: 100%;
+  float: left;
+  text-align:center;
+  padding-top: 5px;
+  font-weight:bold;
+}
+
+/* Trait Style */
+.traits{
+  width: 650px;
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+}
+
+.trait {
+  background-color: #F2F4FF;
+  margin: 0 0 20px 0;
+  -webkit-box-shadow:  5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  box-shadow:  5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.trait-header {
+  background-color: #468199;
+  padding: 5px 10px;
+  color: white;
+}
+.trait-header-icon{
+  margin: 7px 0 0 0;
+}
+
+.trait-body {
+  background-color: white;
+}
+
+/* Variant */
+.variants {
+    width: 800px;
+    margin: 0 auto;
+    padding: 20px 0 0 0;
+}
+
+/* Login */
+.login-wrapper{
+  margin: 150px 0 0 0;
+  text-align: center;
+  padding: 20px 0 0 0;
+  background-color: #bedfeb;
+  border-color: #5eabcc;
+  border-style: solid;
+  border-width: 5px 0;
+}
+
+form .no-margin {
+  margin: 0;
+  background-color: #000;
+}
+
+.snp-header {
+  background-color: #00001C;
+  padding: 0px 10px;
+  color: white;
+}
