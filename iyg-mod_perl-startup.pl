@@ -1,4 +1,4 @@
-use lib qw(/var/www/IYG/IYG-Web-Lib);
+use lib qw(/var/www/iyg/web-lib/IYG);
 
 use IYG::App;
 
