@@ -41,7 +41,7 @@ elsif(defined($app->page->cgi->param('profile'))){
 
 # Ensure a barcode was submitted, if not; error out.
 if(!$barcode_or_publicid){
-    print "not logged in";
+    print "Content-Type:text/plain\n\nnot logged in";
 }
 else{
     # Get all variants for which the barcode has a result.
@@ -51,7 +51,7 @@ else{
     });
 
     my @traitList;
-    print "Content-Type: text/tab-separated-values\n";
+    print "Content-Type: text/tab-separated-values\n\n";
     while(my $trait = $traitResultSet->fetchrow_hashref()){
         # Used by the template to uniquely name the "trait box" divs
         my $rs_id = $trait->{'rs_id'};
