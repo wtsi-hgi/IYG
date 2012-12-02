@@ -40,7 +40,7 @@ sub render {
     }
 
     my $t = HTML::Template->new(
-        filename => $prepath."/IYG-Web/templates/".$_[0]->{'template'}.'.tmpl',
+        filename => $prepath."/web/templates/".$_[0]->{'template'}.'.tmpl',
         die_on_bad_params => 0
     ); 
     $t->param($_[0]->{'params'});
