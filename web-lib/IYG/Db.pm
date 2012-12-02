@@ -141,8 +141,10 @@ sub query_all_traits_with_results{
         AND traits.active_flag = 1
         GROUP BY traits.trait_id
       ";
+    my $barcode_or_publicid = $_[0]->{'barcode_or_publicid'};
+    print STDERR "query_all_traits_with_results: query=[$query] value=[$barcode_or_publicid]\n";
     my $traitResultQuery = $self->dbh->prepare($query);
-    $traitResultQuery->execute( $_[0]->{'barcode_or_publicid'} );
+    $traitResultQuery->execute( $barcode_or_publicid );
     return $traitResultQuery;
 }
 
