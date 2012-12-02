@@ -11,7 +11,7 @@ Maternal ancestry MT		NA	0	NA	NA	NA	Tree
 Male pattern baldness	BALD	NA	0	NA	NA	NA	QT
 Mean platelet volume	MPV	NA	0	fL	9.5	1.03	QT
 Muscle performance	MUSC	NA	0	NA	NA	NA	SingleSNP
-Neanderthal	Neanderthal	NA	0	NA	NA	NA	QT
+Neanderthal	NEAND	NA	0	NA	NA	NA	QT
 Norovirus resistance	FUT2	NA	0	NA	NA	NA	SingleSNP
 Overall ancestry	AIM	NA	0	NA	NA	NA	PCA
 Platelet aggregation	PA	NA	0	NA	NA	NA	SingleSNP
