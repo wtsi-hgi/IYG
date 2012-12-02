@@ -1,3 +1,4 @@
+#Please note this contains SNPs which fail QC, and which should be removed when creating a "master file" with this info. They are preserved here as the main record of which SNPs should theoretically be connected to which traits. --JCB
 SNP	trait
 rs2131925	TC
 rs2815752	BMI
