@@ -1,0 +1,17 @@
+<!-- trait_box_part_iyg_snps.tmpl -->
+    <TMPL_LOOP NAME=snps>
+      <div class="snp span11">
+        <div class="snp-header">
+	  <div class="row-fluid">
+            <div class="span4">
+	      <h3><b><TMPL_VAR NAME=snp_id></b></h3>
+            </div>
+            <!--<i class="pull-right icon-search icon-white trait-header-icon"></i>-->
+          </div>
+	</div>
+        <div class="row-fluid">
+	  <div class="span12 padhtml" id="trait_snp_description_<TMPL_VAR NAME=short_name>_<TMPL_VAR NAME=snp_id>">
+	  </div>
+        </div>
+      </div>
+    </TMPL_LOOP>

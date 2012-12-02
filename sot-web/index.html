@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Category List</title>
+    <link href="/resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/templates/custom.css" rel="stylesheet" type="text/css">
+    <script src="/resource/jquery_1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/resource/jquery-ui_1.8.7/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/resource/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/resource/etherpad-lite-jquery-plugin/etherpad.js" type="text/javascript"></script>
+    <link href="/resource/jquery-ui_1.8.7/jquery-ui.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <p class="navbar-text pull-right padded-nav-text"></p>
+      </div>
+    </div>
+    <div id="mainContainer-header" class="container">
+      <div class="row">
+        <div class="span8 pull-left">
+          <h1><i class="sangerlogo trait-header-icon"></i> Inside Your Genome</h1>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="container">
+      <div class="row">
+	<div class="span10 offset1">
+	  <p class="lead">
+	    Genotyping for the <a href="https://helix.wtgc.org/groups/information/genotyping">Inside Your Genome project</a> is underway, and it's time to prepare for the return of results. We invite you to <a href="secure/">contribute to the project</a> by helping to write text for the description of the traits and associated SNPs being genotyped as part of the project. 
+	  </p>
+	</div>
+      </div>
+      <h2>Trait and SNP Descriptions</h2>
+      <h3>Login information</h3>
+      <p>
+	If you wish to <a href="secure/">view or edit</a> trait and SNP descriptions for the Inside Your Genome project, you will be asked to login using Shibboleth (with support for EBI, Hinxton Hall, and Sanger logins). Please contact <a href="mailto:hgi@sanger.ac.uk">hgi@sanger.ac.uk</a> if you experience issues with login. 
+      </p>
+      <h3>Trait Categories</h3>
+      <p>
+	After login, you will be presented with the list of trait categories included in the Inside Your Genome project, each of which can be expanded to show the traits included in the category, along with the current description text for that trait and a list of SNPs that are included on the Inside Your Genome genotyping panel (each of which also has a description field). Initially, these descriptions are populated only with placeholder text (e.g. &quot;trait_description_EYE&quot;), as we are hoping members of the community will help the project to provide descriptions of each trait and SNP. These descriptions will be used to augment the results returned to each study participant (which will be done anonymously on a separate web site) with background information that may be of interest given their genotyping results. 
+      </p>
+      <h3>Editing trait and SNP descriptions</h3>
+      <p>
+	You are invited to edit the descriptions to provide background information about each trait and SNP in the project. To do so, simply click the &quot;Edit&quot; button next to the trait you wish to edit, and use the in-browser real-time collaborative editor to edit the description. A persistent chat is also included and is attached to each description -- you can use that to coordinate efforts between multiple editors working simultaneously on the same text, to leave notes about work you have partially completed that someone else might want to take up (though you could also include that in the text), or for anything else you can think of. Don't worry about deleting or changing someone else's work -- the full history of the editing session is saved (and accessible via the interface), so you (or anyone else) can go back and retrieve text that has been deleted if you've decided it's useful after all. 
+      </p>
+      <h4>Adding Citations</h4>
+      <p>
+	In the description text you are encouraged to include references to support your statements, and to make that easier we support two shorthand formats for pubmed id (PMID) and digital object identifiers (DOI) in addition to standard URI (e.g. http/https) links. To cite a particular paper indexed by pubmed, you can simply write &quot;pmid:&quot; followed by the pubmed id (e.g. <code><a href="http://www.ncbi.nlm.nih.gov/pubmed/11237011">pmid:11237011</a></code>). This will automatically be linked to the pubmed entry on the NIH web site. Likewise, to cite a DOI, enter &quot;doi:&quot; followed by the DOI itself (e.g. <code><a href="http://dx.doi.org/10.1038/35057062">10.1038/35057062</a></code>), which will create a link directly to the identified document. 
+      </p>
+      <hr/>
+      <div class="footer">
+	<h5>Acknowledgments</h5>
+	<p>
+	  Inside Your Genome project informatics are supported by the Human Genetics Informatics team at Sanger: <a href="mailto:hgi@sanger.ac.uk">hgi@sanger.ac.uk</a>
+	</p>
+	<p>
+	  Thanks to our summer placement student Sam Nicholls for setting up the framework for the results site and also for putting substantial work into SNP selection.
+	</p>
+	<p>
+	  This site is made possible by a multitude of free and open-source software projects and developers, including:
+	  <a href="http://projects.apache.org/projects/http_server.html">Apache HTTPD</a>, 
+	  <a href="http://perl.apache.org/">mod_perl</a>, 
+	  <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, 
+	  <a href="http://search.cpan.org/~markstos/CGI.pm-3.60/lib/CGI.pm">CGI.pm</a>,
+	  <a href="http://www.senchalabs.org/connect/">Connect</a>, 
+	  <a href="http://couchdb.apache.org/">CouchDB</a>,
+	  <a href="http://etherpad.org/">Etherpad Lite</a>, 
+	  <a href="http://expressjs.com/">Express</a>,
+	  <a href="http://glyphicons.com/">Glyphicons</a>, 
+	  <a href="http://search.cpan.org/~wonko/HTML-Template-2.91/lib/HTML/Template.pm">HTML::Template</a>,
+	  <a href="http://jquery.com/">jQuery</a>, 
+	  <a href="http://jqueryui.com/">jQuery UI</a>, 
+	  <a href="http://moose.perl.org/">Moose</a>, 
+	  <a href="http://www.mysql.com/">MySQL</a>, 
+	  <a href="http://nodejs.org/">node.js</a>, 
+	  <a href="http://www.perl.org/">Perl</a>, 
+	  <a href="http://shibboleth.net/">Shibboleth</a>, 
+	  <a href="http://socket.io/">socket.io</a>, 
+	  <a href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, &amp;
+	  <a href="https://github.com/Pita/ueberDB#readme">ueberDB</a>.
+	</p>
+	<h5>License</h5>
+	<p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+	  <a rel="license"
+	     href="http://creativecommons.org/publicdomain/zero/1.0/">
+	    <img src="http://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0" />
+	  </a>
+	  <br />
+	  To the extent possible under law,
+	  <a rel="dct:publisher"
+	     href="https://sot.iyg-results.org/">
+	    <span property="dct:title">Genome Research Limited and all site contributors</span></a>
+	  have waived all copyright and related or neighboring rights to
+	  <span property="dct:title">Inside Your Genome Trait and SNP Descriptions</span>.
+	  This work is published from:
+	  <span property="vcard:Country" datatype="dct:ISO3166"
+		content="GB" about="https://sot.iyg-results.org/">
+	    United Kingdom</span>.
+	</p>
+      </div>
+    </div>
+</div>
+</body>
+</html>
+

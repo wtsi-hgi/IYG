@@ -1,0 +1,21 @@
+<TMPL_INCLUDE NAME="includes/header.tmpl">
+<!-- edit_traits.tmpl -->
+    <div id="mainContainer-header" class="container">
+      <div class="row">
+        <div class="span8 pull-left">
+          <h1><i class="icon-th-list trait-header-icon"></i> Edit Trait and SNP description</h1>
+        </div>
+      </div>                                                                     
+    </div>
+    <br />
+    <div class="container">
+      <div class="agreement span10 offset1">
+	<p>By contributing text to these descriptions, you agree to waive all copyright and related or neighboring rights to you work.</p>
+      </div>
+      <div class="traits">
+        <TMPL_LOOP NAME=TRAITS>
+	  <TMPL_INCLUDE NAME="trait_box_edit.tmpl">
+        </TMPL_LOOP>
+      </div>
+    </div>
+<TMPL_INCLUDE NAME="includes/footer.tmpl">
