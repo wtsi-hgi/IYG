@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Import genotyping data to an Inside your Genome Database"""
+from EpsImagePlugin import field
 
 __author__ = "Sam Nicholls <sn8@sanger.ac.uk>"
 __copyright__ = "Copyright (c) 2012 Genome Research Ltd."
@@ -68,7 +69,10 @@ class Data_Loader:
         if(args.trait_variants is not None):
             if(args.snps is not None):
                 trait_variants_file = open(args.trait_variants, 'r')
-                self.import_trait_variants(trait_variants_file, snps)
+                if(args.separate_imports):
+                    self.import_trait_variants_separately(trait_variants_file, snps)
+                else:    
+                    self.import_trait_variants(trait_variants_file, snps)
             else:
                 print "--snps argument is needed for the import of trait variants!"
 
@@ -270,6 +274,93 @@ class Data_Loader:
             lineno += 1
         trait_variants.close()
 
+
+    def import_trait_variants_separately(self, trait_variants, snps):
+        """Process the Trait-Variant Relationship file, adding each Trait to
+        the database along with a row for each Variant for all SNPs that are
+        listed below the Trait"""
+        print "[READ]\tImporting Trait-Variant Relationships"
+        current_trait_dbid = 0
+        current_snp = ""
+
+        lineno = 1
+        for line in trait_variants:
+            fields = line.strip().split("\t")
+
+            # Trait Record
+            if fields[0] == "=":
+                name = fields[1]
+                short_name = fields[2]
+                description = fields[3]
+                predictability = fields[4]
+                units = fields[5]
+                mean = fields[6]
+                sd = fields[7]
+                handler = fields[8]
+                
+                if handler == "-":
+                    handler = "" # IYG Web will use default trait handler
+
+                try:
+                    self.cur.execute(
+                        "INSERT INTO traits (name, short_name, description, active_flag, "
+                        "predictability, units, mean, sd, handler) VALUES (%s, %s, %s, %s, %s, %s, %d, %s, %s)", 
+                        (name, short_name, description, 1, predictability, units, mean, sd, handler))
+                    self.db.commit()
+                    current_trait_dbid = self.cur.lastrowid
+
+                except MySQLdb.Error, e:
+                    current_trait_dbid = 0
+                    print "[FAIL]\tTrait '%s' not added to database" % name
+                    print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            # SNP Record for Current Trait
+            elif fields[0] == ">":
+                if current_trait_dbid == 0:
+                    continue
+
+                if fields[1] in snps:
+                    current_snp = fields[1]
+                else:
+                    current_snp = ""
+                    print ("[WARN]\tSNP %s not found in SNP import " % fields[1])
+                    continue
+
+            # Variant Record for Current SNP
+            elif fields[0] == ">>":
+                if current_trait_dbid == 0 or not current_snp:
+                    # Skip this record if the current trait or SNP are not set
+                    continue
+
+                genotype = fields[1]
+                value = fields[2]
+                desc = fields[3]
+
+                if genotype in snps[current_snp]['genotypes']:
+                    variant = snps[current_snp]['genotypes'][genotype]
+                elif genotype[::-1] in snps[current_snp]['genotypes']:
+                    variant = snps[current_snp]['genotypes'][genotype[::-1]]
+                else:
+                    print ("[WARN]\t"+genotype+
+                        " variant not found in SNP import for SNP "+current_snp)
+                    continue
+
+                try:
+                    self.cur.execute(
+                        "INSERT INTO variants_traits (variant_id, trait_id, "
+                        "value, description) VALUES (%s, %s, %s, %s)",
+                        (variant, current_trait_dbid, value, desc))
+                    self.db.commit()
+                except MySQLdb.Error, e:
+                    print ("[FAIL]\tTrait-Variant for Trait '%s', SNP %s and "
+                        "Genotype %s at Line# %s not added to database" % 
+                        (name, current_snp, genotype, lineno))
+                    print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            lineno += 1
+        trait_variants.close()
+
+
     def import_results_CSV(self, results, users, snps):
         """Process the CSV of genotype call results, adding a new result record
         for each row with a valid call"""
@@ -470,5 +561,7 @@ if __name__ == "__main__":
         help=("Trait-Variant Relationship File"))
     parser.add_argument('--results', metavar="results",
         help=("Fluidigm Results (Converted to CSV)"))
+    parser.add_argument('--separate_imports', metavar="separate_imports",
+        help=("Flag for separate imports"))
     Data_Loader(parser.parse_args())
 # everything except for results
