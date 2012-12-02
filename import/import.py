@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 """Import genotyping data to an Inside your Genome Database"""
-from gnome_sudoku.main import profile_me
-from gi.overrides.GLib import Variant
 
 __author__ = "Sam Nicholls <sn8@sanger.ac.uk>"
 __copyright__ = "Copyright (c) 2012 Genome Research Ltd."
@@ -33,16 +31,14 @@ class Data_Loader:
 
     def __init__(self, args):
         """Initialise the Database Connection and Cursor, call Execute"""
-        print args.host, args.barcodes
-        
         self.db = self.connect(args.user, args.host, args.port, args.name)
         self.cur = self.db.cursor()
         self.execute(args)
-
+        
+        
     def connect(self, user, host, port, name):
         """Attempts to connect to the database with the user, host and name
         parameters and prompts for the password."""
-
         password = raw_input("Password: ")
         try:
             return MySQLdb.connect(
@@ -61,23 +57,37 @@ class Data_Loader:
         """Open file handlers and calls functions in the required order to 
         import the data to the IYG database"""
 
-        barcodes_file = open(args.barcodes, 'r')
-        snps_file = open(args.snps, 'r')
-        trait_variants_file = open(args.trait_variants, 'r')
-        results_map_file = open(args.results + '.map', 'r')
-        #separate option
-        results_ped_file = open(args.results + '.ped', 'r')
-
+        if(args.barcodes):
+            barcodes_file = open(args.barcodes, 'r')
+            users = self.import_profiles(barcodes_file)
+ 
+        if(args.snps is not None):
+            snps_file = open(args.snps, 'r')
+            snps = self.import_snps(snps_file)
+        
+        if(args.trait_variants is not None):
+            if(args.snps is not None):
+                trait_variants_file = open(args.trait_variants, 'r')
+                self.import_trait_variants(trait_variants_file, snps)
+            else:
+                print "--snps argument is needed for the import of trait variants!"
 
         # option : -- purgeall, if not: purge everything except for results
-        self.purge_db()
+        
 # --
-        users = self.import_profiles(barcodes_file)
-        snps = self.import_snps(snps_file)
-        self.import_trait_variants(trait_variants_file, snps)
         # --flag to do this, if yoiu specified either map, ped or results.csv, do purge all and import results
-        self.import_results(results_map_file, results_ped_file, users, snps)
-
+        #Results argument is optional, if given all the DB is purged and the results are imported
+        if(args.results is not None):
+            if(args.barcodes is None):
+                print "--barcodes argument is needed for results import!"
+            elif(args.snps is None):
+                print "--snps argument is needed for results import!"    
+            else:
+                self.purge_db()
+                results_map_file = open(args.results + '.map', 'r')
+                results_ped_file = open(args.results + '.ped', 'r')
+                self.import_results(results_map_file, results_ped_file, users, snps)
+        self.cur.close()
         self.db.close()
 
     def purge_db(self):
@@ -405,28 +415,14 @@ class Data_Loader:
                 else:
                     popcounts[variant_dbid] += 1
              
-                '''query = """INSERT INTO `data` (frame, sensor_row, sensor_col, value) VALUES (%s, %s, %s, %s ) """
-
-                for row, col, frame in zip(rows, cols, frames):
-                        values.append((frame, row, col, data[row,col,frame]))
-                    cur.executemany(query, values)'''
-
+              
                 valuesTuples.append((profile_dbid, variant_dbid)) 
-#                try:
-#                    self.cur.execute(
-#                                     "INSERT INTO results (profile_id, variant_id, confidence) "
-#                                     "VALUES (%s, %s, 101)", (profile_dbid, variant_dbid))
-#                    self.db.commit()
-#                except MySQLdb.Error, e:
-#                    print "[FAIL]\tResult at Line# %s not added to database" % lineno
-#                    print "\tError %d: %s" % (e.args[0], e.args[1])
-#          
+          
             lineno += 1
           
         try:
             query = """INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 101)"""
-            self.cur.executemany(query, valuesTuples)
-            
+            self.cur.executemany(query, valuesTuples)   
         except MySQLdb.Error, e:
             print "[FAIL]\tResults not added in the database"
             print "\tError %d: %s" % (e.args[0], e.args[1])
@@ -464,7 +460,7 @@ if __name__ == "__main__":
         help=("Database Port [default: 3390]"))
     parser.add_argument('--name', metavar="", default="iyg",
         help=("Database Name [default: iyg]"))
-    parser.add_argument('user', metavar="user",
+    parser.add_argument('--user', metavar="user",
         help=("Database User"))
     parser.add_argument('--barcodes', metavar="barcodes",
         help=("New line delimited list of *consenting* barcodes"))
