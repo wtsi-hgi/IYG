@@ -14,10 +14,10 @@ then
  	[[ -f ${IYG_PRIVATE_DATA_DIR}/iyg.map ]] 
     then
 	awk 'BEGIN {FS="\t";} $1=="iygrw" {print $2;}' ${IYG_PRIVATE_DATA_DIR}/mysql-user-pass.txt | ./import.py \
-	    iygrw \
+	    --user iygrw \
 	    --barcodes ${IYG_PRIVATE_DATA_DIR}/barcodes.list \
 	    --snps ../public_data/snp-info.txt \
-	    --trait_variants ../public_data/trait_variant.data \
+	    --traits ../public_data/master-trait-info.txt \
 	    --results ${IYG_PRIVATE_DATA_DIR}/iyg
     else 
 	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
