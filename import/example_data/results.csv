@@ -1,0 +1,22 @@
+Chip Run Info,C:\Documents and Settings\Clarissa\Desktop\Combined_190111\ChipRun.bml,Combined Chip Run,96.96 (138x),,ROX,FAM-MGB : VIC-MGB,21/12/2010 14:44,00:00:47,EP1-50028
+Application Version,3.0.2
+Application Build,20100823.109999999
+Export Type,Detailed Table Results,Standard
+Number of Combined Chip Runs,5,46080
+Confidence Threshold,65
+Normalization Method,NTC Normalization
+Allele Probe Type Mapping,Allele X,FAM-MGB
+Allele Probe Type Mapping,Allele Y,VIC-MGB
+Allele Axis Mapping,Allele X,X
+Allele Axis Mapping,Allele Y,Y
+
+
+Experiment Information,Experiment Information,Experiment Information,Experiment Information,Experiment Information,Experiment Information,Experiment Information,Experiment Information,Results,Results,Results,Results,Results,Results
+Chamber,Chamber,Chamber,SNP Assay and Allele Names,SNP Assay and Allele Names,SNP Assay and Allele Names,Sample,Sample,Call Information,Call Information,Call Information,Call Information,Intensity,Intensity
+ID,Chip Name,Chip Barcode,Assay,Allele X,Allele Y,Name,Type,Auto,Confidence,Final,Converted,Allele X,Allele Y
+S096-A01,Plate I_postPCR_211210,1381413152,rsEg1,G,A,88,Unknown,XY,98.95,XY,G:A,0.393549346,0.438164339
+S096-A02,Plate I_postPCR_211210,1381413152,rsEg2,T,C,88,Unknown,XX,97.63,XX,T:T,0.120935494,0.32929638
+S096-A03,Plate I_postPCR_211210,1381413152,rsEg1,G,A,89,Unknown,YY,98.28,YY,A:A,0.423509579,0.456018466
+S096-A04,Plate I_postPCR_211210,1381413152,rsEg2,T,C,89,Unknown,YY,98.55,YY,C:C,0.119368273,0.31691936
+S096-A05,Plate I_postPCR_211210,1381413152,rsEg1,G,A,1,Unknown,XY,91.02,XY,G:A,0.423509579,0.456018466
+S096-A06,Plate I_postPCR_211210,1381413152,rsEg2,T,C,1,Unknown,XY,94.52,XY,T:C,0.119368273,0.31691936
