@@ -1,0 +1,28 @@
+#First column indicates record type: = Trait, > SNP, >> Variant at SNP
+#=	Trait Name	Trait Description	Predictability	Handler (Loads Data and Renders Template)
+#>	SNP RS
+#>>	Genotype	Short Description (Shown on Trait List)	Long Description (Shown in SNP Box)
+#
+# * Trait Predictability is scored from 0 (Worst) to 3 (Best)
+# * Entering '-' for a trait's Handler will cause the default handler to be used
+# * Trait Handler names must not include the .pl extension
+# * Note that an RS ID can appear underneath many traits
+# * All SNP RS IDs and Variant Genotypes must be defined in the SNP Data file
+# * Descriptions for Variants are to be given in the context of the current trait
+# * Any record that does not begin with =, >, or >> will be ignored
+# 
+=	Test Trait A	Description of Test Trait A	1	-
+>	rsEg1
+>>	GG	Above Average	Above Avg. Desc.
+>>	GA	Average	Result	Average Desc.
+>>	AA	Below Average	Below Avg. Desc.
+>	rsEg2
+>>	TT	Above Average	Above Avg Desc.
+>>	TC	Average Result	Average Desc.
+>>	CC	Below Average	Below Avg. Desc.
+
+=	Test Trait B	Description of Test Trait B	3	-
+>	rsEg1
+>>	GG	Below Average	Below Avg Desc.
+>>	GA	Average Result	Average Desc.
+>>	AA	Above Average	Above Avg. Desc.

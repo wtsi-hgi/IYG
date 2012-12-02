@@ -1,0 +1,6 @@
+#RS ID	Name	Description	Comma-Separated-Genotypes
+#
+# * When entering genotypes, do not need to specify both combinations for heterozygous alleles
+#
+rsEg1	Example SNP 1	Description of Example SNP 1	AA,GA,GG
+rsEg2	Example SNP 2	Description of Example SNP 2	TT,TC,CC
