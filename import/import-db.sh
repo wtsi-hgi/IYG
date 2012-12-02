@@ -1,4 +1,32 @@
 #!/bin/bash
 
-./import.py iygrw ~/iyg-private-data/barcodes.list ../public_data/snp-info.txt ../public-data/trait_variant.data ~/iyg-private-data/iyg
+usage="
+Usage: import-db.sh ~/iyg-private-data/
+"
+
+IYG_PRIVATE_DATA_DIR="$1"
+
+if [[ -n "${IYG_PRIVATE_DATA_DIR}" ]] && \
+    [[ -d ${IYG_PRIVATE_DATA_DIR} ]] 
+then
+    if [[ -f ${IYG_PRIVATE_DATA_DIR}/barcodes.list ]] && \
+	[[ -f ${IYG_PRIVATE_DATA_DIR}/iyg.ped ]] && \
+ 	[[ -f ${IYG_PRIVATE_DATA_DIR}/iyg.map ]] 
+    then
+	awk 'BEGIN {FS="\t";} $1=="iygrw" {print $2;}' ${IYG_PRIVATE_DATA_DIR}/mysql-user-pass.txt | ./import.py \
+	    iygrw \
+	    --barcodes ${IYG_PRIVATE_DATA_DIR}/barcodes.list \
+	    --snps ../public_data/snp-info.txt \
+	    --trait_variants ../public_data/trait_variant.data \
+	    --results ${IYG_PRIVATE_DATA_DIR}/iyg
+    else 
+	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
+	exit 2
+    fi
+    else
+    echo "${usage}"
+    exit 1
+fi
+
+
 
