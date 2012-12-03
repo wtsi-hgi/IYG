@@ -61,9 +61,9 @@ mkdir WHR
 R --no-restore --no-save --args WHR <mangrove-it.R
 #Special QTs
 mkdir CAFE 
-R --no-restore --no-save --args CAFE <mangrove-it.R
+R --no-restore --no-save <mangrove-it-CAFE.R
 mkdir EYE 
-R --no-restore --no-save --args EYE <mangrove-it.R
+R --no-restore --no-save <mangrove-it-EYE.R
 mkdir BALD 
 R --no-restore --no-save --args BALD <mangrove-it.R
 mkdir NEAND 
