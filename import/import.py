@@ -460,7 +460,7 @@ class Data_Loader:
           
             lineno += 1
         
-        print "about to insert %d valuesTuples" % (len(valuesTuples))
+        print "[INFO] Inserting %d records into results table." % (len(valuesTuples))
         try:
             query = "INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 100)"
             self.cur.executemany(query, valuesTuples)   
