@@ -7,7 +7,7 @@ Eye color	EYE	2	NA	NA	NA	QT
 Fasting glucose	FPG	1	mmol/L	5.2	0.45	QT
 HDL cholesterol	HDLC	1	mg/dL	60	15	QT
 Lactose intolerance	LACT	3	NA	NA	NA	SingleSNP
-Maternal ancestry MT	2	NA	NA	NA	Tree
+Maternal ancestry	MT	2	NA	NA	NA	Tree
 Male pattern baldness	BALD	2	NA	NA	NA	QT
 Mean platelet volume	MPV	1	fL	9.5	1.03	QT
 Muscle performance	MUSC	0	NA	NA	NA	SingleSNP
