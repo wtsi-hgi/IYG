@@ -53,6 +53,6 @@ mkdir -p ${DEST_DIR}/trait_snp_descriptions
 ${IYG_DIR}/analyse/get-sot/translatesot.pl ${PUB_DATA_DIR}
 
 echo "Generating Files Of File Names..."
-find public_data/desc/trait_descriptions/*.html > ${DEST_DIR}/trait_descriptions.fofn
-find public_data/desc/trait_snp_descriptions/*.html > ${DEST_DIR}/trait_snp_descriptions.fofn
+find ${PUB_DATA_DIR}/desc/trait_descriptions/*.html > ${DEST_DIR}/trait_descriptions.fofn
+find ${PUB_DATA_DIR}/desc/trait_snp_descriptions/*.html > ${DEST_DIR}/trait_snp_descriptions.fofn
 

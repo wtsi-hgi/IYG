@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PRIV_DATA_DIR=$1
-IYG_DIR=`dirname $0`/../
+IYG_DIR=`pwd`/`dirname $0`/../
 PUB_DATA_DIR=${IYG_DIR}/public_data/
 
 if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
