@@ -165,7 +165,6 @@ sub query_all_snps_with_results{
         JOIN variants ON results.variant_id = variants.variant_id
         JOIN snps ON variants.snp_id = snps.snp_id ".$qtype." 
         AND profiles.consent_flag = 1
-        GROUP BY traits.trait_id
       ";
     my $barcode_or_publicid = $_[0]->{'barcode_or_publicid'};
     print STDERR "query_all_snps_with_results: query=[$query] value=[$barcode_or_publicid]\n";
