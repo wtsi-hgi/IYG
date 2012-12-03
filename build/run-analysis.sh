@@ -59,15 +59,18 @@ mkdir TC
 R --no-restore --no-save --args TC <mangrove-it.R
 mkdir WHR 
 R --no-restore --no-save --args WHR <mangrove-it.R
+#this kind of sucks
+mkdir BALD 
+R --no-restore --no-save --args BALD <mangrove-it.R
+#mkdir NEAND 
+#still broken
+#R --no-restore --no-save --args NEAND <mangrove-it.R
 #Special QTs
 mkdir CAFE 
 R --no-restore --no-save <mangrove-it-CAFE.R
 mkdir EYE 
 R --no-restore --no-save <mangrove-it-EYE.R
-mkdir BALD 
-R --no-restore --no-save --args BALD <mangrove-it.R
-mkdir NEAND 
-R --no-restore --no-save --args NEAND <mangrove-it.R
+
 
 #9. run SOT annotations
 #run MP's SOT puller?

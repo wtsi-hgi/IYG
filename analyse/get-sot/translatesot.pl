@@ -53,13 +53,13 @@ my %trait_map = (
 	"TAQU" => "TASTE"
 		);
 
-opendir (my $dir, $PREFIX."sot_trait_descriptions");
+opendir (my $dir, $PREFIX."desc/sot_trait_descriptions");
 my @files = readdir($dir);
 		
 foreach my $file (@files){
 	if ($file =~ /(.+)\.html$/){
 		my $sotkey = $1;
-		open (my $in, "<", $PREFIX."sot_trait_descriptions/$file");
+		open (my $in, "<", $PREFIX."desc/sot_trait_descriptions/$file");
 		my $text;
 		while (<$in>){
 			$text .= $_;
@@ -67,13 +67,47 @@ foreach my $file (@files){
 		close $in;
 
 		if ($trait_map{$sotkey}){
-			open (my $out, ">>", $PREFIX."trait_descriptions/$trait_map{$sotkey}.html");
+			open (my $out, ">>", $PREFIX."desc/trait_descriptions/$trait_map{$sotkey}.html");
 			print $out "$text</br>\n";
 			close $out;
 		}else{
-			open (my $out, ">>", $PREFIX."trait_descriptions/$sotkey.html");
+			open (my $out, ">>", $PREFIX."desc/trait_descriptions/$sotkey.html");
 			print $out "$text</br>\n";
 			close $out;
 		}
 	}
 }
+
+
+#Now for the SNP trait combinations
+open (my $in, "<", $PREFIX."master-snp-trait-genotype-effect.txt");
+<$in>;
+my %trait;
+while (<$in>){
+	my @f = split;
+	$trait{$f[0]} = $f[1];
+}
+close $in;
+
+
+opendir (my $dir, $PREFIX."desc/sot_trait_snp_descriptions");
+my @files = readdir($dir);
+		
+foreach my $file (@files){
+	if ($file =~ /.+\_(.+)\.html$/){
+		my $sotkey = $1;
+		open (my $in, "<", $PREFIX."desc/sot_trait_snp_descriptions/$file");
+		my $text;
+		while (<$in>){
+			$text .= $_;
+		}
+		close $in;
+
+		if ($trait{$sotkey}){
+			open (my $out, ">>", $PREFIX."desc/trait_snp_descriptions/$trait{$sotkey}\_$sotkey.html");
+			print $out "$text</br>\n";
+			close $out;
+		}
+	}
+}
+
