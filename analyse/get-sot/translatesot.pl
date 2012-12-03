@@ -80,7 +80,7 @@ foreach my $file (@files){
 
 
 #Now for the SNP trait combinations
-open (my $in, "<", $PREFIX."master-snp-genotype-effect.txt");
+open (my $in, "<", $PREFIX."master-snp-trait-genotype-effect.txt");
 <$in>;
 my %trait;
 while (<$in>){
@@ -88,6 +88,7 @@ while (<$in>){
 	$trait{$f[0]} = $f[1];
 }
 close $in;
+
 
 opendir (my $dir, $PREFIX."desc/sot_trait_snp_descriptions");
 my @files = readdir($dir);
@@ -102,9 +103,7 @@ foreach my $file (@files){
 		}
 		close $in;
 
-		die "$trait{$sotkey}\n";
 		if ($trait{$sotkey}){
-			die "yup";
 			open (my $out, ">>", $PREFIX."desc/trait_snp_descriptions/$trait{$sotkey}\_$sotkey.html");
 			print $out "$text</br>\n";
 			close $out;
