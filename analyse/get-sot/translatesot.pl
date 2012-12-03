@@ -65,14 +65,19 @@ foreach my $file (@files){
 			$text .= $_;
 		}
 		close $in;
+		my $tmp = $text;
+		$tmp =~ s/\s//g;
+		$tmp =~ s/([&]nbsp;)//g;
+		$tmp =~ s/(\<br\/\>)//g;
 
-		if ($trait_map{$sotkey}){
-			open (my $out, ">>", $PREFIX."desc/trait_descriptions/$trait_map{$sotkey}.html");
-			print $out "$text</br>\n";
-			close $out;
-		}else{
-			open (my $out, ">>", $PREFIX."desc/trait_descriptions/$sotkey.html");
-			print $out "$text</br>\n";
+		if ($tmp ne ""){
+			my $out;
+			if ($trait_map{$sotkey}){
+				open ($out, ">>", $PREFIX."desc/trait_descriptions/$trait_map{$sotkey}.html");
+			}else{
+				open ($out, ">>", $PREFIX."desc/trait_descriptions/$sotkey.html");
+			}
+			print $out "$text\n";
 			close $out;
 		}
 	}
@@ -105,7 +110,7 @@ foreach my $file (@files){
 
 		if ($trait{$sotkey}){
 			open (my $out, ">>", $PREFIX."desc/trait_snp_descriptions/$trait{$sotkey}\_$sotkey.html");
-			print $out "$text</br>\n";
+			print $out "$text\n";
 			close $out;
 		}
 	}
