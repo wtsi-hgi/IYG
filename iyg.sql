@@ -113,6 +113,10 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`traits` (
   `predictability` INT(1) NOT NULL ,
   `active_flag` TINYINT(1) UNSIGNED NOT NULL ,
   `handler` VARCHAR(50) NOT NULL ,
+  `short_name` VARCHAR(50) NOT NULL ,
+  `units` VARCHAR(50) ,
+  `mean` DECIMAL(10,4) ,
+  `sd` DECIMAL(10,4) ,
   PRIMARY KEY (`trait_id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
