@@ -1,4 +1,7 @@
 use strict;
+
+my $PREFIX = shift;
+
 my %trait_map = (
 	"YA" => "Y",
 	"YC" => "Y",
@@ -47,3 +50,28 @@ my %trait_map = (
 	"TABI" => "TASTE",
 	"TAQU" => "TASTE"
 		);
+
+opendir (my $dir, $PREFIX."sot_trait_descriptions");
+my @files = readdir($dir);
+		
+foreach my $file (@files){
+	if ($file =~ /(.+)\.html$/){
+		my $sotkey = $1;
+		open (my $in, "<", $PREFIX."sot_trait_descriptions/$file");
+		my $text;
+		while (<$in>){
+			$text .= $_;
+		}
+		close $in;
+
+		if ($trait_map{$sotkey}){
+			open (my $out, ">>", $PREFIX."trait_descriptions/$trait_map{$sotkey}.html");
+			print $out "$text</br>\n";
+			close $out;
+		}else{
+			open (my $out, ">>", $PREFIX."trait_descriptions/$sotkey.html");
+			print $out "$text</br>\n";
+			close $out;
+		}
+	}
+}
