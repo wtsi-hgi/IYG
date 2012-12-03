@@ -114,6 +114,102 @@ class Data_Loader:
         self.cur.close()
         self.db.close()
 
+    ###############################################################################
+    # database query methods
+    ###############################################################################
+#    def get_snps(self):
+#        columns = [ "snp_id", "rs_id", "name", "description", "ploidy" ]
+#        try:
+#            self.cur.execute(
+#                "SELECT "
+#                ', '.join(columns)
+#                "FROM `snps`", ())
+#            res = self.cur.fetchall()
+#        except MySQLdb.Error, e:
+#                print "[WARN]\tget_snps query failed"
+#                print "\tError %d: %s" % (e.args[0], e.args[1])
+#                return None
+#        ret = {}
+#        rowi = 0
+#        for row in ret:
+#            coli = 0
+#            rs_id = res[rowi][1]; # rs_id index stupidly hardcoded to order in columns above
+#            for column in columns:
+#                ret[rsid][column] = res[coli]
+#                coli++
+#        return ret
+        
+    def get_profile_dbid(self, barcode):
+        try:
+            self.cur.execute(
+                "SELECT `profile_id` FROM `profiles` WHERE `barcode` = %s",
+                (barcode))
+            res = self.cur.fetchall()
+        except MySQLdb.Error, e:
+                print "[WARN]\tProfile dbid query failed for profile %s" % barcode
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        if len(res) > 1:
+            print "[WARN]\tCould not get unique dbid for profile %s" % (barcode)
+            return None
+        
+        elif len(res) < 1:
+            print "[WARN]\tCould not find any dbids for profile %s" % (barcode)
+            return None
+
+        return res[0][0]
+
+    def get_trait_dbid(self, trait_short_name):
+        try:
+            self.cur.execute(
+                "SELECT `trait_id` FROM `traits` WHERE `short_name` = %s",
+                (trait_short_name))
+            res = self.cur.fetchall()
+
+            if len(res) > 1:
+                print "[WARN]\tCould not get unique dbid for trait %s" % (trait_short_name)
+                return None
+
+            elif len(res) < 1:
+                print "[WARN]\tCould not find any dbids for trait %s" % (trait_short_name)
+                return None
+
+        except MySQLdb.Error, e:
+                print "[WARN]\tTrait dbid query failed for trait %s" % trait_short_name
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return res[0][0]
+
+    def get_variant_dbid(self, rsid, diploid_genotype):
+        haploid_genotype = diploid_genotype
+        if len(diploid_genotype) == 2 and diploid_genotype[0] == diploid_genotype[1]:
+            haploid_genotype = diploid_genotype[0]
+
+        try:
+            self.cur.execute(
+                "SELECT `variant_id` FROM `variants` as v join `snps` as s on s.`snp_id` = v.`snp_id` WHERE v.`genotype` = (SELECT CASE WHEN s.`ploidy` = 1 then %s else %s end) AND s.`rs_id` = %s",
+                (haploid_genotype, diploid_genotype, rsid))
+            res = self.cur.fetchall()
+
+            if len(res) > 1:
+                # TODO make a log/debug level setting
+                # print "[INFO]\tCould not get unique dbid for rsid %s, genotype %s" % (rsid, diploid_genotype)
+                return None
+
+            elif len(res) < 1:
+                # TODO make a log/debug level setting
+                # print "[INFO]\tCould not find any dbids for rsid %s, genotype %s" % (rsid, diploid_genotype)
+                return None
+
+        except MySQLdb.Error, e:
+                print "[WARN]\tTrait dbid query failed for rsid %s, genotype %s" % rsid, diploid_genotype
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return res[0][0]
+
     def purge_db(self):
         """Purge the current data from the database"""
         print "[_DB_]\tPurging Existing Records before New Import"
@@ -196,6 +292,7 @@ class Data_Loader:
             # s['genotypes'] = {}
             for g in genotypes.split(","):
                 g = g.strip() # Remove any spaces between commas
+                g = ''.join(sorted(g))
                 try:
                     self.cur.execute(
                         "INSERT INTO variants (snp_id, genotype, popfreq)"
@@ -258,51 +355,6 @@ class Data_Loader:
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
         trait_info.close()
-        
-    def get_trait_dbid(self, trait_short_name):
-        try:
-            self.cur.execute(
-                "SELECT `trait_id` FROM `traits` WHERE `short_name` = %s",
-                (trait_short_name))
-            res = self.cur.fetchall()
-
-            if len(res) > 1:
-                print "[WARN]\tCould not get unique dbid for trait %s" % (trait_short_name)
-                return None
-
-            elif len(res) < 1:
-                print "[WARN]\tCould not find any dbids for trait %s" % (trait_short_name)
-                return None
-
-        except MySQLdb.Error, e:
-                print "[WARN]\tTrait dbid query failed for trait %s" % trait_short_name
-                print "\tError %d: %s" % (e.args[0], e.args[1])
-                return None
-
-        return res[0][0]
-
-
-    def get_variant_dbid(self, rsid, genotype):
-        try:
-            self.cur.execute(
-                "SELECT `variant_id` FROM `variants` as v join `snps` as s on s.`snp_id` = v.`snp_id` WHERE v.`genotype` = %s AND s.`rs_id` = %s",
-                (genotype, rsid))
-            res = self.cur.fetchall()
-
-            if len(res) > 1:
-                print "[WARN]\tCould not get unique dbid for rsid %s, genotype %s" % (rsid, genotype)
-                return None
-
-            elif len(res) < 1:
-                print "[WARN]\tCould not find any dbids for rsid %s, genotype %s" % (rsid, genotype)
-                return None
-
-        except MySQLdb.Error, e:
-                print "[WARN]\tTrait dbid query failed for rsid %s, genotype %s" % rsid, genotype
-                print "\tError %d: %s" % (e.args[0], e.args[1])
-                return None
-
-        return res[0][0]
 
 
     def import_snp_trait_genotype_effect(self, snp_trait_genotype_effect):
@@ -324,6 +376,8 @@ class Data_Loader:
             value = header.index_list(fields,"Effect")
             desc = value
  
+            genotype = ''.join(sorted(genotype))
+
             variant_dbid = self.get_variant_dbid(rsid, genotype)
             trait_dbid = self.get_trait_dbid(trait_sn)
 
@@ -353,7 +407,8 @@ class Data_Loader:
         popcounts = {} # Store counts for each detected variant
         errors = { # Used to suppress repeating errors
             'snps': [],
-            'barcodes': []}
+            'barcodes': [],
+            }
         
         #parse the header information
         header_names = []
@@ -361,24 +416,16 @@ class Data_Loader:
             snp = header_item.strip().split("\t");
             header_names.append(snp[1])
 
-        for current_snp_rs in header_names:
-            snp_info = get_snp_info(current_snp_rs)
-
-            if current_snp_rs not in snps:
-                if current_snp_rs not in errors['snps']:
-                    print ("[WARN]\tSNP %s not found in SNP import" 
-                           % (current_snp_rs))
-                    errors['snps'].append(current_snp_rs)
-                continue
+        results_map.close()
 
         valuesTuples = []
         lineno = 1
-        for row in results:
+        for row in results_ped:
             fields = row.strip().split(" ")
 
             # get the user this row corresponds to
             current_barcode = fields[1].strip()
-            profile_dbid = get_profile_dbid(current_barcode)
+            profile_dbid = self.get_profile_dbid(current_barcode)
             if not profile_dbid:
                 print ("[WARN]\tBarcode# %s not found in DB and is being skipped."
                            % (current_barcode))
@@ -389,19 +436,15 @@ class Data_Loader:
             for snp_pos in range(0,len(header_names)):
                 current_snp_rs = header_names[snp_pos]
 
-                
-                snp_info = get_snp_info(current_snp_rs)
-                if not snp_info:
-                    print ("[WARN]\tSNP %s not found in DB and is being skipped." % (snp_info))
-                    continue
-                
                 call = fields[6+snp_pos*2]+fields[6+snp_pos*2+1]
-                
                 if call == "00":
                     continue
-                
+
+                # change order of allelels to alphabetical
+                call = ''.join(sorted(call))
+
                 # Check the call for this SNP was imported
-                variant_dbid = get_variant_dbid(current_snp_rs, call)
+                variant_dbid = self.get_variant_dbid(current_snp_rs, call)
                 if not variant_dbid:
                     print ("[WARN]\tGenotype %s for SNP %s not found in DB" 
                            % (call, current_snp_rs))
@@ -409,45 +452,49 @@ class Data_Loader:
                 
                 # Update the count for this variant
                 # TODO: this should be moved to after the import!
-                if variant_dbid not in popcounts:
-                    popcounts[variant_dbid] = 1
-                else:
-                    popcounts[variant_dbid] += 1
+                #if variant_dbid not in popcounts:
+                #    popcounts[variant_dbid] = 1
+                #else:
+                #    popcounts[variant_dbid] += 1
               
                 valuesTuples.append((profile_dbid, variant_dbid)) 
           
             lineno += 1
-          
+        
+        print "about to insert %d valuesTuples" % (len(valuesTuples))
         try:
-            query = """INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 100)"""
+            query = "INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 100)"
             self.cur.executemany(query, valuesTuples)   
+            self.db.commit()
         except MySQLdb.Error, e:
             print "[FAIL]\tResults not added in the database"
             print "\tError %d: %s" % (e.args[0], e.args[1])
                
-        results.close()
-        self.update_popfreqs(snps, popcounts)
+        results_ped.close()
+        #self.update_popfreqs(popcounts)
 
 
-    def update_popfreqs(self, snps, popcounts):
-        """Using the counters from the results import, calculate the population
-        frequency for each variant at each SNP site and update the database"""
-
-        for snp in snps:
-            snp_variants = dict(((k,popcounts[k]) for k in snps[snp]['genotypes'].values() if k in popcounts))
-            total = sum(snp_variants.values())
-
-            for v in snp_variants:
-                current_freq = (float(snp_variants[v])/float(total)) * 100
-                try:
-                    self.cur.execute(
-                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
-                        (round(current_freq, 4), v))
-                    self.db.commit()
-                except MySQLdb.Error, e:
-                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
-                        " with DBID %s was not updated" % (snp, v))
-                    print "\tError %d: %s" % (e.args[0], e.args[1])
+#    def update_popfreqs(self, popcounts):
+#        """Using the counters from the results import, calculate the population
+#        frequency for each variant at each SNP site and update the database"""
+#
+#        snps = self.get_snps()
+#
+#        for snp in snps:
+#            snp_variants = dict(((k,popcounts[k]) for k in snp['genotype'].values() if k in popcounts))
+#            total = sum(snp_variants.values())
+#
+#            for v in snp_variants:
+#                current_freq = (float(snp_variants[v])/float(total)) * 100
+#                try:
+#                    self.cur.execute(
+#                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
+#                        (round(current_freq, 4), v))
+#                    self.db.commit()
+#                except MySQLdb.Error, e:
+#                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
+#                        " with DBID %s was not updated" % (snp, v))
+#                    print "\tError %d: %s" % (e.args[0], e.args[1])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
