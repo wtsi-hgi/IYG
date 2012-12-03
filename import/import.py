@@ -61,19 +61,23 @@ class Data_Loader:
             barcodes_file = open(args.barcodes, 'r')
             users = self.import_profiles(barcodes_file)
  
-        if(args.snps is not None):
-            snps_file = open(args.snps, 'r')
-            snps = self.import_snps(snps_file)
+        if(args.snp_info_file is not None):
+            snp_info = open(args.snp_info_file, 'r')
+            snps = self.import_snps(snp_info)
         
-        if(args.traits is not None):
-            traits_file = open(args.traits, 'r')
-            self.import_traits(traits_file, snps)
-                
+        if(args.trait_info_file is not None):
+            trait_info = open(args.trait_info_file, 'r')
+            traits = self.import_trait_info(trait_info, snps)
+
+        if(args.snp_trait_genotype_effect_file is not None):
+            snp_trait_genotype_effect = open(args.snp_trait_genotype_effect_file, 'r')
+            self.import_snp_trait_genotype_effect(snp_trait_genotype_effect)
+
         if(args.trait_variants is not None):
             if(args.snps is not None):
                 trait_variants_file = open(args.trait_variants, 'r')
                 if(args.separate_imports):
-                    self.import_traits(trait_variants_file, snps)
+                    self.import_trait_info(trait_variants_file, snps)
                 else:    
                     self.import_trait_variants(trait_variants_file, snps)
             else:
@@ -82,7 +86,7 @@ class Data_Loader:
         # option : -- purgeall, if not: purge everything except for results
         
 # --
-        # --flag to do this, if yoiu specified either map, ped or results.csv, do purge all and import results
+        # --flag to do this, if you specified either map, ped or results.csv, do purge all and import results
         #Results argument is optional, if given all the DB is purged and the results are imported
         if(args.results is not None):
             if(args.barcodes is None):
@@ -142,23 +146,33 @@ class Data_Loader:
         barcodes.close()
         return users_dict
 
-    def import_snps(self, snps):
+    def import_snp_info(self, snp_info):
         """Process the SNP data file, inserting SNP and Variant rows to the
         database for each SNP and trio of genotypes"""
-        print "[READ]\tImporting SNP List"
+        print "[READ]\tImporting SNP Info"
 
         snp_dict = {}
         seen = []
-        for record in snps:
-            if record[0] == "#": #Skip comments
-                continue
-
+        columns = {}
+        lineno = 1
+        for line in snp_info:
             s = {}
-            fields = record.strip().split("\t")
-            rsid = fields[0]
-            name = fields[1]
-            desc = fields[2]
-            genotypes = fields[3]
+            if lineno == 1:
+                headers = line.strip().split("\t")
+                coli = 0
+                for header in headers:
+                    columns[header] = coli
+                    coli += 1
+                continue
+            fields = line.strip().split("\t")
+
+            # SNP Info Record 
+            # SNP     Genos   Ploidy
+            rsid = fields[columns["SNP"]]
+            name = rsid
+            desc = rsid
+            genotypes = fields[columns["Genos"]]
+            ploidy = fields[columns["Ploidy"]]
 
             if rsid in seen:
                 print "[WARN]\tSkipping duplicate SNP "+rsid
@@ -166,8 +180,8 @@ class Data_Loader:
 
             try:
                 self.cur.execute(
-                    "INSERT INTO snps (rs_id, name, description)"
-                    "VALUES (%s, %s, %s)", (rsid, name, desc))
+                    "INSERT INTO snps (rs_id, name, description, ploidy)"
+                    "VALUES (%s, %s, %s, %s)", (rsid, name, desc, ploidy))
                 self.db.commit()
                 snp_dbid = self.cur.lastrowid
             except MySQLdb.Error, e:
@@ -193,8 +207,9 @@ class Data_Loader:
             s['dbid'] = snp_dbid
             snp_dict[rsid] = s
 
-        snps.close()
+        snp_info.close()
         return snp_dict
+
 
     def import_trait_variants(self, trait_variants, snps):
         """Process the Trait-Variant Relationship file, adding each Trait to
@@ -278,7 +293,7 @@ class Data_Loader:
         trait_variants.close()
 
 
-    def import_traits(self, traits_file, snps):
+    def import_trait_info(self, trait_info):
         """Process the Traits file, adding each Trait to the database"""
         print "[READ]\tImporting Traits"
         current_trait_dbid = 0
@@ -286,7 +301,7 @@ class Data_Loader:
 
         columns = {}
         lineno = 1
-        for line in traits_file:
+        for line in trait_info:
             if lineno == 1:
                 headers = line.strip().split("\t")
                 coli = 0
@@ -296,7 +311,7 @@ class Data_Loader:
                 continue
             fields = line.strip().split("\t")
 
-            # Trait Record 
+            # Trait Info Record 
             # TraitName       ShortName       Desc    Pred    Units   Mean    SD      Type
             name = fields[columns["TraitName"]]
             short_name = fields[columns["ShortName"]]
@@ -313,7 +328,7 @@ class Data_Loader:
             try:
                 self.cur.execute(
                     "INSERT INTO traits (name, short_name, description, active_flag, "
-                    "predictability, units, mean, sd, handler) VALUES (%s, %s, %s, %s, %s, %s, %d, %d, %s)", 
+                    "predictability, units, mean, sd, handler) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                     (name, short_name, description, 1, predictability, units, mean, sd, handler))
                 self.db.commit()
                 current_trait_dbid = self.cur.lastrowid
@@ -324,7 +339,7 @@ class Data_Loader:
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
             lineno += 1
-        traits_file.close()
+        trait_info.close()
 
 
     def import_results_CSV(self, results, users, snps):
@@ -521,12 +536,14 @@ if __name__ == "__main__":
         help=("Database User"))
     parser.add_argument('--barcodes', metavar="barcodes",
         help=("New line delimited list of *consenting* barcodes"))
-    parser.add_argument('--snps', metavar="snps",
-        help=("SNP Data File"))
     parser.add_argument('--trait_variants', metavar="trait_variants",
         help=("Trait-Variant Relationship File"))
-    parser.add_argument('--traits', metavar="traits",
-        help=("Traits File"))
+    parser.add_argument('--trait-info', metavar="trait_info_file",
+        help=("Trait Info File"))
+    parser.add_argument('--snp-info', metavar="snp_info_file",
+        help=("SNP Info File"))
+    parser.add_argument('--snp-trait-genotype-effect', metavar="snp_trait_genotype_effect_file",
+        help=("SNP-Trait-Genotype-Effect File"))
     parser.add_argument('--results', metavar="results",
         help=("Fluidigm Results (Converted to CSV)"))
     parser.add_argument('--separate_imports', metavar="separate_imports",

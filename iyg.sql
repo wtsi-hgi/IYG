@@ -33,6 +33,7 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`snps` (
   `rs_id` VARCHAR(40) NOT NULL ,
   `name` VARCHAR(255) NOT NULL ,
   `description` TEXT NOT NULL ,
+  `ploidy` DECIMAL NOT NULL ,
   PRIMARY KEY (`snp_id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

@@ -16,8 +16,9 @@ then
 	awk 'BEGIN {FS="\t";} $1=="iygrw" {print $2;}' ${IYG_PRIVATE_DATA_DIR}/mysql-user-pass.txt | ./import.py \
 	    --user iygrw \
 	    --barcodes ${IYG_PRIVATE_DATA_DIR}/barcodes.list \
-	    --snps ../public_data/snp-info.txt \
-	    --traits ../public_data/master-trait-info.txt \
+	    --snp-info ../public_data/master-snp-info.txt \
+	    --trait-info ../public_data/master-trait-info.txt \
+	    --snp-trait-genotype-effect ../public_data/master-snp-trait-genotype-effect.txt \
 	    --results ${IYG_PRIVATE_DATA_DIR}/iyg
     else 
 	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
