@@ -258,6 +258,51 @@ class Data_Loader:
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
         trait_info.close()
+        
+    def get_trait_dbid(self, trait_short_name):
+        try:
+            self.cur.execute(
+                "SELECT `trait_id` FROM `traits` WHERE `short_name` = %s",
+                (trait_short_name))
+            res = self.cur.fetchall()
+
+            if len(res) > 1:
+                print "[WARN]\tCould not get unique dbid for trait %s" % (trait_short_name)
+                return None
+
+            elif len(res) < 1:
+                print "[WARN]\tCould not find any dbids for trait %s" % (trait_short_name)
+                return None
+
+        except MySQLdb.Error, e:
+                print "[WARN]\tTrait dbid query failed for trait %s" % trait_short_name
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return res[0][0]
+
+
+    def get_variant_dbid(self, rsid, genotype):
+        try:
+            self.cur.execute(
+                "SELECT `variant_id` FROM `variants` as v join `snps` as s on s.`snp_id` = v.`snp_id` WHERE v.`genotype` = %s AND s.`rs_id` = %s",
+                (genotype, rsid))
+            res = self.cur.fetchall()
+
+            if len(res) > 1:
+                print "[WARN]\tCould not get unique dbid for rsid %s, genotype %s" % (rsid, genotype)
+                return None
+
+            elif len(res) < 1:
+                print "[WARN]\tCould not find any dbids for rsid %s, genotype %s" % (rsid, genotype)
+                return None
+
+        except MySQLdb.Error, e:
+                print "[WARN]\tTrait dbid query failed for rsid %s, genotype %s" % rsid, genotype
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return res[0][0]
 
 
     def import_snp_trait_genotype_effect(self, snp_trait_genotype_effect):
@@ -268,43 +313,37 @@ class Data_Loader:
         header = Delimited_text_header(snp_trait_genotype_effect, "\t")
 
         seen = []
-        for line in snp_info:
+        for line in snp_trait_genotype_effect:
             fields = line.strip().split("\t")
 
             # SNP-trait-genotype-effect file
             # SNP     Trait   Genotype        Effect
             rsid = header.index_list(fields,"SNP")
-            trait = header.index_list(fields,"Trait")
+            trait_sn = header.index_list(fields,"TraitShortName")
             genotype = header.index_list(fields,"Genotype")
             value = header.index_list(fields,"Effect")
             desc = value
  
-            if current_trait_dbid == 0 or not current_snp:
+            variant_dbid = self.get_variant_dbid(rsid, genotype)
+            trait_dbid = self.get_trait_dbid(trait_sn)
+
+            if (not trait_dbid) or (not variant_dbid):
                 # Skip this record if the current trait or SNP are not set
-                continue
-            
-            if genotype in snps[current_snp]['genotypes']:
-                variant = snps[current_snp]['genotypes'][genotype]
-            elif genotype[::-1] in snps[current_snp]['genotypes']:
-                variant = snps[current_snp]['genotypes'][genotype[::-1]]
-            else:
-                print ("[WARN]\t"+genotype+
-                       " variant not found in SNP import for SNP "+current_snp)
                 continue
 
             try:
                 self.cur.execute(
                     "INSERT INTO variants_traits (variant_id, trait_id, "
                     "value, description) VALUES (%s, %s, %s, %s)",
-                    (variant, current_trait_dbid, value, desc))
+                    (variant_dbid, trait_dbid, value, desc))
                 self.db.commit()
             except MySQLdb.Error, e:
                 print ("[FAIL]\tTrait-Variant for Trait '%s', SNP %s and "
                        "Genotype %s not added to database" % 
-                       (name, current_snp, genotype))
+                       (trait_sn, rsid, genotype))
                 print "\tError %d: %s" % (e.args[0], e.args[1])
                 
-            trait_variants.close()
+        snp_trait_genotype_effect.close()
                 
 
     def import_results_ped(self, results_map, results_ped):

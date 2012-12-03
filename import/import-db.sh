@@ -19,7 +19,7 @@ then
 	    --barcodes-file ${IYG_PRIVATE_DATA_DIR}/barcodes.list \
 	    --snp-info-file ../public_data/master-snp-info.txt \
 	    --trait-info-file ../public_data/master-trait-info.txt \
-#	    --snp-trait-genotype-effect-file ../public_data/master-snp-trait-genotype-effect.txt \
+	    --snp-trait-genotype-effect-file ../public_data/master-snp-trait-genotype-effect.txt \
 #	    --results-file ${IYG_PRIVATE_DATA_DIR}/iyg
     else 
 	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
