@@ -27,15 +27,19 @@ my $app = IYG::App->new(conf_path => $conf_path);
 
 my $barcode_flag;
 my $barcode_or_publicid;
+my $barcode;
+my $profile;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('barcode'))){
     $barcode_flag = 1;
     $barcode_or_publicid = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
+    $barcode = $app->page->cgi->param('barcode');
 }
 elsif(defined($app->page->cgi->param('profile'))){
     $barcode_flag = 0;
     $barcode_or_publicid = $app->page->cgi->param('profile');
+    $profile = $app->page->cgi->param('profile');
 }
 
 # Ensure a barcode was submitted, if not; load login template.
@@ -101,6 +105,8 @@ else{
             params => {
                 TITLE => "View Trait List",
                 RESULT => [@traitList],
+                PROFILE => $profile,
+		BARCODE => $barcode,
             },
         });
     }
