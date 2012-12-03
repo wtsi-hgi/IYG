@@ -106,6 +106,10 @@ class Data_Loader:
             snp_trait_genotype_effect = open(args.snp_trait_genotype_effect_file, 'r')
             self.import_snp_trait_genotype_effect(snp_trait_genotype_effect)
 
+        if(args.trait_description_fofn is not None):
+            trait_descriptions = open(args.trait_description_fofn, 'r')
+            self.import_trait_descriptions(trait_descriptions)
+
         if(args.results_file is not None):
             results_map = open(args.results_file + '.map', 'r')
             results_ped = open(args.results_file + '.ped', 'r')
@@ -356,6 +360,44 @@ class Data_Loader:
         trait_info.close()
 
 
+    def import_trait_descriptions(self, trait_descriptions):
+        """Process the Trait Descriptions FOFN, adding contents of HTML file for each Trait to the database"""
+        print "[READ]\tImporting Trait Descriptions"
+
+        short_name_re = re.compile('^.*?([^\/]+)\.html$')
+        for trait_description_file in trait_descriptions:
+            trait_description_file = trait_description_file.strip()
+            m = short_name_re.match(trait_description_file)
+            if m is None:
+                print "[FAIL]\timport_trait_descriptions: regex did not match for trait_description_file %s" % trait_description_file
+                continue
+
+            short_name = m.group(1)
+            if short_name is None:
+                print "[FAIL]\timport_trait_descriptions: could not get short_name for trait_description_file %s" % trait_description_file
+                continue
+
+            trait_id = self.get_trait_dbid(short_name)
+            if trait_id is None:
+                print "[FAIL]\timport_trait_descriptions: could not get trait_id for short_name %s" % short_name
+                continue
+
+            trait_description = open(trait_description_file, 'r')
+            trait_description_html = trait_description.read()
+            try:
+                self.cur.execute(
+                    "UPDATE traits SET description = %s WHERE trait_id = %s", 
+                    (trait_description_html, trait_id))
+                self.db.commit()
+                
+            except MySQLdb.Error, e:
+                print "[FAIL]\tTrait '%s' not added to database" % name
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            trait_description.close()
+        trait_descriptions.close()
+
+
     def import_snp_trait_genotype_effect(self, snp_trait_genotype_effect):
         """Process the SNP-trait-genotype-effect file, inserting rows to the
         database for each SNP-trait and trio of genotypes"""
@@ -528,6 +570,10 @@ if __name__ == "__main__":
         help=("SNP Info File"))
     parser.add_argument('--snp-trait-genotype-effect-file', metavar="snp_trait_genotype_effect_file", dest="snp_trait_genotype_effect_file",
         help=("SNP-Trait-Genotype-Effect File"))
+
+    ## and description html files (each one in a separate file which are listed in a File Of File Names (FOFN)
+    parser.add_argument('--trait-description-fofn', metavar="trait_description_fofn", dest="trait_description_fofn",
+        help=("File Of File Names (FOFN) giving the path to an HTML file for each of the descriptions"))
 
     ## finally, you need to load the results either from a CSV or PED/MAP
     parser.add_argument('--results-file', metavar="results_file", dest="results_file",
