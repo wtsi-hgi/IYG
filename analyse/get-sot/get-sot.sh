@@ -5,7 +5,9 @@ get-sot.sh public_data/sot-snp-category-trait-shortname.txt public_data/sotdesc/
 "
 
 SOT_LIST_FILE="$1"
-DEST_DIR="$2"
+PUB_DATA_DIR="$2"
+DEST_DIR=${PUB_DATA_DIR}/desc/
+IYG_DIR=`dirname $0`/../../
 
 WGET="wget --no-check-certificate"
 
@@ -43,4 +45,14 @@ do
     echo "fetching ${url}"
     ${WGET} -O - "${url}" | perl -MJSON -e 'my $buffer;while ( <STDIN> ){$buffer .= $_;} my $doc = decode_json $buffer; print $doc->{'data'}->{'html'};' > ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.html
 done;
+
+
+echo "Translating SOT short names into new short names..."
+mkdir -p ${DEST_DIR}/trait_descriptions
+mkdir -p ${DEST_DIR}/trait_snp_descriptions
+${IYG_DIR}/analyse/get-sot/translatesot.pl ${PUB_DATA_DIR}
+
+echo "Generating Files Of File Names..."
+find public_data/desc/trait_descriptions/*.html > ${DEST_DIR}/trait_descriptions.fofn
+find public_data/desc/trait_snp_descriptions/*.html > ${DEST_DIR}/trait_snp_descriptions.fofn
 

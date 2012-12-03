@@ -1,3 +1,5 @@
+#!/usr/bin/env perl
+
 use strict;
 
 my $PREFIX = shift;
@@ -76,6 +78,7 @@ foreach my $file (@files){
 	}
 }
 
+
 #Now for the SNP trait combinations
 open (my $in, "<", $PREFIX."master-snp-genotype-effect.txt");
 <$in>;
@@ -108,3 +111,4 @@ foreach my $file (@files){
 		}
 	}
 }
+

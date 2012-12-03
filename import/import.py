@@ -325,7 +325,6 @@ class Data_Loader:
             # TraitName       ShortName       Desc    Pred    Units   Mean    SD      Type
             name = header.index_list(fields,"TraitName")
             short_name = header.index_list(fields,"ShortName")
-            description = header.index_list(fields,"Desc")
             predictability = header.index_list(fields,"Pred")
             units = header.index_list(fields,"Units")
             mean = header.index_list(fields,"Mean")
@@ -343,9 +342,9 @@ class Data_Loader:
 
             try:
                 self.cur.execute(
-                    "INSERT INTO traits (name, description, predictability, active_flag, handler, "
-                    "short_name, units, mean, sd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-                    (name, description, predictability, 1, handler, short_name, units, mean, sd))
+                    "INSERT INTO traits (name, predictability, active_flag, handler, "
+                    "short_name, units, mean, sd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    (name, predictability, 1, handler, short_name, units, mean, sd))
                 self.db.commit()
                 current_trait_dbid = self.cur.lastrowid
 
@@ -461,7 +460,7 @@ class Data_Loader:
           
             lineno += 1
         
-        print "about to insert %d valuesTuples" % (len(valuesTuples))
+        print "[INFO] Inserting %d records into results table." % (len(valuesTuples))
         try:
             query = "INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 100)"
             self.cur.executemany(query, valuesTuples)   
