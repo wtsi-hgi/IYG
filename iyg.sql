@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS `iyg`.`profiles` ;
 CREATE  TABLE IF NOT EXISTS `iyg`.`profiles` (
   `profile_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `barcode` VARCHAR(15) NOT NULL ,
-  `consent_flag` TINYINT(1) UNSIGNED NOT NULL ,
+  `consent_flag` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `public_id` VARCHAR(40) NOT NULL ,
   PRIMARY KEY (`profile_id`) )
 ENGINE = InnoDB
@@ -31,9 +31,9 @@ DROP TABLE IF EXISTS `iyg`.`snps` ;
 CREATE  TABLE IF NOT EXISTS `iyg`.`snps` (
   `snp_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `rs_id` VARCHAR(40) NOT NULL ,
-  `name` VARCHAR(255) NOT NULL ,
-  `description` TEXT NOT NULL ,
-  `ploidy` DECIMAL NOT NULL ,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` TEXT ,
+  `ploidy` DECIMAL NOT NULL DEFAULT 0,
   PRIMARY KEY (`snp_id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -51,7 +51,7 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`variants` (
   `variant_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `snp_id` INT(10) UNSIGNED NOT NULL ,
   `genotype` VARCHAR(5) NOT NULL ,
-  `popfreq` DECIMAL(10,4) NOT NULL ,
+  `popfreq` DECIMAL(10,4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`variant_id`) ,
   CONSTRAINT `snp_id`
     FOREIGN KEY (`snp_id` )
@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`results` (
   `result_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `profile_id` INT(11) UNSIGNED NOT NULL ,
   `variant_id` INT(11) UNSIGNED NOT NULL ,
-  `confidence` DECIMAL(5,2) NOT NULL ,
+  `confidence` DECIMAL(5,2) NOT NULL DEFAULT 100,
   PRIMARY KEY (`result_id`) ,
   CONSTRAINT `profile_id`
     FOREIGN KEY (`profile_id` )
@@ -109,7 +109,7 @@ DROP TABLE IF EXISTS `iyg`.`traits` ;
 CREATE  TABLE IF NOT EXISTS `iyg`.`traits` (
   `trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `description` TEXT NOT NULL ,
+  `description` TEXT ,
   `predictability` INT(1) NOT NULL ,
   `active_flag` TINYINT(1) UNSIGNED NOT NULL ,
   `handler` VARCHAR(50) NOT NULL ,
@@ -132,8 +132,8 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`variants_traits` (
   `variant_trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `variant_id` INT(10) UNSIGNED NOT NULL ,
   `trait_id` INT(10) UNSIGNED NOT NULL ,
-  `value` VARCHAR(255) NOT NULL ,
-  `description` TEXT NOT NULL ,
+  `value` VARCHAR(255) NOT NULL DEFAULT '',
+  `description` TEXT ,
   PRIMARY KEY (`variant_trait_id`) ,
   CONSTRAINT `trait_id`
     FOREIGN KEY (`trait_id` )
