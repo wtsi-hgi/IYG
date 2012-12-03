@@ -72,6 +72,3 @@ mkdir EYE
 R --no-restore --no-save <mangrove-it-EYE.R
 
 
-#9. run SOT annotations
-#run MP's SOT puller?
-#analyse/sot/translatesot.pl
