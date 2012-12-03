@@ -1,4 +1,4 @@
-SNP	Trait	Genotype	Effect
+SNP	TraitShortName	Genotype	Effect
 rs2131925	TC	GG	-5.2
 rs2131925	TC	GT	-2.6
 rs2131925	TC	TT	Ref
