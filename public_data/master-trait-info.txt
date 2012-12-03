@@ -1,23 +1,23 @@
-TraitName	ShortName	Desc	Pred	Units	Mean	SD	Type
-ABO blood type	ABO	NA	0	NA	NA	NA	ABO
-Body mass index	BMI	NA	0	kg/m2	26.3	3.4	QT
-Total cholesterol	TC	NA	0	mg/dL	200	40	QT
-Coffee consumption	CAFE	NA	0	cups/day	3.91	2.85	QT
-Eye color	EYE	NA	0	NA	NA	NA	QT
-Fasting glucose	FPG	NA	0	mmol/L	5.2	0.45	QT
-HDL cholesterol	HDLC	NA	0	mg/dL	60	15	QT
-Lactose intolerance	LACT	NA	0	NA	NA	NA	SingleSNP
-Maternal ancestry MT		NA	0	NA	NA	NA	Tree
-Male pattern baldness	BALD	NA	0	NA	NA	NA	QT
-Mean platelet volume	MPV	NA	0	fL	9.5	1.03	QT
-Muscle performance	MUSC	NA	0	NA	NA	NA	SingleSNP
-Neanderthal	NEAND	NA	0	NA	NA	NA	QT
-Norovirus resistance	FUT2	NA	0	NA	NA	NA	SingleSNP
-Overall ancestry	AIM	NA	0	NA	NA	NA	PCA
-Platelet aggregation	PA	NA	0	NA	NA	NA	SingleSNP
-Smoking behavior	SMOK	NA	0	cig/day	16	11.7	QT
-Systolic blood pressure	BP	NA	0	mmHg	119	15	QT
-Taste and smell	TASTE	NA	0	NA	NA	NA	SingleSNP
-Urinary metabolite levels	URINE	NA	0	NA	NA	NA	SingleSNP
-Waist-hip ratio	WHR	NA	0	NA	0.85	0.08	QT
-Paternal ancestry	Y	NA	0	NA	NA	NA	Tree
+TraitName	ShortName	Pred	Units	Mean	SD	Type
+ABO blood type	ABO	2	NA	NA	NA	ABO
+Body mass index	BMI	1	kg/m2	26.3	3.4	QT
+Total cholesterol	TC	1	mg/dL	200	40	QT
+Coffee consumption	CAFE	1	cups/day	NA	NA	QT
+Eye color	EYE	2	NA	NA	NA	QT
+Fasting glucose	FPG	1	mmol/L	5.2	0.45	QT
+HDL cholesterol	HDLC	1	mg/dL	60	15	QT
+Lactose intolerance	LACT	3	NA	NA	NA	SingleSNP
+Maternal ancestry MT	2	NA	NA	NA	Tree
+Male pattern baldness	BALD	2	NA	NA	NA	QT
+Mean platelet volume	MPV	1	fL	9.5	1.03	QT
+Muscle performance	MUSC	0	NA	NA	NA	SingleSNP
+Neanderthal	NEAND	0	NA	NA	NA	QT
+Norovirus resistance	FUT2	2	NA	NA	NA	SingleSNP
+Overall ancestry	AIM	2	NA	NA	NA	PCA
+Platelet aggregation	PA	1	NA	NA	NA	SingleSNP
+Smoking behavior	SMOK	1	cig/day	16	11.7	QT
+Systolic blood pressure	BP	1	mmHg	119	15	QT
+Taste and smell	TASTE	2	NA	NA	NA	SingleSNP
+Urinary metabolite levels	URINE	1	NA	NA	NA	SingleSNP
+Waist-hip ratio	WHR	1	NA	0.85	0.08	QT
+Paternal ancestry	Y	2	NA	NA	NA	Tree

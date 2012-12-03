@@ -17,7 +17,7 @@ fi
 
 
 # get trait_description_SHORTNAME from https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID=trait_description_SHORTNAME
-TRAIT_DESC_DIR="${DEST_DIR}/trait_descriptions"
+TRAIT_DESC_DIR="${DEST_DIR}/sot_trait_descriptions"
 if [[ ! -d ${TRAIT_DESC_DIR} ]];
 then
     echo "directory ${TRAIT_DESC_DIR} does not exist, attempting to create it"
@@ -31,7 +31,7 @@ do
 done;
 
 # get trait_snp_description_SHORTNAME_SNPNAME from https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID=trait_snp_description_SHORTNAME_SNPNAME
-TRAIT_SNP_DESC_DIR="${DEST_DIR}/trait_snp_descriptions"
+TRAIT_SNP_DESC_DIR="${DEST_DIR}/sot_trait_snp_descriptions"
 if [[ ! -d ${TRAIT_SNP_DESC_DIR} ]];
 then
     echo "directory ${TRAIT_SNP_DESC_DIR} does not exist, attempting to create it"

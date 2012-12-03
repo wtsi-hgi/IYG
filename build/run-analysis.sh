@@ -68,3 +68,7 @@ mkdir BALD
 R --no-restore --no-save --args BALD <mangrove-it.R
 mkdir NEAND 
 R --no-restore --no-save --args NEAND <mangrove-it.R
+
+#9. run SOT annotations
+#run MP's SOT puller?
+#analyse/sot/translatesot.pl
