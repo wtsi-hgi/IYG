@@ -49,7 +49,9 @@ done;
 
 echo "Translating SOT short names into new short names..."
 mkdir -p ${DEST_DIR}/trait_descriptions
+rm ${DEST_DIR}/trait_descriptions/*.html
 mkdir -p ${DEST_DIR}/trait_snp_descriptions
+rm ${DEST_DIR}/trait_snp_descriptions/*.html
 ${IYG_DIR}/analyse/get-sot/translatesot.pl ${PUB_DATA_DIR}
 
 echo "Generating Files Of File Names..."
