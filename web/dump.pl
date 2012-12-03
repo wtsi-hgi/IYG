@@ -51,7 +51,7 @@ else{
     });
 
     my @traitList;
-    print "Content-Type: text/tab-separated-values\n\n";
+    print "Content-Disposition: attachment; filename=\"myresults.txt\"\nContent-Type: text/tab-separated-values\n\n";
     while(my $trait = $traitResultSet->fetchrow_hashref()){
         # Used by the template to uniquely name the "trait box" divs
         my $rs_id = $trait->{'rs_id'};
@@ -68,7 +68,7 @@ __END__
 
 =head1 NAME
 
-traits.pl: Display a list of traits and their results for a particular user.
+dump.pl: Dump a text file of SNP call results for a particular user.
 
 =head1 ADDRESS
 
@@ -79,10 +79,8 @@ _HOST_/traits
 For either a valid decrypted barcode, or valid public_id (a hashed and salted
 version of the barcode used to avoid passing either the bardcode or the
 auto-incrementing primary key around the application), this script will load
-and render all the traits for which this user has at least one SNP result for.
+and output a file containing all the SNPs for which this user has a result for.
 
-For each trait, a button will allow a user to view a breakdown of the SNP
-calls that affect this trait.
 
 =head1 EXPECTED INPUTS
 
@@ -98,6 +96,3 @@ to the login view and instructed to try again.
 
 =back
 
-=head1 TEMPLATE
-
-/templates/traits_list.tmpl
