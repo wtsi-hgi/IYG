@@ -1,10 +1,14 @@
+#!/usr/bin/env perl
+
 use strict;
+
+my $aboped = shift;
 
 #algorithm from https://docs.google.com/spreadsheet/ccc?key=0Aix0fqaSeLD1cHdJQ2RDa3hhZEJCSVA0V0Zsc2I5UkE&hl=en#gid=0
 #LD for 7,6,3 GCG / CAA
 
-open (my $in, "<", "abo.ped");
-while (<$in>){
+open (my $in, "<", "$aboped");
+while (<$in>) {
 	my @f = split;
 	
 	my $exp = "U";
@@ -48,3 +52,5 @@ while (<$in>){
 		die "WTF? $_";
 	}
 }
+
+close $in;
