@@ -1,3 +1,22 @@
+#!/bin/bash
+
+PRIV_DATA_DIR=$1
+
+reldir=`dirname $0`
+if [[ `echo "${reldir}" | cut -c1` = "/" ]]
+then
+    IYG_DIR=${reldir}/../
+else
+    IYG_DIR=`pwd`/${reldir}/../
+fi
+PUB_DATA_DIR=${IYG_DIR}/public_data/
+
+if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
+    then
+    echo "Must specify PRIV_DATA_DIR as first argument"
+    exit 1
+fi
+
 #1. run QC on raw TSV
 #calculate missing rate by plate
 #analyse/qc/missing-by-plate.pl
@@ -6,7 +25,7 @@
 
 #2. run QC on Josh's input PED file
 #remove failed SNPs
-plink --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotype N --exclude failed-snps.txt --make-bed --out iyg-1
+###p-link --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotype N --exclude failed-snps.txt --make-bed --out iyg-1
 
 #view missing rates in this file (autosomes only)
 #MANUAL: produce sample-fails.txt for exclusions (currently MISS > 0.5)
@@ -17,12 +36,15 @@ plink --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotyp
 #snpseqs.txt
 
 #removed failed samples, flip strands
-plink --noweb --bfile iyg-1 --remove sample-fails.txt --flip negative-snps.txt --make-bed --out iyg-2
+###p-link --noweb --bfile iyg-1 --remove sample-fails.txt --flip negative-snps.txt --make-bed --out iyg-2
 
 #MANUAL: max-ibs.pl can be used, along with PLINK --genome, to find duplicates.
 
 #3. generate ABO predictions
-plink --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo
+#p-link --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo
+(cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo)
+${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRIV_DATA_DIR}/abo-matic.txt
+
 
 #MANUAL: analyse/abo/abo-avg.pl can be used in looking at dirty intensities
 #generate abo predictions using abo-matic.pl
@@ -43,32 +65,35 @@ plink --noweb --file ALL_assay_summary.fakebarcode.masterplink --missing-genotyp
 #8. generate QT predictions
 #in directory with mangroveinput.ped, mangroveinput.map, *.grovebeta
 #Standard QTs
-mkdir BMI 
-R --no-restore --no-save --args BMI <mangrove-it.R
-mkdir BP
-R --no-restore --no-save --args BP <mangrove-it.R
-mkdir FPG 
-R --no-restore --no-save --args FPG <mangrove-it.R
-mkdir HDLC 
-R --no-restore --no-save --args HDLC <mangrove-it.R
-mkdir MPV 
-R --no-restore --no-save --args MPV <mangrove-it.R
-mkdir SMOK 
-R --no-restore --no-save --args SMOK <mangrove-it.R
-mkdir TC 
-R --no-restore --no-save --args TC <mangrove-it.R
-mkdir WHR 
-R --no-restore --no-save --args WHR <mangrove-it.R
+##mkdir BMI 
+##R --no-restore --no-save --args BMI <mangrove-it.R
+##mkdir BP
+##R --no-restore --no-save --args BP <mangrove-it.R
+##mkdir FPG 
+##R --no-restore --no-save --args FPG <mangrove-it.R
+##mkdir HDLC 
+##R --no-restore --no-save --args HDLC <mangrove-it.R
+##mkdir MPV 
+##R --no-restore --no-save --args MPV <mangrove-it.R
+##mkdir SMOK 
+##R --no-restore --no-save --args SMOK <mangrove-it.R
+##mkdir TC 
+##R --no-restore --no-save --args TC <mangrove-it.R
+##mkdir WHR 
+##R --no-restore --no-save --args WHR <mangrove-it.R
+
 #this kind of sucks
-mkdir BALD 
-R --no-restore --no-save --args BALD <mangrove-it.R
-#mkdir NEAND 
+##mkdir BALD 
+##R --no-restore --no-save --args BALD <mangrove-it.R
+
+###mkdir NEAND 
 #still broken
 #R --no-restore --no-save --args NEAND <mangrove-it.R
+
 #Special QTs
-mkdir CAFE 
-R --no-restore --no-save <mangrove-it-CAFE.R
-mkdir EYE 
-R --no-restore --no-save <mangrove-it-EYE.R
+##mkdir CAFE 
+##R --no-restore --no-save <mangrove-it-CAFE.R
+##mkdir EYE 
+##R --no-restore --no-save <mangrove-it-EYE.R
 
 
