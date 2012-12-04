@@ -99,13 +99,14 @@ sub query_all_genotypes_for_variant{
 sub query_all_snp_results_for_trait{
     my $self = shift;
     my $query = q(
-      SELECT results.variant_id, snps.snp_id, snps.rs_id, snps.description
+      SELECT results.variant_id, snps.snp_id, snps.rs_id, snps_traits.description
       FROM profiles
       JOIN results ON profiles.profile_id = results.profile_id
       JOIN variants ON results.variant_id = variants.variant_id
       JOIN snps ON variants.snp_id = snps.snp_id
       JOIN variants_traits ON variants.variant_id = variants_traits.variant_id
       JOIN traits ON variants_traits.trait_id = traits.trait_id
+      JOIN snps_traits ON variants.snp_id = snps_traits.snp_id AND traits.trait_id = snps_traits.trait_id
       AND traits.trait_id = ?
       WHERE profiles.public_id = ?
       AND profiles.consent_flag = 1
