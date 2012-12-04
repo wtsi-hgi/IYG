@@ -10,7 +10,8 @@ else
     IYG_DIR=`pwd`/${reldir}/../
 fi
 PUB_DATA_DIR=${IYG_DIR}/public_data/
-PRED_DATA_DIR=${PUB_DATA_DIR}/pred_results/
+WEB_DATA_DIR=${PUB_DATA_DIR}/pred_results/web/
+OUT_DATA_DIR=${PUB_DATA_DIR}/pred_results/out/
 
 if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
     then
@@ -47,16 +48,17 @@ fi
 
 echo "Initializing the jammer..."
 
-mkdir -p ${PRED_DATA_DIR}
+mkdir -p ${WEB_DATA_DIR}
+mkdir ${OUT_DATA_DIR}
 
 ##########################
 #3. generate ABO predictions
 #MANUAL/OPTIONAL: analyse/abo/abo-avg.pl can be used in looking at dirty intensities
 #put in public_data/pred_results/
 echo "Predicting ABO blood type..."
-mkdir ${PRED_DATA_DIR}/ABO/
+mkdir ${OUT_DATA_DIR}/ABO/
 (cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo)
-${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRED_DATA_DIR}/ABO/abo-matic.txt
+${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${OUT_DATA_DIR}/ABO/abo-matic.txt
 
 ##########################
 #4. generate sex predictions
@@ -67,23 +69,23 @@ ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRED_DATA_DIR}/
 #5. generate Y predictions
 echo "Predicting Y haplogroup..."
 YFIT_DIR=${IYG_DIR}/analyse/tree/Yfitter
-mkdir ${PRED_DATA_DIR}/Y/
+mkdir ${OUT_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
-p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${PRED_DATA_DIR}/Y/out
-${YFIT_DIR}/tped2qcall.py out > out.qcall
+p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out
+${YFIT_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall
 
 # do the haplogrouping
-${YFIT_DIR}/Yfitter -m -q 1 ${YFIT_DIR}/karafet_tree_b37.xml ${PRED_DATA_DIR}/Y/out.qcall > ${PRED_DATA_DIR}/Y/out.yfit
+${YFIT_DIR}/Yfitter -m -q 1 ${YFIT_DIR}/karafet_tree_b37.xml ${OUT_DATA_DIR}/Y/out.qcall > ${OUT_DATA_DIR}/Y/out.yfit
 
 # name the haplogroups
-awk 'NF < 5' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,$3}' > ${PRED_DATA_DIR}/Y/out.haps
-awk 'NF == 10' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"BDE"}' >> ${PRED_DATA_DIR}/Y/out.haps
-awk 'NF == 28' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig1"}' >> ${PRED_DATA_DIR}/Y/out.haps
-awk 'NF != 10 && NF != 28 && NF > 5 && NF <= 32' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig2"}' >> ${PRED_DATA_DIR}/Y/out.haps
-awk 'NF > 32' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${PRED_DATA_DIR}/Y/out.haps
+awk 'NF < 5' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,$3}' > ${OUT_DATA_DIR}/Y/out.haps
+awk 'NF == 10' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"BDE"}' >> ${OUT_DATA_DIR}/Y/out.haps
+awk 'NF == 28' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig1"}' >> ${OUT_DATA_DIR}/Y/out.haps
+awk 'NF != 10 && NF != 28 && NF > 5 && NF <= 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig2"}' >> ${OUT_DATA_DIR}/Y/out.haps
+awk 'NF > 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${OUT_DATA_DIR}/Y/out.haps
 
 #add HTML
-${YFIT_DIR}/addText.py ${PUB_DATA}/tree/Ychromtext.txt ${PRED_DATA_DIR}/Y/out.haps | sort -k1,1n > ${PRED_DATA_DIR}/Y/Youtput.txt
+${YFIT_DIR}/addText.py ${PUB_DATA}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/Youtput.txt
 
 
 ##########################
@@ -93,15 +95,16 @@ ${YFIT_DIR}/addText.py ${PUB_DATA}/tree/Ychromtext.txt ${PRED_DATA_DIR}/Y/out.ha
 ##########################
 #7. generate PCA predictions
 echo "Performing world-wide PCA..."
-mkdir ${PRED_DATA_DIR}/AIM/
+mkdir ${WEB_DATA_DIR}/AIM/
+mkdir ${OUT_DATA_DIR}/AIM/
 #create merged file for PCA
-p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${PRED_DATA_DIR}/AIM/1KG_IYG_merged --make-bed
+p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed
 
 #run PCA
-R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca <${IYG_DIR}/analyse/pca/doPCA.R
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca <${IYG_DIR}/analyse/pca/doPCA.R
 
 #make plots
-R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
 
 ##########################
 #8. generate QT predictions
@@ -109,39 +112,52 @@ R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DA
 #Standard QTs
 #Note: ones with few SNPs kind of suck!!
 echo "Predicting QTs and generating images..."
-mkdir -p ${PRED_DATA_DIR}/BALD/IYGHIST/
-R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/BMI/IYGHIST/
-mkdir ${PRED_DATA_DIR}/BMI/POPDIST/
-R --no-restore --no-save --args BMI ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/BP/IYGHIST/
-mkdir ${PRED_DATA_DIR}/BP/POPDIST/
-R --no-restore --no-save --args BP ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/CAFE/IYGHIST/
-mkdir ${PRED_DATA_DIR}/CAFE/POPDIST/
-R --no-restore --no-save --args CAFE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/EYE/IYGHIST/
-R --no-restore --no-save --args EYE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/FPG/IYGHIST/
-mkdir ${PRED_DATA_DIR}/FPG/POPDIST/
-R --no-restore --no-save --args FPG ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/HDLC/IYGHIST/
-mkdir ${PRED_DATA_DIR}/HDLC/POPDIST/
-R --no-restore --no-save --args HDLC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/MPV/IYGHIST/
-mkdir ${PRED_DATA_DIR}/MPV/POPDIST/
-R --no-restore --no-save --args MPV ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/SMOK/IYGHIST/
-mkdir ${PRED_DATA_DIR}/SMOK/POPDIST/
-R --no-restore --no-save --args SMOK ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/TC/IYGHIST/
-mkdir ${PRED_DATA_DIR}/TC/POPDIST/
-R --no-restore --no-save --args TC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${PRED_DATA_DIR}/WHR/IYGHIST/
-mkdir ${PRED_DATA_DIR}/WHR/POPDIST/
-R --no-restore --no-save --args WHR ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+#these two have no population data.
+mkdir -p ${WEB_DATA_DIR}/BALD/IYGHIST/
+mkdir ${OUT_DATA_DIR}/BALD/
+R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/EYE/IYGHIST/
+mkdir ${OUT_DATA_DIR}/EYE/
+R --no-restore --no-save --args EYE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 
-mkdir ${PRED_DATA_DIR}/NEAND 
+mkdir -p ${WEB_DATA_DIR}/BMI/IYGHIST/
+mkdir ${WEB_DATA_DIR}/BMI/POPDIST/
+mkdir ${OUT_DATA_DIR}/BMI/
+R --no-restore --no-save --args BMI ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/BP/IYGHIST/
+mkdir ${WEB_DATA_DIR}/BP/POPDIST/
+mkdir ${OUT_DATA_DIR}/BP/
+R --no-restore --no-save --args BP ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/CAFE/IYGHIST/
+mkdir ${WEB_DATA_DIR}/CAFE/POPDIST/
+mkdir ${OUT_DATA_DIR}/CAFE/
+R --no-restore --no-save --args CAFE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/FPG/IYGHIST/
+mkdir ${WEB_DATA_DIR}/FPG/POPDIST/
+mkdir ${OUT_DATA_DIR}/FPG/
+R --no-restore --no-save --args FPG ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/HDLC/IYGHIST/
+mkdir ${WEB_DATA_DIR}/HDLC/POPDIST/
+mkdir ${OUT_DATA_DIR}/HDLC/
+R --no-restore --no-save --args HDLC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/MPV/IYGHIST/
+mkdir ${WEB_DATA_DIR}/MPV/POPDIST/
+mkdir ${OUT_DATA_DIR}/MPV/
+R --no-restore --no-save --args MPV ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/SMOK/IYGHIST/
+mkdir ${WEB_DATA_DIR}/SMOK/POPDIST/
+mkdir ${OUT_DATA_DIR}/SMOK/
+R --no-restore --no-save --args SMOK ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/TC/IYGHIST/
+mkdir ${WEB_DATA_DIR}/TC/POPDIST/
+mkdir ${OUT_DATA_DIR}/TC/
+R --no-restore --no-save --args TC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir -p ${WEB_DATA_DIR}/WHR/IYGHIST/
+mkdir ${WEB_DATA_DIR}/WHR/POPDIST/
+mkdir ${OUT_DATA_DIR}/WHR/
+R --no-restore --no-save --args WHR ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+
+mkdir ${WEB_DATA_DIR}/NEAND 
 ##still broken
 #R --no-restore --no-save --args NEAND <${IYG_DIR}/analyse/qt/mangrove-it.R
 
