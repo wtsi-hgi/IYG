@@ -45,12 +45,15 @@ fi
 #create input pedfile for DB load
 ###p-link --noweb --bfile iyg-2 --recode --out iyg
 
+echo "Initializing the jammer..."
+
 mkdir -p ${PRED_DATA_DIR}
 
 ##########################
 #3. generate ABO predictions
 #MANUAL/OPTIONAL: analyse/abo/abo-avg.pl can be used in looking at dirty intensities
 #put in public_data/pred_results/
+echo "Predicting ABO blood type..."
 mkdir ${PRED_DATA_DIR}/ABO/
 (cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo)
 ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRED_DATA_DIR}/ABO/abo-matic.txt
@@ -62,6 +65,7 @@ ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRED_DATA_DIR}/
 
 ##########################
 #5. generate Y predictions
+echo "Predicting Y haplogroup..."
 YFIT_DIR=${IYG_DIR}/analyse/tree/Yfitter
 mkdir ${PRED_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
@@ -88,6 +92,7 @@ ${YFIT_DIR}/addText.py ${PUB_DATA}/tree/Ychromtext.txt ${PRED_DATA_DIR}/Y/out.ha
 
 ##########################
 #7. generate PCA predictions
+echo "Performing world-wide PCA..."
 mkdir ${PRED_DATA_DIR}/AIM/
 #create merged file for PCA
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${PRED_DATA_DIR}/AIM/1KG_IYG_merged --make-bed
@@ -103,27 +108,37 @@ R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DA
 #in directory with mangroveinput.ped, mangroveinput.map, *.grovebeta
 #Standard QTs
 #Note: ones with few SNPs kind of suck!!
-mkdir ${PRED_DATA_DIR}/BALD/
+echo "Predicting QTs and generating images..."
+mkdir -p ${PRED_DATA_DIR}/BALD/IYGHIST/
 R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/BMI/ 
+mkdir -p ${PRED_DATA_DIR}/BMI/IYGHIST/
+mkdir ${PRED_DATA_DIR}/BMI/POPDIST/
 R --no-restore --no-save --args BMI ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/BP/
+mkdir -p ${PRED_DATA_DIR}/BP/IYGHIST/
+mkdir ${PRED_DATA_DIR}/BP/POPDIST/
 R --no-restore --no-save --args BP ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/CAFE/
+mkdir -p ${PRED_DATA_DIR}/CAFE/IYGHIST/
+mkdir ${PRED_DATA_DIR}/CAFE/POPDIST/
 R --no-restore --no-save --args CAFE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/EYE/
+mkdir -p ${PRED_DATA_DIR}/EYE/IYGHIST/
 R --no-restore --no-save --args EYE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/FPG/
+mkdir -p ${PRED_DATA_DIR}/FPG/IYGHIST/
+mkdir ${PRED_DATA_DIR}/FPG/POPDIST/
 R --no-restore --no-save --args FPG ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/HDLC/
+mkdir -p ${PRED_DATA_DIR}/HDLC/IYGHIST/
+mkdir ${PRED_DATA_DIR}/HDLC/POPDIST/
 R --no-restore --no-save --args HDLC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/MPV/
+mkdir -p ${PRED_DATA_DIR}/MPV/IYGHIST/
+mkdir ${PRED_DATA_DIR}/MPV/POPDIST/
 R --no-restore --no-save --args MPV ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/SMOK/ 
+mkdir -p ${PRED_DATA_DIR}/SMOK/IYGHIST/
+mkdir ${PRED_DATA_DIR}/SMOK/POPDIST/
 R --no-restore --no-save --args SMOK ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/TC/
+mkdir -p ${PRED_DATA_DIR}/TC/IYGHIST/
+mkdir ${PRED_DATA_DIR}/TC/POPDIST/
 R --no-restore --no-save --args TC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir ${PRED_DATA_DIR}/WHR/
+mkdir -p ${PRED_DATA_DIR}/WHR/IYGHIST/
+mkdir ${PRED_DATA_DIR}/WHR/POPDIST/
 R --no-restore --no-save --args WHR ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 
 mkdir ${PRED_DATA_DIR}/NEAND 
