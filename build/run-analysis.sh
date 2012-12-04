@@ -17,26 +17,11 @@ if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
     exit 1
 fi
 
-
-# unzip raw plate data
-(cd ${PRIV_DATA_DIR}/delivery && unzip analysis_first_assay_set_A_plates.zip)
-(cd ${PRIV_DATA_DIR}/delivery && analysis_first_assay_set_A_plates.zip)
-
-# link to raw_data
-
-
 #1. run QC on raw TSV
 #calculate missing rate by plate
 #analyse/qc/missing-by-plate.pl
 #produce missing-by-plate.txt
 #MANUAL: look at output and produce a list of SNPs called failed-snps.txt
-
-# Generate assay summary TSV from Fluidigm plate XLSXes
-
-# Generate PED from assay summary TSV
-${IYG_DIR}/analyse/assaysummary2ped/assaysummary2ped.sh ${PRIV_DATA_DIR}/ALL_assay_summary.tsv.txt ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink
-
-
 
 #2. run QC on Josh's input PED file
 #remove failed SNPs
