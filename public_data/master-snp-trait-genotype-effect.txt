@@ -215,9 +215,9 @@ rs10421769	NEAND	TT	2
 rs4105144	SMOK	CC	0.78
 rs4105144	SMOK	CT	0.39
 rs4105144	SMOK	TT	Ref
-rs601338	FUT2	AA	Likely resistant
-rs601338	FUT2	AG	Likely susceptible
-rs601338	FUT2	GG	Likely susceptible
+rs601338	FUT2	AA	Resistant to most strains
+rs601338	FUT2	AG	Susceptible to most strains
+rs601338	FUT2	GG	Susceptible to most strains
 rs2180439	BALD	CC	Ref
 rs2180439	BALD	CT	0.73
 rs2180439	BALD	TT	1.46
