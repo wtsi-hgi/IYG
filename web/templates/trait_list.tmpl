@@ -31,7 +31,8 @@
             </div>
             <div class="span4 pull-right">
                 <div class="btn-group pull-right">
-                    <button id="openButton" class="btn">
+                    <TMPL_INCLUDE NAME="download_data.tmpl">
+					<button id="openButton" class="btn">
                         <i class="icon-folder-open"></i> Open All
                     </button>
                     <button id="closeButton" class="btn btn-inverse">
@@ -50,5 +51,4 @@
         </div>
     </div>
     <div class="container">
-        <TMPL_INCLUDE NAME="download_data.tmpl">
 <TMPL_INCLUDE NAME="includes/footer.tmpl">

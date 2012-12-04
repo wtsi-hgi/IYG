@@ -2,5 +2,6 @@ sotdata.tar.gz
 web/templates/gpg_key.tmpl
 *~
 public_data/desc
+public_data/pred_results
 build/log-*
 *.log
