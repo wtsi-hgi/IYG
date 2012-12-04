@@ -39,7 +39,7 @@ else{
     # Get the SNPs this profile_id has results for that relate to this trait.
     my $snpResultSet = $app->dbh->query_all_snp_results_for_trait({
         trait => $app->page->cgi->param('trait'),
-        profile => $app->page->cgi->param('profile')
+        profile => $app->page->cgi->param('profile'),
     });
 
     # Get some information on the selected trait
@@ -86,13 +86,14 @@ else{
         # Load the variant info template and pass the parameters for display.
         print $app->page->render({
             prepath => "../",
-            template => "results/default",
+            template => "results/PCA",
             params => {
                 TITLE => "View Trait",
                 TRAIT_NAME => $traitResult->{'trait_name'},
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
                 PROFILE_ID => $app->page->cgi->param('profile'),
+		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
             },
         });
     }

@@ -1,0 +1,26 @@
+<TMPL_INCLUDE NAME="../includes/result_header.tmpl">
+        <div class="variants">
+            <div class="trait">
+                <div class="trait-header">
+                  <b><h2><TMPL_VAR NAME=TRAIT_NAME></h2></b>
+                </div>
+                <div class="accordion-inner">
+		  <div class="row-fluid">
+		    <div class="span10">
+                      <p><TMPL_VAR NAME=TRAIT_DESCRIPTION></p>
+		    </div>
+		  </div>
+		  <div class="row-fluid">
+		    <div class="span6">
+		      <img src="/public_data/pred_results/AIM/all-iyg-pca" alt="Worldwide Principal Components Analysis Plot"/>
+		    </div>
+		    <div class="span6 pull-right">
+		      <img src="<TMPL_VAR NAME=PCA_URI>" alt="Worldwide Principal Components Analysis Plot"/>
+		    </div>
+		  </div>
+		</div>
+	    </div>
+	    <!--	    <TMPL_INCLUDE NAME="pca_box.tmpl">-->
+	</div>
+<TMPL_INCLUDE NAME="../includes/footer.tmpl">
+	  

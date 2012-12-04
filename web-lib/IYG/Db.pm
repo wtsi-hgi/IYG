@@ -72,7 +72,7 @@ sub disconnectDb{
 sub query_trait{
     my $self = shift;
     my $query = q(
-        SELECT traits.name AS trait_name, traits.description AS trait_description
+        SELECT traits.name AS trait_name, traits.description AS trait_description, traits.short_name AS trait_short_name
         FROM traits
         WHERE traits.trait_id = ?;
       );                                                                               
