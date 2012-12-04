@@ -2,6 +2,12 @@
 
 PRIV_DATA_DIR=$1
 
+if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
+    then
+    echo "Must specify PRIV_DATA_DIR as first argument"
+    exit 1
+fi
+
 reldir=`dirname $0`
 if [[ `echo "${reldir}" | cut -c1` = "/" ]]
 then
@@ -13,11 +19,6 @@ PUB_DATA_DIR=${IYG_DIR}/public_data/
 WEB_DATA_DIR=${PUB_DATA_DIR}/pred_results/web/
 OUT_DATA_DIR=${PUB_DATA_DIR}/pred_results/out/
 
-if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
-    then
-    echo "Must specify PRIV_DATA_DIR as first argument"
-    exit 1
-fi
 
 ##########################
 #1. run QC on raw TSV
@@ -101,10 +102,11 @@ mkdir ${OUT_DATA_DIR}/AIM/
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed
 
 #run PCA
-R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca <${IYG_DIR}/analyse/pca/doPCA.R
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R
 
 #make plots
 R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
+
 
 ##########################
 #8. generate QT predictions
@@ -112,53 +114,27 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA
 #Standard QTs
 #Note: ones with few SNPs kind of suck!!
 echo "Predicting QTs and generating images..."
-#these two have no population data.
-mkdir -p ${WEB_DATA_DIR}/BALD/IYGHIST/
-mkdir ${OUT_DATA_DIR}/BALD/
-R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/EYE/IYGHIST/
-mkdir ${OUT_DATA_DIR}/EYE/
-R --no-restore --no-save --args EYE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 
-mkdir -p ${WEB_DATA_DIR}/BMI/IYGHIST/
-mkdir ${WEB_DATA_DIR}/BMI/POPDIST/
-mkdir ${OUT_DATA_DIR}/BMI/
-R --no-restore --no-save --args BMI ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/BP/IYGHIST/
-mkdir ${WEB_DATA_DIR}/BP/POPDIST/
-mkdir ${OUT_DATA_DIR}/BP/
-R --no-restore --no-save --args BP ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/CAFE/IYGHIST/
-mkdir ${WEB_DATA_DIR}/CAFE/POPDIST/
-mkdir ${OUT_DATA_DIR}/CAFE/
-R --no-restore --no-save --args CAFE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/FPG/IYGHIST/
-mkdir ${WEB_DATA_DIR}/FPG/POPDIST/
-mkdir ${OUT_DATA_DIR}/FPG/
-R --no-restore --no-save --args FPG ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/HDLC/IYGHIST/
-mkdir ${WEB_DATA_DIR}/HDLC/POPDIST/
-mkdir ${OUT_DATA_DIR}/HDLC/
-R --no-restore --no-save --args HDLC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/MPV/IYGHIST/
-mkdir ${WEB_DATA_DIR}/MPV/POPDIST/
-mkdir ${OUT_DATA_DIR}/MPV/
-R --no-restore --no-save --args MPV ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/SMOK/IYGHIST/
-mkdir ${WEB_DATA_DIR}/SMOK/POPDIST/
-mkdir ${OUT_DATA_DIR}/SMOK/
-R --no-restore --no-save --args SMOK ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/TC/IYGHIST/
-mkdir ${WEB_DATA_DIR}/TC/POPDIST/
-mkdir ${OUT_DATA_DIR}/TC/
-R --no-restore --no-save --args TC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
-mkdir -p ${WEB_DATA_DIR}/WHR/IYGHIST/
-mkdir ${WEB_DATA_DIR}/WHR/POPDIST/
-mkdir ${OUT_DATA_DIR}/WHR/
-R --no-restore --no-save --args WHR ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+# These two have no population data
+for trait in BALD EYE
+do
+    mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
+    mkdir ${OUT_DATA_DIR}/${trait}/
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R
+done
+
+# These nine have population data
+for trait in BMI BP CAFE FPG HDLC MPV SMOK TC WHR
+do
+    mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
+    mkdir ${WEB_DATA_DIR}/${trait}/POPDIST/
+    mkdir ${OUT_DATA_DIR}/${trait}/
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R
+done
+
 
 mkdir ${WEB_DATA_DIR}/NEAND 
 ##still broken
-#R --no-restore --no-save --args NEAND <${IYG_DIR}/analyse/qt/mangrove-it.R
+#R --no-restore --no-save --args NEAND < ${IYG_DIR}/analyse/qt/mangrove-it.R
 
 
