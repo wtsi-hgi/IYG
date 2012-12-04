@@ -643,9 +643,7 @@ class Data_Loader:
 
     def dump_profiledata(self, profile_output):
         try:
-            self.cur.execute(
-                             "select barcode, public_id from profiles",
-                             (snp_dbid, snp_dbid))
+            self.cur.execute("select barcode, public_id from profiles")
             res = self.cur.fetchall()
             for profile in res:
                 print>>profile_data, "%s\t%s\n" % (profile[0], profile[1])
