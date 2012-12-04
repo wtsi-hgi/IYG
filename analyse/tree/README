@@ -1,0 +1,64 @@
+############################################################################### 
+##                                                                        
+## Yfitter - a program for assigning haplogroups using maximum likelihood 
+##
+##
+
+### Overview ###
+
+Yfitter is a program for assigning Y chromosome haplogroups to individuals sequenced at low coverage. It uses a dynamic programming approach to find the maximum likelihood haplogroup given the reads observed, and is designed to be used in a samtools/bcftools pipeline. Yfitter also supports haplogrouping using chip genotype data.
+
+This program is written by Luke Jostins (lj4@sanger.ac.uk), to whom bugs should be reported. It is destributed under the GPLv3 lincense (see LICENSE file for details). 
+
+
+### Installation ###
+
+You can compile the Yfitter program using GCC (or your C++ compiler of choice):
+
+> g++ -o Yfitter Yfitter.cpp
+
+
+### Usage instructions ###
+
+Usage:
+
+  Yfitter [-m -s] [-q Q] tree.xml likelihoods.qcall
+
+The likelihoods should be in QCall format (such as produced by bcftools). Output consists of the major haplogroup followed by the highest resolution haplogroup.
+
+Use "-m" if there is more than one sample in the file; output is one line per sample, with the first field containing the sample ID, followed by the major haplogroup, the maximum likelihood haplogroup (best guess) and confidence haplogroup (conservative guess). 
+
+The "-q" argument sets the difference in log likelihood that defines the confidence haplogroup (make this larger if you want a more conservative confidence haplogroup assignment). By default, this is 8.685, corresponding to a deltaAIC of 4.
+
+Use -s to print negative log likelihoods for all major haplogroups. This is useful for QC - if no haplogroup has significantly lower score than others, this suggests that haplogrouping has not been very successful.
+
+
+Usage with Samtools/BCFTools:
+
+You can generate haplogroup information for a number of BAM files using samtools to calculate likelihoods, bcftools to generate a QCall file, and Yfitter to assign haplogroups to each sample.
+
+> samtools view -uf reference.fa sam1.bam sam2.bam [...] > allYs.bcf
+> bcftools view ./karafet_sites_b36.pos allYs.bcf > infosites.qcall
+> Yfitter -m karafet_tree_b36.xml infosites.qcall
+
+
+Usage with Plink:
+
+You can also use plink files. The Yfitter package includes a python script, tped2qcall.py, that converts plink .tped/.tfam files into qcall files ready for haplogrouping. For instance, if you have a .bed/.bim/.fam file set, you can extract the Y chromosome as a tped, convert this to qcall format, and use this for haplogrouping, like so:
+
+> plink --bfile infile --chr Y --recode --transpose --out outfile
+> python tped2qcall.py outfile > outfile.qcall
+> Yfitter -m -q 1 karafet_tree_b36.xml outfile.qcall
+
+Note that the tped2qcall.py script sets the negative log likelihoods to 0 for the true genotype, and 1 to for incorrect genotypes, so the -q argument sets the confidence haplogroup as the common ancester of all haplogroup with 1 more mismatchs than the best guess haplogroup (i.e. allowing for 1 genotyping error).
+
+
+### The tree file ###
+
+Yfitter requires a haplogroup tree with mutations on it to assign haplogroups. These haplogroup trees are specified in phyloXML format, with mutations on the branches specificed with the "propery" tag like this:
+
+ <property datatype="xsd:string" ref="point_mutation:MUTNAME" applies_to="parent_branch">Y:POS,A,B</property>
+
+Where MUTNAME is the mutation ID, POS is the chromosome position on the Y chromosome, A is the ancestrual allele and B is the derived allele.
+
+The karafet_tree_b36.xml (and *_b37.xml) tree contains 439 mutations from Karafet et al (2008), mapped to build 37 and build 37 respectively. These consist of all non-G/C or A/T SNPs that were mapped uniquly. A few mutations have been removed since they have sinced been mapped by dbSNP to autosomes.

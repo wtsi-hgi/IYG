@@ -1,0 +1,1764 @@
+<phyloxml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.phyloxml.org http://www.phyloxml.org/1.00/phyloxml.xsd"
+   xmlns="http://www.phyloxml.org">
+	<phylogeny rooted="true">
+	<name>Y-Chromosome Phylogeny</name>
+	<description>Karafet's (2008) Y phylogeny, with mutations</description>
+	<clade>
+	<name>Y</name>
+		<clade>
+		<name>A</name>
+		<property datatype="xsd:string" ref="point_mutation:P97" applies_to="parent_branch">Y:13395667,T,G</property>
+			<clade>
+			<name>*</name>
+			</clade>
+			<clade>
+			<name>1</name>
+			<property datatype="xsd:string" ref="point_mutation:P108" applies_to="parent_branch">Y:13935641,C,T</property>
+				<clade>
+				<name>*</name>
+				</clade>
+				<clade>
+				<name>a</name>
+				<property datatype="xsd:string" ref="point_mutation:P82" applies_to="parent_branch">Y:6799826,C,A</property>
+				</clade>
+				<clade>
+				<name>b</name>
+				<property datatype="xsd:string" ref="point_mutation:P114" applies_to="parent_branch">Y:13530049,G,A</property>
+				</clade>
+			</clade>
+			<clade>
+			<name>2</name>
+			<property datatype="xsd:string" ref="point_mutation:P36.1" applies_to="parent_branch">Y:13006449,G,A</property>
+			<property datatype="xsd:string" ref="point_mutation:M212" applies_to="parent_branch">Y:14036089,C,A</property>
+			<property datatype="xsd:string" ref="point_mutation:M206" applies_to="parent_branch">Y:14096856,T,G</property>
+			<property datatype="xsd:string" ref="point_mutation:M6" applies_to="parent_branch">Y:17080420,A,G</property>
+			<property datatype="xsd:string" ref="point_mutation:P3" applies_to="parent_branch">Y:20069973,C,T</property>
+			<property datatype="xsd:string" ref="point_mutation:M14" applies_to="parent_branch">Y:20181656,T,C</property>
+			<property datatype="xsd:string" ref="point_mutation:M23" applies_to="parent_branch">Y:20195627,A,G</property>
+			<property datatype="xsd:string" ref="point_mutation:P5" applies_to="parent_branch">Y:20303745,G,A</property>
+			<property datatype="xsd:string" ref="point_mutation:M49" applies_to="parent_branch">Y:20328114,T,C</property>
+			<property datatype="xsd:string" ref="point_mutation:M71" applies_to="parent_branch">Y:20353835,C,T</property>
+			<property datatype="xsd:string" ref="point_mutation:PK1" applies_to="parent_branch">Y:20992895,C,A</property>
+			<property datatype="xsd:string" ref="point_mutation:P248" applies_to="parent_branch">Y:21151209,G,T</property>
+			<property datatype="xsd:string" ref="point_mutation:P4" applies_to="parent_branch">Y:21907102,G,A</property>
+				<clade>
+				<name>*</name>
+				</clade>
+				<clade>
+				<name>a</name>
+				<property datatype="xsd:string" ref="point_mutation:M114" applies_to="parent_branch">Y:20225151,A,G</property>
+				</clade>
+				<clade>
+				<name>b</name>
+				<property datatype="xsd:string" ref="point_mutation:P28" applies_to="parent_branch">Y:20340503,C,T</property>
+				</clade>
+				<clade>
+				<name>c</name>
+				</clade>
+			</clade>
+			<clade>
+			<name>3</name>
+			<property datatype="xsd:string" ref="point_mutation:M32" applies_to="parent_branch">Y:20199824,T,C</property>
+				<clade>
+				<name>*</name>
+				</clade>
+				<clade>
+				<name>a</name>
+				<property datatype="xsd:string" ref="point_mutation:M28" applies_to="parent_branch">Y:20189227,T,G</property>
+				<property datatype="xsd:string" ref="point_mutation:M59" applies_to="parent_branch">Y:20328164,A,C</property>
+				</clade>
+				<clade>
+				<name>b</name>
+				<property datatype="xsd:string" ref="point_mutation:M190" applies_to="parent_branch">Y:13477921,A,G</property>
+				<property datatype="xsd:string" ref="point_mutation:M220" applies_to="parent_branch">Y:13946444,A,G</property>
+				<property datatype="xsd:string" ref="point_mutation:M144" applies_to="parent_branch">Y:20384888,T,C</property>
+					<clade>
+					<name>*</name>
+					</clade>
+					<clade>
+					<name>1</name>
+					<property datatype="xsd:string" ref="point_mutation:M51" applies_to="parent_branch">Y:20328251,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P100" applies_to="parent_branch">Y:20362081,C,T</property>
+						<clade>
+						<name>*</name>
+						</clade>
+					<property datatype="xsd:string" ref="point_mutation:P102" applies_to="parent_branch">Y:13987411,T,G</property>
+					<property datatype="xsd:string" ref="point_mutation:P71" applies_to="parent_branch">Y:20071466,A,G</property>
+					</clade>
+					<clade>
+					<name>2</name>
+					<property datatype="xsd:string" ref="point_mutation:M202" applies_to="parent_branch">Y:13538886,T,G</property>
+					<property datatype="xsd:string" ref="point_mutation:M219" applies_to="parent_branch">Y:13946309,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:M127" applies_to="parent_branch">Y:20222661,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:M63" applies_to="parent_branch">Y:20330026,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:M305" applies_to="parent_branch">Y:21159562,C,T</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>a</name>
+						</clade>
+						<clade>
+						<name>b</name>
+						</clade>
+					</clade>
+				</clade>
+			</clade>
+		</clade>
+		<clade>
+		<name>BDECF</name>
+		<property datatype="xsd:string" ref="point_mutation:M94" applies_to="parent_branch">Y:20397546,C,A</property>
+		<property datatype="xsd:string" ref="point_mutation:M299" applies_to="parent_branch">Y:21157894,T,G</property>
+		<property datatype="xsd:string" ref="point_mutation:SRY10831.1" applies_to="parent_branch">Y:2717176,T,C</property>
+			<clade>
+			<name>B</name>
+			<property datatype="xsd:string" ref="point_mutation:P90" applies_to="parent_branch">Y:13359973,C,T</property>
+			<property datatype="xsd:string" ref="point_mutation:M181" applies_to="parent_branch">Y:13360948,T,C</property>
+			<property datatype="xsd:string" ref="point_mutation:P85" applies_to="parent_branch">Y:13529972,T,C</property>
+				<clade>
+				<name>*</name>
+				</clade>
+				<clade>
+				<name>1</name>
+				<property datatype="xsd:string" ref="point_mutation:M288" applies_to="parent_branch">Y:2709694,G,T</property>
+					<clade>
+					<name>*</name>
+					</clade>
+				<property datatype="xsd:string" ref="point_mutation:M146" applies_to="parent_branch">Y:20238639,T,G</property>
+				</clade>
+				<clade>
+				<name>2</name>
+				<property datatype="xsd:string" ref="point_mutation:M182" applies_to="parent_branch">Y:13378470,C,T</property>
+					<clade>
+					<name>*</name>
+					</clade>
+					<clade>
+					<name>a</name>
+					<property datatype="xsd:string" ref="point_mutation:M150" applies_to="parent_branch">Y:20328907,C,T</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>1</name>
+						<property datatype="xsd:string" ref="point_mutation:M218" applies_to="parent_branch">Y:13946457,C,T</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:M109" applies_to="parent_branch">Y:20233568,G,A</property>
+						<property datatype="xsd:string" ref="point_mutation:M152" applies_to="parent_branch">Y:20327456,C,T</property>
+						</clade>
+						<clade>
+						<name>2</name>
+						<property datatype="xsd:string" ref="point_mutation:M108.1" applies_to="parent_branch">Y:20392323,T,C</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:P111" applies_to="parent_branch">Y:13935056,G,A</property>
+						<property datatype="xsd:string" ref="point_mutation:M43" applies_to="parent_branch">Y:7643271,A,G</property>
+						</clade>
+					</clade>
+					<clade>
+					<name>b</name>
+					<property datatype="xsd:string" ref="point_mutation:M192" applies_to="parent_branch">Y:13523656,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:M112" applies_to="parent_branch">Y:20227347,C,T</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>1</name>
+						</clade>
+						<clade>
+						<name>2</name>
+						<property datatype="xsd:string" ref="point_mutation:M169" applies_to="parent_branch">Y:13323111,T,C</property>
+						<property datatype="xsd:string" ref="point_mutation:M115" applies_to="parent_branch">Y:20225698,G,A</property>
+						</clade>
+						<clade>
+						<name>3</name>
+						<property datatype="xsd:string" ref="point_mutation:M129" applies_to="parent_branch">Y:20177105,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:M30" applies_to="parent_branch">Y:20199203,G,A</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:M108.2" applies_to="parent_branch">Y:20392323,T,C</property>
+						</clade>
+						<clade>
+						<name>4</name>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+							<property datatype="xsd:string" ref="point_mutation:P70" applies_to="parent_branch">Y:20071656,C,T</property>
+							</clade>
+							<clade>
+							<name>b</name>
+							<property datatype="xsd:string" ref="point_mutation:M211" applies_to="parent_branch">Y:14054008,C,T</property>
+							</clade>
+						</clade>
+					</clade>
+					<clade>
+					<name>c</name>
+					<property datatype="xsd:string" ref="point_mutation:P112" applies_to="parent_branch">Y:20340313,G,A</property>
+					</clade>
+				</clade>
+			</clade>
+			<clade>
+			<name>DECF</name>
+			<property datatype="xsd:string" ref="point_mutation:M168" applies_to="parent_branch">Y:13323385,C,T</property>
+			<property datatype="xsd:string" ref="point_mutation:P9.1" applies_to="parent_branch">Y:13435843,C,A</property>
+			<property datatype="xsd:string" ref="point_mutation:M294" applies_to="parent_branch">Y:21154333,C,T</property>
+				<clade>
+				<name>DE</name>
+				<property datatype="xsd:string" ref="point_mutation:P167" applies_to="parent_branch">Y:10461457,G,T</property>
+				<property datatype="xsd:string" ref="point_mutation:P144" applies_to="parent_branch">Y:15520850,G,A</property>
+				<property datatype="xsd:string" ref="point_mutation:P153" applies_to="parent_branch">Y:17070436,T,G</property>
+				<property datatype="xsd:string" ref="point_mutation:P165" applies_to="parent_branch">Y:17880310,G,A</property>
+				<property datatype="xsd:string" ref="point_mutation:M145=P205" applies_to="parent_branch">Y:20176596,C,T</property>
+				<property datatype="xsd:string" ref="point_mutation:P183" applies_to="parent_branch">Y:7392132,C,T</property>
+					<clade>
+					<name>DE*</name>
+					</clade>
+					<clade>
+					<name>D</name>
+					<property datatype="xsd:string" ref="point_mutation:M174" applies_to="parent_branch">Y:13463674,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:IMS-JST021355" applies_to="parent_branch">Y:2888425,A,G</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>1</name>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+								<clade>
+								<name>*</name>
+								</clade>
+							<property datatype="xsd:string" ref="point_mutation:N2" applies_to="parent_branch">Y:20359276,T,C</property>
+							</clade>
+						</clade>
+						<clade>
+						<name>2</name>
+						<property datatype="xsd:string" ref="point_mutation:P41.1" applies_to="parent_branch">Y:13001679,T,C</property>
+						<property datatype="xsd:string" ref="point_mutation:P37.1" applies_to="parent_branch">Y:13001692,T,C</property>
+						<property datatype="xsd:string" ref="point_mutation:M179" applies_to="parent_branch">Y:13348094,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:P190" applies_to="parent_branch">Y:16606643,A,G</property>
+						<property datatype="xsd:string" ref="point_mutation:M55" applies_to="parent_branch">Y:20332126,T,C</property>
+						<property datatype="xsd:string" ref="point_mutation:M64.1" applies_to="parent_branch">Y:20362771,A,G</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:M125" applies_to="parent_branch">Y:20389675,T,C</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:P42" applies_to="parent_branch">Y:12991737,G,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+									</clade>
+									<clade>
+									<name>b</name>
+										<clade>
+										<name>*</name>
+										</clade>
+									<property datatype="xsd:string" ref="point_mutation:P53.2" applies_to="parent_branch">Y:13001657,T,C</property>
+									</clade>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:M151" applies_to="parent_branch">Y:20352022,G,A</property>
+								</clade>
+								<clade>
+								<name>3</name>
+								<property datatype="xsd:string" ref="point_mutation:P120" applies_to="parent_branch">Y:13935394,C,A</property>
+								</clade>
+							</clade>
+						</clade>
+						<clade>
+						<name>3</name>
+						<property datatype="xsd:string" ref="point_mutation:P99" applies_to="parent_branch">Y:13395780,C,T</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:P47" applies_to="parent_branch">Y:13007176,C,T</property>
+						</clade>
+					</clade>
+					<clade>
+					<name>E</name>
+					<property datatype="xsd:string" ref="point_mutation:P29" applies_to="parent_branch">Y:13007215,A,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P175" applies_to="parent_branch">Y:13313471,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P170" applies_to="parent_branch">Y:13530916,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P174" applies_to="parent_branch">Y:14318720,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P176" applies_to="parent_branch">Y:14444918,T,G</property>
+					<property datatype="xsd:string" ref="point_mutation:P155" applies_to="parent_branch">Y:14847931,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P150" applies_to="parent_branch">Y:15355833,C,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P156" applies_to="parent_branch">Y:15929411,A,G</property>
+					<property datatype="xsd:string" ref="point_mutation:P154" applies_to="parent_branch">Y:18009501,G,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P169" applies_to="parent_branch">Y:21327965,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P171" applies_to="parent_branch">Y:21853359,G,T</property>
+					<property datatype="xsd:string" ref="point_mutation:SRY4064=M40=P20" applies_to="parent_branch">Y:2723943,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P162" applies_to="parent_branch">Y:6060464,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P172" applies_to="parent_branch">Y:7025215,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P173" applies_to="parent_branch">Y:7055523,A,G</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>1</name>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+							<property datatype="xsd:string" ref="point_mutation:M33" applies_to="parent_branch">Y:20199838,A,C</property>
+							<property datatype="xsd:string" ref="point_mutation:M132" applies_to="parent_branch">Y:20355649,G,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:P110" applies_to="parent_branch">Y:13935117,C,T</property>
+								</clade>
+							</clade>
+							<clade>
+							<name>b</name>
+							<property datatype="xsd:string" ref="point_mutation:P177" applies_to="parent_branch">Y:12669846,C,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:P179" applies_to="parent_branch">Y:12570308,A,C</property>
+								<property datatype="xsd:string" ref="point_mutation:P180" applies_to="parent_branch">Y:17110668,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:P2" applies_to="parent_branch">Y:20070219,G,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:P189" applies_to="parent_branch">Y:12707977,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:M180=P88" applies_to="parent_branch">Y:13359735,T,C</property>
+									<property datatype="xsd:string" ref="point_mutation:P182" applies_to="parent_branch">Y:17745841,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:P1" applies_to="parent_branch">Y:20071555,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:P46" applies_to="parent_branch">Y:20340240,C,T</property>
+									<property datatype="xsd:string" ref="point_mutation:P293" applies_to="parent_branch">Y:8835178,G,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:M58" applies_to="parent_branch">Y:20195692,G,A</property>
+										</clade>
+										<clade>
+										<name>2</name>
+										<property datatype="xsd:string" ref="point_mutation:M116.2" applies_to="parent_branch">Y:20224669,T,G</property>
+										</clade>
+										<clade>
+										<name>3</name>
+										<property datatype="xsd:string" ref="point_mutation:M149" applies_to="parent_branch">Y:20355636,G,A</property>
+										</clade>
+										<clade>
+										<name>4</name>
+										<property datatype="xsd:string" ref="point_mutation:M154" applies_to="parent_branch">Y:20352065,T,C</property>
+										</clade>
+										<clade>
+										<name>5</name>
+										<property datatype="xsd:string" ref="point_mutation:M155" applies_to="parent_branch">Y:20195719,G,A</property>
+										</clade>
+										<clade>
+										<name>6</name>
+										<property datatype="xsd:string" ref="point_mutation:M195" applies_to="parent_branch">Y:13525930,A,G</property>
+										<property datatype="xsd:string" ref="point_mutation:M156" applies_to="parent_branch">Y:20176615,T,C</property>
+										<property datatype="xsd:string" ref="point_mutation:M10" applies_to="parent_branch">Y:20182386,T,C</property>
+										<property datatype="xsd:string" ref="point_mutation:M66" applies_to="parent_branch">Y:20340961,A,C</property>
+										</clade>
+										<clade>
+										<name>7</name>
+										<property datatype="xsd:string" ref="point_mutation:M191=P86" applies_to="parent_branch">Y:13529007,T,G</property>
+										<property datatype="xsd:string" ref="point_mutation:U186" applies_to="parent_branch">Y:14987946,A,G</property>
+										<property datatype="xsd:string" ref="point_mutation:U247=P253" applies_to="parent_branch">Y:17348769,C,T</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											<property datatype="xsd:string" ref="point_mutation:U174=P252" applies_to="parent_branch">Y:14760751,G,A</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>1</name>
+												<property datatype="xsd:string" ref="point_mutation:P9.2" applies_to="parent_branch">Y:13435843,A,C</property>
+												</clade>
+												<clade>
+												<name>2</name>
+												<property datatype="xsd:string" ref="point_mutation:P115" applies_to="parent_branch">Y:13378644,G,A</property>
+												</clade>
+												<clade>
+												<name>3</name>
+												<property datatype="xsd:string" ref="point_mutation:P116" applies_to="parent_branch">Y:13379084,A,G</property>
+													<clade>
+													<name>*</name>
+													</clade>
+												<property datatype="xsd:string" ref="point_mutation:P113" applies_to="parent_branch">Y:6800171,A,C</property>
+												</clade>
+											</clade>
+										</clade>
+										<clade>
+										<name>8</name>
+										<property datatype="xsd:string" ref="point_mutation:U175" applies_to="parent_branch">Y:14763088,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											<property datatype="xsd:string" ref="point_mutation:P277" applies_to="parent_branch">Y:14088609,A,G</property>
+											<property datatype="xsd:string" ref="point_mutation:U209" applies_to="parent_branch">Y:15804352,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>1</name>
+													<clade>
+													<name>*</name>
+													</clade>
+												<property datatype="xsd:string" ref="point_mutation:U181" applies_to="parent_branch">Y:14883820,C,T</property>
+												</clade>
+												<clade>
+												<name>2</name>
+												<property datatype="xsd:string" ref="point_mutation:P59" applies_to="parent_branch">Y:12994545,A,G</property>
+												</clade>
+											</clade>
+										</clade>
+										<clade>
+										<name>9</name>
+										<property datatype="xsd:string" ref="point_mutation:P269" applies_to="parent_branch">Y:22399066,A,G</property>
+										</clade>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:M215" applies_to="parent_branch">Y:13977218,A,G</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											<property datatype="xsd:string" ref="point_mutation:M78" applies_to="parent_branch">Y:20352691,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>1</name>
+												<property datatype="xsd:string" ref="point_mutation:V12" applies_to="parent_branch">Y:6883099,A,G</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>a</name>
+													<property datatype="xsd:string" ref="point_mutation:M224" applies_to="parent_branch">Y:20352687,T,C</property>
+													</clade>
+													<clade>
+													<name>b</name>
+													</clade>
+												</clade>
+												<clade>
+												<name>2</name>
+												<property datatype="xsd:string" ref="point_mutation:V36" applies_to="parent_branch">Y:6874246,T,C</property>
+												<property datatype="xsd:string" ref="point_mutation:V13" applies_to="parent_branch">Y:6902263,G,A</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>a</name>
+													</clade>
+													<clade>
+													<name>b</name>
+													<property datatype="xsd:string" ref="point_mutation:P65" applies_to="parent_branch">Y:25030262,C,A</property>
+													</clade>
+												</clade>
+												<clade>
+												<name>3</name>
+												<property datatype="xsd:string" ref="point_mutation:V22" applies_to="parent_branch">Y:6919957,T,C</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>a</name>
+													<property datatype="xsd:string" ref="point_mutation:M148" applies_to="parent_branch">Y:20355481,A,G</property>
+													</clade>
+													<clade>
+													<name>b</name>
+													<property datatype="xsd:string" ref="point_mutation:V19" applies_to="parent_branch">Y:20355588,T,C</property>
+													</clade>
+												</clade>
+												<clade>
+												<name>4</name>
+												<property datatype="xsd:string" ref="point_mutation:V65" applies_to="parent_branch">Y:15797066,G,T</property>
+												</clade>
+											</clade>
+											<clade>
+											<name>b</name>
+											<property datatype="xsd:string" ref="point_mutation:M81" applies_to="parent_branch">Y:20351960,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>1</name>
+												<property datatype="xsd:string" ref="point_mutation:M107" applies_to="parent_branch">Y:20391026,A,G</property>
+												</clade>
+												<clade>
+												<name>2</name>
+												<property datatype="xsd:string" ref="point_mutation:M183" applies_to="parent_branch">Y:13398177,A,C</property>
+												<property datatype="xsd:string" ref="point_mutation:M165" applies_to="parent_branch">Y:20326047,A,G</property>
+												</clade>
+											</clade>
+											<clade>
+											<name>c</name>
+											<property datatype="xsd:string" ref="point_mutation:M123" applies_to="parent_branch">Y:20223974,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>1</name>
+												<property datatype="xsd:string" ref="point_mutation:M34" applies_to="parent_branch">Y:20200104,G,T</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>a</name>
+													<property datatype="xsd:string" ref="point_mutation:M136" applies_to="parent_branch">Y:20353141,C,T</property>
+													</clade>
+													<clade>
+													<name>b</name>
+													<property datatype="xsd:string" ref="point_mutation:M290" applies_to="parent_branch">Y:20338213,C,T</property>
+													</clade>
+												</clade>
+											</clade>
+											<clade>
+											<name>d</name>
+											<property datatype="xsd:string" ref="point_mutation:M281" applies_to="parent_branch">Y:20223888,C,T</property>
+											</clade>
+											<clade>
+											<name>e</name>
+											</clade>
+											<clade>
+											<name>f</name>
+											<property datatype="xsd:string" ref="point_mutation:P72" applies_to="parent_branch">Y:20070241,C,T</property>
+											</clade>
+										</clade>
+									</clade>
+									<clade>
+									<name>c</name>
+									</clade>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:P75" applies_to="parent_branch">Y:20340386,G,A</property>
+								</clade>
+							</clade>
+						</clade>
+						<clade>
+						<name>2</name>
+						<property datatype="xsd:string" ref="point_mutation:P68" applies_to="parent_branch">Y:13435749,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:M75" applies_to="parent_branch">Y:20349565,G,A</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+							<property datatype="xsd:string" ref="point_mutation:M41=P210" applies_to="parent_branch">Y:2723889,C,A</property>
+							</clade>
+							<clade>
+							<name>b</name>
+							<property datatype="xsd:string" ref="point_mutation:M54" applies_to="parent_branch">Y:20328652,G,A</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:M85" applies_to="parent_branch">Y:20355604,C,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:M200" applies_to="parent_branch">Y:13540810,G,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:P45" applies_to="parent_branch">Y:20340135,G,A</property>
+										</clade>
+										<clade>
+										<name>2</name>
+										</clade>
+									</clade>
+								</clade>
+							</clade>
+						</clade>
+					</clade>
+				</clade>				<clade>
+				<name>CF</name>
+				<property datatype="xsd:string" ref="point_mutation:P143" applies_to="parent_branch">Y:12707867,G,A</property>
+					<clade>
+					<name>C</name>
+					<property datatype="xsd:string" ref="point_mutation:M216" applies_to="parent_branch">Y:13946958,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P260" applies_to="parent_branch">Y:15795400,A,C</property>
+					<property datatype="xsd:string" ref="point_mutation:RPS4Y711=M130" applies_to="parent_branch">Y:2794854,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P184" applies_to="parent_branch">Y:7278128,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P255" applies_to="parent_branch">Y:8745038,G,A</property>
+						<clade>
+						<name>*</name>
+						</clade>
+						<clade>
+						<name>1</name>
+						<property datatype="xsd:string" ref="point_mutation:P122" applies_to="parent_branch">Y:13360126,C,A</property>
+						<property datatype="xsd:string" ref="point_mutation:M105" applies_to="parent_branch">Y:20325879,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:M8" applies_to="parent_branch">Y:7351534,G,T</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:P121" applies_to="parent_branch">Y:6799857,C,T</property>
+						</clade>
+						<clade>
+						<name>2</name>
+						<property datatype="xsd:string" ref="point_mutation:M38" applies_to="parent_branch">Y:20201546,T,G</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+							<property datatype="xsd:string" ref="point_mutation:M208" applies_to="parent_branch">Y:14085597,C,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:P54" applies_to="parent_branch">Y:13001667,A,G</property>
+								</clade>
+							</clade>
+						</clade>
+						<clade>
+						<name>3</name>
+						<property datatype="xsd:string" ref="point_mutation:P44" applies_to="parent_branch">Y:13005259,G,A</property>
+						<property datatype="xsd:string" ref="point_mutation:M217" applies_to="parent_branch">Y:13946727,A,C</property>
+						<property datatype="xsd:string" ref="point_mutation:PK2" applies_to="parent_branch">Y:21078608,T,C</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>a</name>
+							<property datatype="xsd:string" ref="point_mutation:M93" applies_to="parent_branch">Y:20361893,C,T</property>
+							</clade>
+							<clade>
+							<name>b</name>
+							<property datatype="xsd:string" ref="point_mutation:P39" applies_to="parent_branch">Y:12994589,G,A</property>
+							</clade>
+							<clade>
+							<name>c</name>
+							<property datatype="xsd:string" ref="point_mutation:M48" applies_to="parent_branch">Y:20209269,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:M77" applies_to="parent_branch">Y:20218526,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:M86" applies_to="parent_branch">Y:20365305,T,G</property>
+							</clade>
+							<clade>
+							<name>d</name>
+							<property datatype="xsd:string" ref="point_mutation:M407" applies_to="parent_branch">Y:2810408,A,G</property>
+							</clade>
+							<clade>
+							<name>e</name>
+							<property datatype="xsd:string" ref="point_mutation:P53.1" applies_to="parent_branch">Y:13001657,T,C</property>
+							</clade>
+							<clade>
+							<name>f</name>
+							</clade>
+						</clade>
+						<clade>
+						<name>4</name>
+						<property datatype="xsd:string" ref="point_mutation:M347" applies_to="parent_branch">Y:2937478,T,C</property>
+							<clade>
+							<name>*</name>
+							</clade>
+						</clade>
+						<clade>
+						<name>5</name>
+							<clade>
+							<name>*</name>
+							</clade>
+						<property datatype="xsd:string" ref="point_mutation:P92" applies_to="parent_branch">Y:13360247,C,T</property>
+						</clade>
+						<clade>
+						<name>6</name>
+						<property datatype="xsd:string" ref="point_mutation:P55" applies_to="parent_branch">Y:12998960,C,A</property>
+						</clade>
+					</clade>
+					<clade>
+					<name>F+</name>
+					<property datatype="xsd:string" ref="point_mutation:P133" applies_to="parent_branch">Y:10476740,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P138" applies_to="parent_branch">Y:12709284,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:M213=P137" applies_to="parent_branch">Y:14036145,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P166" applies_to="parent_branch">Y:15765412,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P14" applies_to="parent_branch">Y:15907992,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P158" applies_to="parent_branch">Y:16002907,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P159" applies_to="parent_branch">Y:16606645,C,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P161" applies_to="parent_branch">Y:16687485,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P149" applies_to="parent_branch">Y:17087870,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P148" applies_to="parent_branch">Y:17859009,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P135" applies_to="parent_branch">Y:20078244,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:M89" applies_to="parent_branch">Y:20376701,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P136" applies_to="parent_branch">Y:21450035,T,G</property>
+					<property datatype="xsd:string" ref="point_mutation:P157" applies_to="parent_branch">Y:22769319,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P141" applies_to="parent_branch">Y:7001218,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P142" applies_to="parent_branch">Y:7278079,G,A</property>
+					<property datatype="xsd:string" ref="point_mutation:P145" applies_to="parent_branch">Y:8484089,A,G</property>
+					<property datatype="xsd:string" ref="point_mutation:P160" applies_to="parent_branch">Y:8534189,A,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P146" applies_to="parent_branch">Y:8662415,C,T</property>
+					<property datatype="xsd:string" ref="point_mutation:P151" applies_to="parent_branch">Y:8740661,T,C</property>
+					<property datatype="xsd:string" ref="point_mutation:P187" applies_to="parent_branch">Y:9168252,G,T</property>
+						<clade>
+						<name>F(false)</name>
+							<clade>
+							<name>*</name>
+							</clade>							<clade>
+							<name>1</name>
+							<property datatype="xsd:string" ref="point_mutation:P91" applies_to="parent_branch">Y:13359993,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:P104" applies_to="parent_branch">Y:13987219,C,T</property>
+							</clade>
+							<clade>
+							<name>2</name>
+							<property datatype="xsd:string" ref="point_mutation:M428" applies_to="parent_branch">Y:17601953,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:M427" applies_to="parent_branch">Y:17601991,G,A</property>
+							</clade>
+							<clade>
+							<name>3</name>
+							<property datatype="xsd:string" ref="point_mutation:P96" applies_to="parent_branch">Y:13379137,C,A</property>
+							</clade>
+							<clade>
+							<name>4</name>
+							<property datatype="xsd:string" ref="point_mutation:P254" applies_to="parent_branch">Y:3604898,C,T</property>
+							</clade>
+						</clade>
+						<clade>
+						<name>G</name>
+						<property datatype="xsd:string" ref="point_mutation:P257" applies_to="parent_branch">Y:12942936,G,A</property>
+						<property datatype="xsd:string" ref="point_mutation:M201" applies_to="parent_branch">Y:13536923,G,T</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>1</name>
+							<property datatype="xsd:string" ref="point_mutation:M342" applies_to="parent_branch">Y:21653330,C,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>a</name>
+								</clade>
+								<clade>
+								<name>b</name>
+								</clade>
+							</clade>
+							<clade>
+							<name>2</name>
+							<property datatype="xsd:string" ref="point_mutation:P287" applies_to="parent_branch">Y:20531485,G,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>a</name>
+								<property datatype="xsd:string" ref="point_mutation:P15" applies_to="parent_branch">Y:21653414,C,T</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+										<clade>
+										<name>*</name>
+										</clade>
+									</clade>
+									<clade>
+									<name>2</name>
+									<property datatype="xsd:string" ref="point_mutation:M286" applies_to="parent_branch">Y:21151187,G,A</property>
+									</clade>
+								</clade>
+								<clade>
+								<name>b</name>
+								</clade>
+								<clade>
+								<name>c</name>
+								<property datatype="xsd:string" ref="point_mutation:M377" applies_to="parent_branch">Y:13536827,A,G</property>
+								</clade>
+							</clade>
+						</clade>
+						<clade>
+						<name>H</name>
+						<property datatype="xsd:string" ref="point_mutation:M69" applies_to="parent_branch">Y:20353446,T,C</property>
+							<clade>
+							<name>*</name>
+							</clade>
+							<clade>
+							<name>1</name>
+							<property datatype="xsd:string" ref="point_mutation:M52" applies_to="parent_branch">Y:20212587,A,C</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>a</name>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+									<property datatype="xsd:string" ref="point_mutation:M197" applies_to="parent_branch">Y:13534992,T,C</property>
+									<property datatype="xsd:string" ref="point_mutation:M36" applies_to="parent_branch">Y:20210397,T,G</property>
+									</clade>
+									<clade>
+									<name>2</name>
+									<property datatype="xsd:string" ref="point_mutation:M97" applies_to="parent_branch">Y:20238101,A,C</property>
+									</clade>
+									<clade>
+									<name>3</name>
+									<property datatype="xsd:string" ref="point_mutation:M138" applies_to="parent_branch">Y:20172243,G,A</property>
+									</clade>
+								</clade>
+								<clade>
+								<name>b</name>
+								</clade>
+							</clade>
+							<clade>
+							<name>2</name>
+							<property datatype="xsd:string" ref="point_mutation:Apt" applies_to="parent_branch">Y:21905719,C,T</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>a</name>
+								</clade>
+								<clade>
+								<name>b</name>
+								</clade>
+							</clade>
+						</clade>
+						<clade>
+						<name>IJ</name>
+						<property datatype="xsd:string" ref="point_mutation:P129" applies_to="parent_branch">Y:12654593,A,G</property>
+						<property datatype="xsd:string" ref="point_mutation:P124" applies_to="parent_branch">Y:17547696,A,C</property>
+						<property datatype="xsd:string" ref="point_mutation:P123" applies_to="parent_branch">Y:17676255,T,C</property>
+						<property datatype="xsd:string" ref="point_mutation:P127" applies_to="parent_branch">Y:8650752,C,T</property>
+							<clade>
+							<name>I</name>
+							<property datatype="xsd:string" ref="point_mutation:P38" applies_to="parent_branch">Y:12994387,A,C</property>
+							<property datatype="xsd:string" ref="point_mutation:M170" applies_to="parent_branch">Y:13357186,A,C</property>
+							<property datatype="xsd:string" ref="point_mutation:M258" applies_to="parent_branch">Y:13532758,T,C</property>
+							<property datatype="xsd:string" ref="point_mutation:U179" applies_to="parent_branch">Y:14864102,G,A</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:P40" applies_to="parent_branch">Y:12994402,C,T</property>
+								<property datatype="xsd:string" ref="point_mutation:P30" applies_to="parent_branch">Y:13006761,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:M253" applies_to="parent_branch">Y:13532101,C,T</property>
+								<property datatype="xsd:string" ref="point_mutation:M307" applies_to="parent_branch">Y:21160339,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:M450" applies_to="parent_branch">Y:7608915,G,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									</clade>
+									<clade>
+									<name>b</name>
+										<clade>
+										<name>*</name>
+										</clade>
+									<property datatype="xsd:string" ref="point_mutation:M72" applies_to="parent_branch">Y:20353795,A,G</property>
+									</clade>
+									<clade>
+									<name>c</name>
+									<property datatype="xsd:string" ref="point_mutation:P109" applies_to="parent_branch">Y:13935399,C,T</property>
+									</clade>
+									<clade>
+									<name>d</name>
+									<property datatype="xsd:string" ref="point_mutation:P259" applies_to="parent_branch">Y:14100868,T,G</property>
+									</clade>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:P215=M438" applies_to="parent_branch">Y:15148198,A,G</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:P37.2" applies_to="parent_branch">Y:13001692,T,C</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:P41.2 =M359" applies_to="parent_branch">Y:13001679,T,C</property>
+										</clade>
+										<clade>
+										<name>2</name>
+										<property datatype="xsd:string" ref="point_mutation:M26" applies_to="parent_branch">Y:20325209,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+										<property datatype="xsd:string" ref="point_mutation:M161" applies_to="parent_branch">Y:20176903,G,T</property>
+										</clade>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:P219" applies_to="parent_branch">Y:14027245,T,G</property>
+									<property datatype="xsd:string" ref="point_mutation:P218" applies_to="parent_branch">Y:16003024,T,G</property>
+									<property datatype="xsd:string" ref="point_mutation:M223" applies_to="parent_branch">Y:20176695,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:P220" applies_to="parent_branch">Y:22885057,G,T</property>
+									<property datatype="xsd:string" ref="point_mutation:P217" applies_to="parent_branch">Y:7688484,C,T</property>
+									<property datatype="xsd:string" ref="point_mutation:P221" applies_to="parent_branch">Y:8413707,C,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										</clade>
+										<clade>
+										<name>2</name>
+										</clade>
+										<clade>
+										<name>3</name>
+										<property datatype="xsd:string" ref="point_mutation:P78" applies_to="parent_branch">Y:6800387,G,A</property>
+										</clade>
+										<clade>
+										<name>4</name>
+										<property datatype="xsd:string" ref="point_mutation:P95" applies_to="parent_branch">Y:13379100,G,T</property>
+										</clade>
+									</clade>
+								</clade>
+							</clade>
+							<clade>
+							<name>J</name>
+							<property datatype="xsd:string" ref="point_mutation:P209" applies_to="parent_branch">Y:17688729,T,C</property>
+							<property datatype="xsd:string" ref="point_mutation:M304" applies_to="parent_branch">Y:21159241,A,C</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:M267" applies_to="parent_branch">Y:21151206,T,G</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:M62" applies_to="parent_branch">Y:7643254,T,C</property>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:M365" applies_to="parent_branch">Y:2948678,A,G</property>
+									</clade>
+									<clade>
+									<name>c</name>
+									</clade>
+									<clade>
+									<name>d</name>
+									<property datatype="xsd:string" ref="point_mutation:P56" applies_to="parent_branch">Y:12997346,A,G</property>
+									</clade>
+									<clade>
+									<name>e</name>
+									<property datatype="xsd:string" ref="point_mutation:P58" applies_to="parent_branch">Y:12996675,T,C</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:M367" applies_to="parent_branch">Y:2948628,A,G</property>
+										<property datatype="xsd:string" ref="point_mutation:M368" applies_to="parent_branch">Y:2948632,A,C</property>
+										</clade>
+										<clade>
+										<name>2</name>
+										</clade>
+									</clade>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:M172" applies_to="parent_branch">Y:13479028,T,G</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:M410" applies_to="parent_branch">Y:2811678,A,G</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:M322" applies_to="parent_branch">Y:13979134,C,A</property>
+										<property datatype="xsd:string" ref="point_mutation:M47" applies_to="parent_branch">Y:20210718,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>0</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											</clade>
+											<clade>
+											<name>2</name>
+											<property datatype="xsd:string" ref="point_mutation:P81" applies_to="parent_branch">Y:6799856,G,A</property>
+											</clade>
+											<clade>
+											<name>3</name>
+											</clade>
+										</clade>
+										<clade>
+										<name>2</name>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											<property datatype="xsd:string" ref="point_mutation:M92" applies_to="parent_branch">Y:20363411,T,C</property>
+												<clade>
+												<name>*</name>
+												</clade>
+											<property datatype="xsd:string" ref="point_mutation:M327" applies_to="parent_branch">Y:20363475,T,C</property>
+											</clade>
+											<clade>
+											<name>b</name>
+											<property datatype="xsd:string" ref="point_mutation:M163" applies_to="parent_branch">Y:20189745,A,C</property>
+											<property datatype="xsd:string" ref="point_mutation:M166" applies_to="parent_branch">Y:20224082,C,T</property>
+											</clade>
+										</clade>
+										<clade>
+										<name>3</name>
+										<property datatype="xsd:string" ref="point_mutation:M68" applies_to="parent_branch">Y:20338088,A,G</property>
+										</clade>
+										<clade>
+										<name>4</name>
+										<property datatype="xsd:string" ref="point_mutation:M137" applies_to="parent_branch">Y:20223846,A,G</property>
+										</clade>
+										<clade>
+										<name>5</name>
+										<property datatype="xsd:string" ref="point_mutation:M158" applies_to="parent_branch">Y:20175754,C,T</property>
+										</clade>
+										<clade>
+										<name>6</name>
+										<property datatype="xsd:string" ref="point_mutation:M289" applies_to="parent_branch">Y:20338096,G,A</property>
+										</clade>
+										<clade>
+										<name>7</name>
+										<property datatype="xsd:string" ref="point_mutation:M318" applies_to="parent_branch">Y:21154381,T,C</property>
+										</clade>
+										<clade>
+										<name>8</name>
+										</clade>
+										<clade>
+										<name>9</name>
+										<property datatype="xsd:string" ref="point_mutation:M339" applies_to="parent_branch">Y:2941367,T,G</property>
+										</clade>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:M221" applies_to="parent_branch">Y:13945710,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:M314" applies_to="parent_branch">Y:21162467,A,C</property>
+									<property datatype="xsd:string" ref="point_mutation:M12" applies_to="parent_branch">Y:7643480,G,T</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										</clade>
+										<clade>
+										<name>2</name>
+										<property datatype="xsd:string" ref="point_mutation:M241" applies_to="parent_branch">Y:13527853,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											</clade>
+											<clade>
+											<name>b</name>
+											<property datatype="xsd:string" ref="point_mutation:M280" applies_to="parent_branch">Y:20338150,G,A</property>
+											</clade>
+											<clade>
+											<name>c</name>
+											<property datatype="xsd:string" ref="point_mutation:M321" applies_to="parent_branch">Y:13540272,C,T</property>
+											</clade>
+											<clade>
+											<name>d</name>
+											<property datatype="xsd:string" ref="point_mutation:P84" applies_to="parent_branch">Y:6799767,G,A</property>
+											</clade>
+										</clade>
+									</clade>
+								</clade>
+							</clade>
+						</clade>						<clade>
+						<name>K+</name>
+						<property datatype="xsd:string" ref="point_mutation:P131" applies_to="parent_branch">Y:13982257,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:P128" applies_to="parent_branch">Y:19296941,C,T</property>
+						<property datatype="xsd:string" ref="point_mutation:P132" applies_to="parent_branch">Y:8739843,G,T</property>
+							<clade>
+							<name>K(false)</name>
+								<clade>
+								<name>*</name>
+								</clade>								<clade>
+								<name>1</name>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:P60" applies_to="parent_branch">Y:12994479,T,C</property>
+								</clade>
+								<clade>
+								<name>3</name>
+								<property datatype="xsd:string" ref="point_mutation:P79" applies_to="parent_branch">Y:6800377,A,G</property>
+								</clade>
+								<clade>
+								<name>4</name>
+								<property datatype="xsd:string" ref="point_mutation:P261" applies_to="parent_branch">Y:12502279,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:P263" applies_to="parent_branch">Y:19625357,A,C</property>
+								</clade>
+							</clade>
+							<clade>
+							<name>L</name>
+							<property datatype="xsd:string" ref="point_mutation:M22" applies_to="parent_branch">Y:13299557,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:M185" applies_to="parent_branch">Y:13414253,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:M11" applies_to="parent_branch">Y:20190035,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:M20" applies_to="parent_branch">Y:20192842,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:M61" applies_to="parent_branch">Y:20210837,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:M295" applies_to="parent_branch">Y:21154439,T,C</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:M76" applies_to="parent_branch">Y:20216704,T,G</property>
+								</clade>
+								<clade>
+								<name>2</name>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+									<property datatype="xsd:string" ref="point_mutation:M349" applies_to="parent_branch">Y:2953277,G,T</property>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:M274" applies_to="parent_branch">Y:21147189,C,T</property>
+									</clade>
+								</clade>
+								<clade>
+								<name>3</name>
+								<property datatype="xsd:string" ref="point_mutation:M357" applies_to="parent_branch">Y:2948252,C,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+								<property datatype="xsd:string" ref="point_mutation:PK3" applies_to="parent_branch">Y:21078913,T,C</property>
+								</clade>
+							</clade>
+							<clade>
+							<name>M</name>
+							<property datatype="xsd:string" ref="point_mutation:P256" applies_to="parent_branch">Y:8745230,G,A</property>
+								<clade>
+								<name>*</name>
+								</clade>
+								<clade>
+								<name>1</name>
+								<property datatype="xsd:string" ref="point_mutation:M189" applies_to="parent_branch">Y:13455099,G,T</property>
+								<property datatype="xsd:string" ref="point_mutation:M5=P73" applies_to="parent_branch">Y:20069334,C,T</property>
+								<property datatype="xsd:string" ref="point_mutation:M106" applies_to="parent_branch">Y:20325812,A,G</property>
+								<property datatype="xsd:string" ref="point_mutation:M296" applies_to="parent_branch">Y:21154509,C,T</property>
+								<property datatype="xsd:string" ref="point_mutation:M4" applies_to="parent_branch">Y:2804628,T,C</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>a</name>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+										<property datatype="xsd:string" ref="point_mutation:P51" applies_to="parent_branch">Y:13002050,T,C</property>
+										</clade>
+										<clade>
+										<name>2</name>
+										<property datatype="xsd:string" ref="point_mutation:P94" applies_to="parent_branch">Y:13379075,G,A</property>
+										</clade>
+									</clade>
+									<clade>
+									<name>b</name>
+									<property datatype="xsd:string" ref="point_mutation:P87" applies_to="parent_branch">Y:13529113,A,C</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>1</name>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>a</name>
+											<property datatype="xsd:string" ref="point_mutation:M16" applies_to="parent_branch">Y:20069689,C,A</property>
+											</clade>
+											<clade>
+											<name>b</name>
+											<property datatype="xsd:string" ref="point_mutation:M83" applies_to="parent_branch">Y:20332675,C,T</property>
+											</clade>
+										</clade>
+									</clade>
+								</clade>
+								<clade>
+								<name>2</name>
+								<property datatype="xsd:string" ref="point_mutation:M353" applies_to="parent_branch">Y:15818661,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:M387" applies_to="parent_branch">Y:2800274,T,G</property>
+									<clade>
+									<name>*</name>
+									</clade>
+								<property datatype="xsd:string" ref="point_mutation:SRY9138" applies_to="parent_branch">Y:2718869,G,A</property>
+								</clade>
+								<clade>
+								<name>3</name>
+								<property datatype="xsd:string" ref="point_mutation:P117" applies_to="parent_branch">Y:13329087,G,T</property>
+								</clade>
+							</clade>
+							<clade>
+							<name>NO+</name>
+							<property datatype="xsd:string" ref="point_mutation:M214" applies_to="parent_branch">Y:13981319,T,C</property>
+							<property datatype="xsd:string" ref="point_mutation:P193" applies_to="parent_branch">Y:20673609,T,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P195" applies_to="parent_branch">Y:21074650,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P188" applies_to="parent_branch">Y:22043750,G,A</property>
+								<clade>
+								<name>NO*</name>
+								</clade>								<clade>
+								<name>N</name>
+								<property datatype="xsd:string" ref="point_mutation:M231" applies_to="parent_branch">Y:13979118,G,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										</clade>
+										<clade>
+										<name>b</name>
+										<property datatype="xsd:string" ref="point_mutation:P43" applies_to="parent_branch">Y:20340361,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+										</clade>
+										<clade>
+										<name>c</name>
+										<property datatype="xsd:string" ref="point_mutation:Tat" applies_to="parent_branch">Y:13431977,T,C</property>
+										<property datatype="xsd:string" ref="point_mutation:P105" applies_to="parent_branch">Y:13932356,C,T</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											<property datatype="xsd:string" ref="point_mutation:M178" applies_to="parent_branch">Y:20201143,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>a</name>
+												</clade>
+												<clade>
+												<name>b</name>
+												<property datatype="xsd:string" ref="point_mutation:P67" applies_to="parent_branch">Y:25030358,T,C</property>
+												</clade>
+												<clade>
+												<name>c</name>
+												<property datatype="xsd:string" ref="point_mutation:P119" applies_to="parent_branch">Y:13435650,G,A</property>
+												</clade>
+											</clade>
+										</clade>
+									</clade>
+								</clade>
+								<clade>
+								<name>O</name>
+								<property datatype="xsd:string" ref="point_mutation:P191" applies_to="parent_branch">Y:13924509,A,G</property>
+								<property datatype="xsd:string" ref="point_mutation:P196" applies_to="parent_branch">Y:14263707,C,A</property>
+								<property datatype="xsd:string" ref="point_mutation:P186" applies_to="parent_branch">Y:7628568,C,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										<property datatype="xsd:string" ref="point_mutation:M119" applies_to="parent_branch">Y:20222073,T,G</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											<property datatype="xsd:string" ref="point_mutation:P203" applies_to="parent_branch">Y:21160339,G,A</property>
+												<clade>
+												<name>*</name>
+												</clade>
+											<property datatype="xsd:string" ref="point_mutation:M101" applies_to="parent_branch">Y:20176860,G,A</property>
+											</clade>
+											<clade>
+											<name>2</name>
+											<property datatype="xsd:string" ref="point_mutation:M50" applies_to="parent_branch">Y:20328060,T,C</property>
+											<property datatype="xsd:string" ref="point_mutation:M110" applies_to="parent_branch">Y:20366485,T,C</property>
+											<property datatype="xsd:string" ref="point_mutation:M103" applies_to="parent_branch">Y:20395526,C,T</property>
+											</clade>
+										</clade>
+									</clade>
+									<clade>
+									<name>2</name>
+									<property datatype="xsd:string" ref="point_mutation:P31" applies_to="parent_branch">Y:13005251,T,C</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										<property datatype="xsd:string" ref="point_mutation:M95" applies_to="parent_branch">Y:20397832,C,T</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											<property datatype="xsd:string" ref="point_mutation:M88" applies_to="parent_branch">Y:20360237,A,G</property>
+												<clade>
+												<name>*</name>
+												</clade>
+											</clade>
+										</clade>
+										<clade>
+										<name>b</name>
+										<property datatype="xsd:string" ref="point_mutation:IMS-JST022454" applies_to="parent_branch">Y:22919969,A,C</property>
+										<property datatype="xsd:string" ref="point_mutation:SRY465 =M177" applies_to="parent_branch">Y:2715180,G,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+										</clade>
+									</clade>
+									<clade>
+									<name>3</name>
+									<property datatype="xsd:string" ref="point_mutation:P198" applies_to="parent_branch">Y:15563165,C,T</property>
+									<property datatype="xsd:string" ref="point_mutation:M122" applies_to="parent_branch">Y:20224062,A,G</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										<property datatype="xsd:string" ref="point_mutation:P93" applies_to="parent_branch">Y:13378896,C,T</property>
+										<property datatype="xsd:string" ref="point_mutation:P200" applies_to="parent_branch">Y:17069399,T,G</property>
+										<property datatype="xsd:string" ref="point_mutation:P199" applies_to="parent_branch">Y:17156436,A,G</property>
+										<property datatype="xsd:string" ref="point_mutation:P197" applies_to="parent_branch">Y:17688857,G,T</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											</clade>
+											<clade>
+											<name>2</name>
+											<property datatype="xsd:string" ref="point_mutation:M164" applies_to="parent_branch">Y:20216694,T,C</property>
+											</clade>
+											<clade>
+											<name>3</name>
+											<property datatype="xsd:string" ref="point_mutation:P201=IMSJST021354" applies_to="parent_branch">Y:2888196,T,C</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>a</name>
+												<property datatype="xsd:string" ref="point_mutation:M159" applies_to="parent_branch">Y:20210828,A,C</property>
+												</clade>
+												<clade>
+												<name>b</name>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>1</name>
+													<property datatype="xsd:string" ref="point_mutation:M188" applies_to="parent_branch">Y:13434263,C,T</property>
+													<property datatype="xsd:string" ref="point_mutation:M209" applies_to="parent_branch">Y:14085184,A,G</property>
+													<property datatype="xsd:string" ref="point_mutation:M113" applies_to="parent_branch">Y:20227521,T,C</property>
+														<clade>
+														<name>*</name>
+														</clade>
+														<clade>
+														<name>a</name>
+														</clade>
+														<clade>
+														<name>b</name>
+														</clade>
+													</clade>
+													<clade>
+													<name>2</name>
+													<property datatype="xsd:string" ref="point_mutation:P164" applies_to="parent_branch">Y:12511232,A,G</property>
+													</clade>
+												</clade>
+												<clade>
+												<name>c</name>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>1</name>
+														<clade>
+														<name>*</name>
+														</clade>
+													</clade>
+													<clade>
+													<name>2</name>
+													<property datatype="xsd:string" ref="point_mutation:P101" applies_to="parent_branch">Y:20362006,C,T</property>
+													</clade>
+												</clade>
+											</clade>
+											<clade>
+											<name>4</name>
+											<property datatype="xsd:string" ref="point_mutation:IMS-JST002611" applies_to="parent_branch">Y:7606726,G,A</property>
+												<clade>
+												<name>*</name>
+												</clade>
+											</clade>
+											<clade>
+											<name>5</name>
+											<property datatype="xsd:string" ref="point_mutation:M300" applies_to="parent_branch">Y:21158586,G,A</property>
+											</clade>
+											<clade>
+											<name>6</name>
+											</clade>
+										</clade>
+									</clade>
+								</clade>
+							</clade>
+							<clade>
+							<name>P+</name>
+							<property datatype="xsd:string" ref="point_mutation:P244" applies_to="parent_branch">Y:12943108,G,A</property>
+							<property datatype="xsd:string" ref="point_mutation:P240" applies_to="parent_branch">Y:13108816,T,C</property>
+							<property datatype="xsd:string" ref="point_mutation:P69" applies_to="parent_branch">Y:13435814,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P230" applies_to="parent_branch">Y:15979506,G,A</property>
+							<property datatype="xsd:string" ref="point_mutation:P228" applies_to="parent_branch">Y:16017731,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:P282" applies_to="parent_branch">Y:16538055,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P281" applies_to="parent_branch">Y:17473657,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P235" applies_to="parent_branch">Y:17707606,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:M45" applies_to="parent_branch">Y:20327175,G,A</property>
+							<property datatype="xsd:string" ref="point_mutation:M74=N12" applies_to="parent_branch">Y:20349155,G,A</property>
+							<property datatype="xsd:string" ref="point_mutation:P283" applies_to="parent_branch">Y:20553879,C,T</property>
+							<property datatype="xsd:string" ref="point_mutation:P295" applies_to="parent_branch">Y:8023031,T,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P237" applies_to="parent_branch">Y:8394875,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P207" applies_to="parent_branch">Y:8679538,G,A</property>
+							<property datatype="xsd:string" ref="point_mutation:P243" applies_to="parent_branch">Y:8745083,A,G</property>
+							<property datatype="xsd:string" ref="point_mutation:P226" applies_to="parent_branch">Y:8905380,C,T</property>
+								<clade>
+								<name>P*</name>
+								</clade>								<clade>
+								<name>Q</name>
+								<property datatype="xsd:string" ref="point_mutation:M242" applies_to="parent_branch">Y:13527976,C,T</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+									<property datatype="xsd:string" ref="point_mutation:P36.2" applies_to="parent_branch">Y:13006449,G,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											<property datatype="xsd:string" ref="point_mutation:N14" applies_to="parent_branch">Y:13540044,C,A</property>
+											<property datatype="xsd:string" ref="point_mutation:M120" applies_to="parent_branch">Y:20366782,T,C</property>
+											</clade>
+											<clade>
+											<name>2</name>
+											<property datatype="xsd:string" ref="point_mutation:M143" applies_to="parent_branch">Y:20349206,G,T</property>
+											</clade>
+											<clade>
+											<name>3</name>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>a</name>
+												<property datatype="xsd:string" ref="point_mutation:M3" applies_to="parent_branch">Y:17605757,G,A</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>1</name>
+													</clade>
+													<clade>
+													<name>2</name>
+													<property datatype="xsd:string" ref="point_mutation:M194" applies_to="parent_branch">Y:13523944,T,C</property>
+													</clade>
+													<clade>
+													<name>3</name>
+													<property datatype="xsd:string" ref="point_mutation:P106" applies_to="parent_branch">Y:13932316,C,T</property>
+													</clade>
+												</clade>
+											</clade>
+											<clade>
+											<name>4</name>
+											</clade>
+											<clade>
+											<name>5</name>
+											<property datatype="xsd:string" ref="point_mutation:P89" applies_to="parent_branch">Y:13359859,G,T</property>
+											</clade>
+											<clade>
+											<name>6</name>
+											<property datatype="xsd:string" ref="point_mutation:M323" applies_to="parent_branch">Y:20327106,C,T</property>
+											</clade>
+										</clade>
+										<clade>
+										<name>b</name>
+										<property datatype="xsd:string" ref="point_mutation:M378" applies_to="parent_branch">Y:13536901,A,G</property>
+										</clade>
+									</clade>
+								</clade>
+								<clade>
+								<name>R</name>
+								<property datatype="xsd:string" ref="point_mutation:M207" applies_to="parent_branch">Y:14091377,A,G</property>
+								<property datatype="xsd:string" ref="point_mutation:P224" applies_to="parent_branch">Y:15795387,C,T</property>
+								<property datatype="xsd:string" ref="point_mutation:P285" applies_to="parent_branch">Y:17776738,C,A</property>
+								<property datatype="xsd:string" ref="point_mutation:P280" applies_to="parent_branch">Y:20302478,A,G</property>
+								<property datatype="xsd:string" ref="point_mutation:M306" applies_to="parent_branch">Y:21159971,C,A</property>
+								<property datatype="xsd:string" ref="point_mutation:P232" applies_to="parent_branch">Y:21444520,G,A</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+									<property datatype="xsd:string" ref="point_mutation:P231" applies_to="parent_branch">Y:10599615,A,G</property>
+									<property datatype="xsd:string" ref="point_mutation:M173=P241" applies_to="parent_branch">Y:13535818,A,C</property>
+									<property datatype="xsd:string" ref="point_mutation:P225" applies_to="parent_branch">Y:14099736,G,T</property>
+									<property datatype="xsd:string" ref="point_mutation:P286" applies_to="parent_branch">Y:16225645,C,T</property>
+									<property datatype="xsd:string" ref="point_mutation:P234" applies_to="parent_branch">Y:19577276,T,C</property>
+									<property datatype="xsd:string" ref="point_mutation:P233" applies_to="parent_branch">Y:19625746,T,G</property>
+									<property datatype="xsd:string" ref="point_mutation:P242" applies_to="parent_branch">Y:7707357,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:P238" applies_to="parent_branch">Y:7831131,G,A</property>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										<property datatype="xsd:string" ref="point_mutation:SRY10831.2" applies_to="parent_branch">Y:2717176,C,T</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+											<property datatype="xsd:string" ref="point_mutation:M198" applies_to="parent_branch">Y:13540146,C,T</property>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>a</name>
+												</clade>
+												<clade>
+												<name>b</name>
+												<property datatype="xsd:string" ref="point_mutation:M157" applies_to="parent_branch">Y:20327242,A,C</property>
+												</clade>
+												<clade>
+												<name>c</name>
+												<property datatype="xsd:string" ref="point_mutation:M204" applies_to="parent_branch">Y:14100595,T,G</property>
+												<property datatype="xsd:string" ref="point_mutation:M64.2" applies_to="parent_branch">Y:20362771,A,G</property>
+												<property datatype="xsd:string" ref="point_mutation:M87" applies_to="parent_branch">Y:20365497,T,C</property>
+												</clade>
+												<clade>
+												<name>d</name>
+												<property datatype="xsd:string" ref="point_mutation:P98" applies_to="parent_branch">Y:13395751,C,T</property>
+												</clade>
+												<clade>
+												<name>e</name>
+												<property datatype="xsd:string" ref="point_mutation:PK5" applies_to="parent_branch">Y:21717383,C,T</property>
+												</clade>
+											</clade>
+										</clade>
+										<clade>
+										<name>b</name>
+										<property datatype="xsd:string" ref="point_mutation:M343" applies_to="parent_branch">Y:2947824,C,A</property>
+											<clade>
+											<name>*</name>
+											</clade>
+											<clade>
+											<name>1</name>
+												<clade>
+												<name>*</name>
+												</clade>
+												<clade>
+												<name>a</name>
+												</clade>
+												<clade>
+												<name>b</name>
+												<property datatype="xsd:string" ref="point_mutation:M297" applies_to="parent_branch">Y:17165902,G,C</property>
+													<clade>
+													<name>*</name>
+													</clade>
+													<clade>
+													<name>1</name>
+													</clade>
+													<clade>
+													<name>2</name>
+													<property datatype="xsd:string" ref="point_mutation:M269" applies_to="parent_branch">Y:21148755,T,C</property>
+														<clade>
+														<name>*</name>
+														</clade>
+														<clade>
+														<name>a</name>
+														<property datatype="xsd:string" ref="point_mutation:M37" applies_to="parent_branch">Y:20210939,C,T</property>
+														</clade>
+														<clade>
+														<name>b</name>
+														<property datatype="xsd:string" ref="point_mutation:M65" applies_to="parent_branch">Y:20365653,A,T</property>
+														</clade>
+														<clade>
+														<name>c</name>
+														<property datatype="xsd:string" ref="point_mutation:M153" applies_to="parent_branch">Y:20165748,A,T</property>
+														</clade>
+														<clade>
+														<name>d</name>
+														<property datatype="xsd:string" ref="point_mutation:SRY2627=M167" applies_to="parent_branch">Y:2718271,G,A</property>
+														</clade>
+														<clade>
+														<name>e</name>
+														<property datatype="xsd:string" ref="point_mutation:USP9Y+3636=M222" applies_to="parent_branch">Y:13411808,G,A</property>
+														</clade>
+														<clade>
+														<name>f</name>
+														<property datatype="xsd:string" ref="point_mutation:P66" applies_to="parent_branch">Y:25030321,G,A</property>
+														</clade>
+														<clade>
+														<name>g</name>
+														<property datatype="xsd:string" ref="point_mutation:U106=M405" applies_to="parent_branch">Y:8856078,C,T</property>
+															<clade>
+															<name>*</name>
+															</clade>
+															<clade>
+															<name>1</name>
+															<property datatype="xsd:string" ref="point_mutation:U198=M467" applies_to="parent_branch">Y:15348893,G,A</property>
+															</clade>
+															<clade>
+															<name>2</name>
+															<property datatype="xsd:string" ref="point_mutation:P107" applies_to="parent_branch">Y:13329287,G,A</property>
+															</clade>
+														</clade>
+														<clade>
+														<name>h</name>
+														<property datatype="xsd:string" ref="point_mutation:U152" applies_to="parent_branch">Y:13842543,C,T</property>
+															<clade>
+															<name>*</name>
+															</clade>
+															<clade>
+															<name>1</name>
+															</clade>
+															<clade>
+															<name>2</name>
+															<property datatype="xsd:string" ref="point_mutation:M160" applies_to="parent_branch">Y:20348253,A,C</property>
+															</clade>
+														</clade>
+													</clade>
+												</clade>
+												<clade>
+												<name>c</name>
+												<property datatype="xsd:string" ref="point_mutation:M335" applies_to="parent_branch">Y:13535789,T,A</property>
+												</clade>
+											</clade>
+										</clade>
+									</clade>
+									<clade>
+									<name>2</name>
+									<property datatype="xsd:string" ref="point_mutation:M124" applies_to="parent_branch">Y:20223889,G,A</property>
+									<property datatype="xsd:string" ref="point_mutation:P249" applies_to="parent_branch">Y:8395203,G,A</property>
+									</clade>
+								</clade>
+							</clade>
+								<clade>
+								<name>S</name>
+								<property datatype="xsd:string" ref="point_mutation:P204" applies_to="parent_branch">Y:3605172,G,T</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+										<clade>
+										<name>*</name>
+										</clade>
+										<clade>
+										<name>a</name>
+										<property datatype="xsd:string" ref="point_mutation:P57" applies_to="parent_branch">Y:12997074,T,G</property>
+										</clade>
+										<clade>
+										<name>b</name>
+										<property datatype="xsd:string" ref="point_mutation:P61" applies_to="parent_branch">Y:12992202,G,A</property>
+										</clade>
+										<clade>
+										<name>c</name>
+										<property datatype="xsd:string" ref="point_mutation:P83" applies_to="parent_branch">Y:6799772,G,A</property>
+										</clade>
+										<clade>
+										<name>d</name>
+										<property datatype="xsd:string" ref="point_mutation:M226" applies_to="parent_branch">Y:14100841,C,T</property>
+										</clade>
+									</clade>
+								</clade>
+								<clade>
+								<name>T</name>
+								<property datatype="xsd:string" ref="point_mutation:M184=USP9Y+3178" applies_to="parent_branch">Y:13407557,G,A</property>
+								<property datatype="xsd:string" ref="point_mutation:M70" applies_to="parent_branch">Y:20353269,A,C</property>
+								<property datatype="xsd:string" ref="point_mutation:M272" applies_to="parent_branch">Y:21148163,A,G</property>
+									<clade>
+									<name>*</name>
+									</clade>
+									<clade>
+									<name>1</name>
+									<property datatype="xsd:string" ref="point_mutation:M320" applies_to="parent_branch">Y:13540161,T,G</property>
+									</clade>
+									<clade>
+									<name>2</name>
+									<property datatype="xsd:string" ref="point_mutation:P77" applies_to="parent_branch">Y:13435596,G,A</property>
+									</clade>
+								</clade>
+						</clade>
+					</clade>
+				</clade>
+			</clade>
+		</clade>
+	</clade>
+	</phylogeny>
+</phyloxml>
