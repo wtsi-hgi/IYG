@@ -20,7 +20,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
-CREATE UNIQUE INDEX `barcode` ON `iyg`.`profiles` (`barcode` ASC) ;
+CREATE UNIQUE INDEX `barcode_idx` ON `iyg`.`profiles` (`barcode` ASC) ;
+
+CREATE UNIQUE INDEX `public_id_idx` ON `iyg`.`profiles` (`public_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -39,9 +41,9 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
-CREATE INDEX `rs_id` ON `iyg`.`snps` (`rs_id` ASC) ;
+CREATE INDEX `rs_id_idx` ON `iyg`.`snps` (`rs_id` ASC) ;
 
-CREATE INDEX `snp_id` ON `iyg`.`snps` (`snp_id` ASC) ;
+CREATE INDEX `snp_id_idx` ON `iyg`.`snps` (`snp_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -65,8 +67,6 @@ AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE UNIQUE INDEX `snp_genotype_composite` ON `iyg`.`variants` (`snp_id` ASC, `genotype` ASC) ;
-
-CREATE INDEX `snp_id` ON `iyg`.`variants` (`snp_id` ASC) ;
 
 CREATE INDEX `snp_id_idx` ON `iyg`.`variants` (`snp_id` ASC) ;
 
@@ -135,7 +135,7 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`variants_traits` (
   `variant_id` INT(10) UNSIGNED NOT NULL ,
   `trait_id` INT(10) UNSIGNED NOT NULL ,
   `value` VARCHAR(255) NOT NULL DEFAULT '',
-  `description` TEXT ,
+  `description` MEDIUMTEXT ,
   PRIMARY KEY (`variant_trait_id`) ,
   CONSTRAINT `trait_id`
     FOREIGN KEY (`trait_id` )
@@ -153,11 +153,9 @@ DEFAULT CHARACTER SET = latin1;
 
 CREATE UNIQUE INDEX `variant_trait_composite` ON `iyg`.`variants_traits` (`variant_id` ASC, `trait_id` ASC) ;
 
-CREATE INDEX `variant_id` ON `iyg`.`variants_traits` (`variant_id` ASC) ;
+CREATE INDEX `variant_id_idx` ON `iyg`.`variants_traits` (`variant_id` ASC) ;
 
 CREATE INDEX `trait_id_idx` ON `iyg`.`variants_traits` (`trait_id` ASC) ;
-
-CREATE INDEX `variant_id_idx` ON `iyg`.`variants_traits` (`variant_id` ASC) ;
 
 
 
@@ -170,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `iyg`.`snps_traits` (
   `snp_trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `snp_id` INT(10) UNSIGNED NOT NULL ,
   `trait_id` INT(10) UNSIGNED NOT NULL ,
-  `description` TEXT ,
+  `description` MEDIUMTEXT ,
   PRIMARY KEY (`snp_trait_id`) ,
   CONSTRAINT `snps_traits_trait_id`
     FOREIGN KEY (`trait_id` )
@@ -188,11 +186,45 @@ DEFAULT CHARACTER SET = latin1;
 
 CREATE UNIQUE INDEX `snp_trait_composite` ON `iyg`.`snps_traits` (`snp_id` ASC, `trait_id` ASC) ;
 
-CREATE INDEX `snp_id` ON `iyg`.`snps_traits` (`snp_id` ASC) ;
+CREATE INDEX `snp_id_idx` ON `iyg`.`snps_traits` (`snp_id` ASC) ;
 
 CREATE INDEX `trait_id_idx` ON `iyg`.`snps_traits` (`trait_id` ASC) ;
 
-CREATE INDEX `snp_id_idx` ON `iyg`.`snps_traits` (`snp_id` ASC) ;
+
+ -- -----------------------------------------------------
+ -- Table `iyg`.`profiles_traits`
+ -- -----------------------------------------------------
+ DROP TABLE IF EXISTS `iyg`.`profiles_traits` ;
+ 
+ CREATE TABLE IF NOT EXISTS `iyg`.`profiles_traits` (
+   `profile_trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
+   `profile_id` INT(10) UNSIGNED NOT NULL ,
+   `trait_id` INT(10) UNSIGNED NOT NULL ,
+   `name` VARCHAR(500) ,
+   `data` MEDIUMTEXT ,
+   PRIMARY KEY (`profile_trait_id`) ,
+   CONSTRAINT `profiles_traits_trait_id`
+     FOREIGN KEY (`trait_id` )
+     REFERENCES `iyg`.`traits` (`trait_id` )
+     ON DELETE CASCADE
+     ON UPDATE CASCADE,
+   CONSTRAINT `profiles_traits_profile_id`
+     FOREIGN KEY (`profile_id` )
+     REFERENCES `iyg`.`profiles` (`profile_id` )
+     ON DELETE CASCADE
+     ON UPDATE CASCADE)
+ ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARACTER SET = latin1;
+ 
+ CREATE UNIQUE INDEX `profile_trait_composite` ON `iyg`.`profiles_traits` (`profile_id` ASC, `trait_id` ASC, `name` ASC) ;
+ 
+ CREATE INDEX `profile_id_idx` ON `iyg`.`profiles_traits` (`profile_id` ASC) ;
+ 
+ CREATE INDEX `trait_id_idx` ON `iyg`.`profiles_traits` (`trait_id` ASC) ;
+ 
+ CREATE INDEX `name_idx` ON `iyg`.`profiles_traits` (`name` ASC) ;
+ 
 
 
 
