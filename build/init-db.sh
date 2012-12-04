@@ -1,11 +1,13 @@
 #!/bin/bash
 
 usage="
-Usage: ./build-iyg.sh ~/iyg-private-data/
+Usage: ./init-db.sh ~/iyg-private-data/
 "
 
 IYG_PRIVATE_DATA_DIR="$1"
-IYG_CREATE_DB_SQL="../iyg.sql"
+IYG_DIR=`dirname $0`/../
+
+IYG_CREATE_DB_SQL="${IYG_DIR}/iyg.sql"
 IYG_DB_NAME="iyg"
 
 if [[ -n "${IYG_PRIVATE_DATA_DIR}" ]] && \
@@ -15,7 +17,7 @@ then
 	  -f ${IYG_PRIVATE_DATA_DIR}/mysql-iygadmin.cnf ]] 
     then
         # drop database and re-create
-	echo "DROP SCHEMA ${IYG_DB_NAME};" | mysql --defaults-extra-file=${IYG_PRIVATE_DATA_DIR}/mysql-iygadmin.cnf
+	echo "DROP SCHEMA IF EXISTS ${IYG_DB_NAME};" | mysql --defaults-extra-file=${IYG_PRIVATE_DATA_DIR}/mysql-iygadmin.cnf
 	cat ${IYG_CREATE_DB_SQL} | mysql --defaults-extra-file=${IYG_PRIVATE_DATA_DIR}/mysql-iygadmin.cnf 
     else 
 	echo "Required files do not exist in ${IYG_PRIVATE_DATA_DIR}"

@@ -26,6 +26,7 @@ import random
 import csv
 import argparse
 import re
+import collections
 
 class Delimited_text_header:
     """Process header line of TSV/CSV delimited text file"""
@@ -72,7 +73,7 @@ class Data_Loader:
         parameters and prompts for the password."""
         password = raw_input("Password: ")
         try:
-            return MySQLdb.connect(
+            db = MySQLdb.connect(
                 user=user,
                 passwd=password,
                 host=host,
@@ -82,12 +83,14 @@ class Data_Loader:
             print "[FAIL]\tUnable to Establish Database Connection"
             print "\tError %d: %s" % (e.args[0], e.args[1])
             exit(0)
+        print "\n[_DB_]\tDatabase connection established"
+        return db
 
     def import_main(self, args):
         """Open file handlers and calls functions in the required order to 
         import the data to the IYG database"""
 
-        if(args.purge_all is not None):
+        if(args.purge_all):
             self.purge_db()
 
         if(args.barcodes_file is not None):
@@ -106,10 +109,21 @@ class Data_Loader:
             snp_trait_genotype_effect = open(args.snp_trait_genotype_effect_file, 'r')
             self.import_snp_trait_genotype_effect(snp_trait_genotype_effect)
 
+        if(args.trait_description_fofn is not None):
+            trait_descriptions = open(args.trait_description_fofn, 'r')
+            self.import_trait_descriptions(trait_descriptions)
+
+        if(args.trait_snp_description_fofn is not None):
+            trait_snp_descriptions = open(args.trait_snp_description_fofn, 'r')
+            self.import_trait_snp_descriptions(trait_snp_descriptions)
+
         if(args.results_file is not None):
             results_map = open(args.results_file + '.map', 'r')
             results_ped = open(args.results_file + '.ped', 'r')
             self.import_results_ped(results_map, results_ped)
+
+        if(args.update_popfreqs):
+            self.update_popfreqs()
 
         self.cur.close()
         self.db.close()
@@ -117,33 +131,11 @@ class Data_Loader:
     ###############################################################################
     # database query methods
     ###############################################################################
-#    def get_snps(self):
-#        columns = [ "snp_id", "rs_id", "name", "description", "ploidy" ]
-#        try:
-#            self.cur.execute(
-#                "SELECT "
-#                ', '.join(columns)
-#                "FROM `snps`", ())
-#            res = self.cur.fetchall()
-#        except MySQLdb.Error, e:
-#                print "[WARN]\tget_snps query failed"
-#                print "\tError %d: %s" % (e.args[0], e.args[1])
-#                return None
-#        ret = {}
-#        rowi = 0
-#        for row in ret:
-#            coli = 0
-#            rs_id = res[rowi][1]; # rs_id index stupidly hardcoded to order in columns above
-#            for column in columns:
-#                ret[rsid][column] = res[coli]
-#                coli++
-#        return ret
-        
     def get_profile_dbid(self, barcode):
         try:
             self.cur.execute(
                 "SELECT `profile_id` FROM `profiles` WHERE `barcode` = %s",
-                (barcode))
+                (barcode,))
             res = self.cur.fetchall()
         except MySQLdb.Error, e:
                 print "[WARN]\tProfile dbid query failed for profile %s" % barcode
@@ -160,11 +152,12 @@ class Data_Loader:
 
         return res[0][0]
 
+
     def get_trait_dbid(self, trait_short_name):
         try:
             self.cur.execute(
                 "SELECT `trait_id` FROM `traits` WHERE `short_name` = %s",
-                (trait_short_name))
+                (trait_short_name,))
             res = self.cur.fetchall()
 
             if len(res) > 1:
@@ -181,6 +174,30 @@ class Data_Loader:
                 return None
 
         return res[0][0]
+
+
+    def get_snp_dbid(self, rs_id):
+        try:
+            self.cur.execute(
+                "SELECT `snp_id` FROM `snps` WHERE `rs_id` = %s",
+                (rs_id,))
+            res = self.cur.fetchall()
+
+            if len(res) > 1:
+                print "[WARN]\tCould not get unique dbid for snp %s" % (rs_id)
+                return None
+
+            elif len(res) < 1:
+                print "[WARN]\tCould not find any dbids for snp %s" % (rs_id)
+                return None
+
+        except MySQLdb.Error, e:
+                print "[WARN]\tSNP dbid query failed for snp %s" % rs_id
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return res[0][0]
+
 
     def get_variant_dbid(self, rsid, diploid_genotype):
         haploid_genotype = diploid_genotype
@@ -210,6 +227,20 @@ class Data_Loader:
 
         return res[0][0]
 
+
+    def get_snp_dbids(self):
+        try:
+            self.cur.execute(
+                "SELECT `snp_id` FROM `snps`")
+            res = self.cur.fetchall()
+        except MySQLdb.Error, e:
+                print "[WARN]\tSNP dbid query failed for snp %s" % rs_id
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return [x[0] for x in res]
+
+
     def purge_db(self):
         """Purge the current data from the database"""
         print "[_DB_]\tPurging Existing Records before New Import"
@@ -223,6 +254,7 @@ class Data_Loader:
             print "[FAIL]\tUnable to purge current records before new import"
             print "\tError %d: %s" % (e.args[0], e.args[1])
             exit(0)
+
 
     def import_profiles(self, barcodes):
         """Process the list of barcodes, inserting a new profile row in the
@@ -252,8 +284,6 @@ class Data_Loader:
 
         barcodes.close()
 
-
-        
 
     def import_snp_info(self, snp_info):
         """Process the SNP data file, inserting SNP and Variant rows to the
@@ -325,7 +355,6 @@ class Data_Loader:
             # TraitName       ShortName       Desc    Pred    Units   Mean    SD      Type
             name = header.index_list(fields,"TraitName")
             short_name = header.index_list(fields,"ShortName")
-            description = header.index_list(fields,"Desc")
             predictability = header.index_list(fields,"Pred")
             units = header.index_list(fields,"Units")
             mean = header.index_list(fields,"Mean")
@@ -343,9 +372,9 @@ class Data_Loader:
 
             try:
                 self.cur.execute(
-                    "INSERT INTO traits (name, description, predictability, active_flag, handler, "
-                    "short_name, units, mean, sd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
-                    (name, description, predictability, 1, handler, short_name, units, mean, sd))
+                    "INSERT INTO traits (name, predictability, active_flag, handler, "
+                    "short_name, units, mean, sd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    (name, predictability, 1, handler, short_name, units, mean, sd))
                 self.db.commit()
                 current_trait_dbid = self.cur.lastrowid
 
@@ -357,6 +386,95 @@ class Data_Loader:
         trait_info.close()
 
 
+    def import_trait_descriptions(self, trait_descriptions):
+        """Process the Trait Descriptions FOFN, adding contents of HTML file for each Trait to the database"""
+        print "[READ]\tImporting Trait Descriptions"
+
+        short_name_re = re.compile('^.*?([^\/]+)\.html$')
+        for trait_description_file in trait_descriptions:
+            trait_description_file = trait_description_file.strip()
+
+            m = short_name_re.match(trait_description_file)
+            if m is None:
+                print "[FAIL]\timport_trait_descriptions: regex did not match for trait_description_file %s" % trait_description_file
+                continue
+
+            short_name = m.group(1)
+            if short_name is None:
+                print "[FAIL]\timport_trait_descriptions: could not get short_name for trait_description_file %s" % trait_description_file
+                continue
+
+            trait_id = self.get_trait_dbid(short_name)
+            if trait_id is None:
+                print "[FAIL]\timport_trait_descriptions: could not get trait_id for short_name %s" % short_name
+                continue
+
+            trait_description = open(trait_description_file, 'r')
+            trait_description_html = trait_description.read()
+            try:
+                self.cur.execute(
+                    "UPDATE traits SET description = %s WHERE trait_id = %s", 
+                    (trait_description_html, trait_id))
+                self.db.commit()
+                
+            except MySQLdb.Error, e:
+                print "[FAIL]\tTrait '%s' not added to database" % name
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            trait_description.close()
+        trait_descriptions.close()
+
+
+
+    def import_trait_snp_descriptions(self, trait_snp_descriptions):
+        """Process the Trait-SNP Descriptions FOFN, adding contents of HTML file for each Trait-SNP to the database"""
+        print "[READ]\tImporting Trait-SNP Descriptions"
+
+        short_name_re = re.compile('^.*?([^\/]+)\_([^\/]+)\.html$')
+        for trait_snp_description_file in trait_snp_descriptions:
+            trait_snp_description_file = trait_snp_description_file.strip()
+
+            m = short_name_re.match(trait_snp_description_file)
+            if m is None:
+                print "[FAIL]\timport_trait_snp_descriptions: regex did not match for trait_snp_description_file %s" % trait_snp_description_file
+                continue
+
+            short_name = m.group(1)
+            if short_name is None:
+                print "[FAIL]\timport_trait_snp_descriptions: could not get short_name for trait_snp_description_file %s" % trait_snp_description_file
+                continue
+
+            rs_id = m.group(2)
+            if rs_id is None:
+                print "[FAIL]\timport_trait_snp_descriptions: could not get rs_id for trait_snp_description_file %s" % trait_snp_description_file
+                continue
+
+            trait_dbid = self.get_trait_dbid(short_name)
+            if trait_dbid is None:
+                print "[FAIL]\timport_trait_snp_descriptions: could not get trait_dbid for short_name %s" % short_name
+                continue
+
+            snp_dbid = self.get_snp_dbid(rs_id)
+            if snp_dbid is None:
+                print "[FAIL]\timport_trait_snp_descriptions: could not get snp_dbid for rs_id %s" % rs_id
+                continue
+
+            trait_snp_description = open(trait_snp_description_file, 'r')
+            trait_snp_description_html = trait_snp_description.read()
+            try:
+                self.cur.execute(
+                    "UPDATE snps_traits SET description = %s WHERE trait_id = %s AND snp_id = %s", 
+                    (trait_snp_description_html, trait_dbid, snp_dbid))
+                self.db.commit()
+                
+            except MySQLdb.Error, e:
+                print "[FAIL]\tTrait '%s' not added to database" % short_name
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            trait_snp_description.close()
+        trait_snp_descriptions.close()
+
+
     def import_snp_trait_genotype_effect(self, snp_trait_genotype_effect):
         """Process the SNP-trait-genotype-effect file, inserting rows to the
         database for each SNP-trait and trio of genotypes"""
@@ -364,6 +482,7 @@ class Data_Loader:
 
         header = Delimited_text_header(snp_trait_genotype_effect, "\t")
 
+        snp_dbid_trait_dbid = collections.defaultdict(dict)
         seen = []
         for line in snp_trait_genotype_effect:
             fields = line.strip().split("\t")
@@ -378,8 +497,11 @@ class Data_Loader:
  
             genotype = ''.join(sorted(genotype))
 
+            snp_dbid = self.get_snp_dbid(rsid)
             variant_dbid = self.get_variant_dbid(rsid, genotype)
             trait_dbid = self.get_trait_dbid(trait_sn)
+
+            snp_dbid_trait_dbid[snp_dbid][trait_dbid] = 1
 
             if (not trait_dbid) or (not variant_dbid):
                 # Skip this record if the current trait or SNP are not set
@@ -398,13 +520,27 @@ class Data_Loader:
                 print "\tError %d: %s" % (e.args[0], e.args[1])
                 
         snp_trait_genotype_effect.close()
-                
+        
+        for snp_dbid in snp_dbid_trait_dbid.keys():
+            for trait_dbid in snp_dbid_trait_dbid[snp_dbid].keys():
+                try:
+                    self.cur.execute(
+                        "INSERT INTO snps_traits (snp_id, trait_id)"
+                        "VALUES (%s, %s)",
+                        (snp_dbid, trait_dbid))
+                    self.db.commit()
+                except MySQLdb.Error, e:
+                    print ("[FAIL]\tSNP-Variant for Trait '%s', SNP %s "
+                           "not added to database" % 
+                           (trait_sn, snp_dbid))
+                    print "\tError %d: %s" % (e.args[0], e.args[1])
+
+
 
     def import_results_ped(self, results_map, results_ped):
         """Process the PED/MAP, adding a new result record for each SNP-sample with a valid call"""
         print "[READ]\tImporting Results File (PED/MAP)"
         
-        popcounts = {} # Store counts for each detected variant
         errors = { # Used to suppress repeating errors
             'snps': [],
             'barcodes': [],
@@ -450,18 +586,11 @@ class Data_Loader:
                            % (call, current_snp_rs))
                     continue
                 
-                # Update the count for this variant
-                # TODO: this should be moved to after the import!
-                #if variant_dbid not in popcounts:
-                #    popcounts[variant_dbid] = 1
-                #else:
-                #    popcounts[variant_dbid] += 1
-              
                 valuesTuples.append((profile_dbid, variant_dbid)) 
           
             lineno += 1
         
-        print "about to insert %d valuesTuples" % (len(valuesTuples))
+        print "[INFO]\tInserting %d records into results table." % (len(valuesTuples))
         try:
             query = "INSERT INTO results (profile_id, variant_id, confidence) VALUES (%s, %s, 100)"
             self.cur.executemany(query, valuesTuples)   
@@ -471,30 +600,41 @@ class Data_Loader:
             print "\tError %d: %s" % (e.args[0], e.args[1])
                
         results_ped.close()
-        #self.update_popfreqs(popcounts)
 
 
-#    def update_popfreqs(self, popcounts):
-#        """Using the counters from the results import, calculate the population
-#        frequency for each variant at each SNP site and update the database"""
-#
-#        snps = self.get_snps()
-#
-#        for snp in snps:
-#            snp_variants = dict(((k,popcounts[k]) for k in snp['genotype'].values() if k in popcounts))
-#            total = sum(snp_variants.values())
-#
-#            for v in snp_variants:
-#                current_freq = (float(snp_variants[v])/float(total)) * 100
-#                try:
-#                    self.cur.execute(
-#                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
-#                        (round(current_freq, 4), v))
-#                    self.db.commit()
-#                except MySQLdb.Error, e:
-#                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
-#                        " with DBID %s was not updated" % (snp, v))
-#                    print "\tError %d: %s" % (e.args[0], e.args[1])
+    def update_popfreqs(self):
+        """Using the counters from the results import, calculate the population
+        frequency for each variant at each SNP site and update the database"""
+
+        snp_dbids = self.get_snp_dbids()
+
+        for snp_dbid in snp_dbids:
+            try:
+                self.cur.execute(
+                    "select v.`variant_id`, "
+                    "count(v.`genotype`) / "
+                    "(select count(r.`profile_id`) from results as r join variants as v on v.`variant_id` = r.`variant_id` where v.`snp_id` = %s) "
+                    "from results as r "
+                    "join variants as v on v.`variant_id` = r.`variant_id` "
+                    "where v.`snp_id` = %s group by v.`genotype`",
+                    (snp_dbid, snp_dbid))
+                res = self.cur.fetchall()
+            except MySQLdb.Error, e:
+                print "[WARN]\tSNP genotype frequency query failed for snp %s" % snp_dbid
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            for vid_freq in res:
+                vid = vid_freq[0]
+                freq = vid_freq[1] * 100
+                try:
+                    self.cur.execute(
+                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
+                        (round(freq, 4), vid))
+                    self.db.commit()
+                except MySQLdb.Error, e:
+                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
+                        " with DBID %s was not updated" % (snp_dbid, vid))
+                    print "\tError %d: %s" % (e.args[0], e.args[1])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
@@ -516,6 +656,9 @@ if __name__ == "__main__":
     parser.add_argument('--purge-all', dest="purge_all", action='store_true',
         help=("Purge all data from database before starting."))
 
+    parser.add_argument('--update-popfreqs', dest="update_popfreqs", action='store_true',
+        help=("Update genotype frequencies for population."))
+
     # optional files from which to import (if none are specified, nothing is done)
 
     ## you need a barcodes file loaded first which will limit samples to those listed
@@ -529,6 +672,12 @@ if __name__ == "__main__":
         help=("SNP Info File"))
     parser.add_argument('--snp-trait-genotype-effect-file', metavar="snp_trait_genotype_effect_file", dest="snp_trait_genotype_effect_file",
         help=("SNP-Trait-Genotype-Effect File"))
+
+    ## and description html files (each one in a separate file which are listed in a File Of File Names (FOFN)
+    parser.add_argument('--trait-description-fofn', metavar="trait_description_fofn", dest="trait_description_fofn",
+        help=("File Of File Names (FOFN) giving the path to an HTML file for each of the trait descriptions"))
+    parser.add_argument('--trait-snp-description-fofn', metavar="trait_snp_description_fofn", dest="trait_snp_description_fofn",
+        help=("File Of File Names (FOFN) giving the path to an HTML file for each of the trait-SNP descriptions"))
 
     ## finally, you need to load the results either from a CSV or PED/MAP
     parser.add_argument('--results-file', metavar="results_file", dest="results_file",
