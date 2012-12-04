@@ -74,7 +74,7 @@ p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.
 R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca <${IYG_DIR}/analyse/pca/doPCA.R
 
 #make plots
-R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/worldpca.txt ${PRED_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
+R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
 
 ##########################
 #7. generate MT predictions

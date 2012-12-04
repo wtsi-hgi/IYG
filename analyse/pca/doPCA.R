@@ -1,10 +1,10 @@
 #usage: doPCA.R --args indir pubdatadir
 args <- commandArgs(trailingOnly = TRUE)
 
-library(snpMatrix)
+library(snpStats)
 
 # read in a merge ped file with 1KG and IYG individuals in
-dat <- read.plink(paste(args[1],"/",'1KG_IYG_merged',sep=""))
+dat <- read.plink(paste(args[1],"/",'1KG_IYG_merged',sep=""))$genotypes
 
 # read in populations
 pops <- read.table(paste(args[2],"/",'./1KG_pops.txt',sep=""),sep="\t",header=T)
