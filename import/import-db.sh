@@ -26,7 +26,8 @@ then
 	    --snp-trait-genotype-effect-file ${IYG_PUBLIC_DATA_DIR}/master-snp-trait-genotype-effect.txt \
 	    --trait-description-fofn ${IYG_PUBLIC_DATA_DIR}/desc/trait_descriptions.fofn \
 	    --trait-snp-description-fofn ${IYG_PUBLIC_DATA_DIR}/desc/trait_snp_descriptions.fofn \
-	    --results-file ${IYG_PRIVATE_DATA_DIR}/iyg
+	    --results-file ${IYG_PRIVATE_DATA_DIR}/iyg \
+	    --update-popfreqs
     else 
 	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
 	exit 2

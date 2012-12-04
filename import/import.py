@@ -90,7 +90,7 @@ class Data_Loader:
         """Open file handlers and calls functions in the required order to 
         import the data to the IYG database"""
 
-        if(args.purge_all is not None):
+        if(args.purge_all):
             self.purge_db()
 
         if(args.barcodes_file is not None):
@@ -122,34 +122,15 @@ class Data_Loader:
             results_ped = open(args.results_file + '.ped', 'r')
             self.import_results_ped(results_map, results_ped)
 
+        if(args.update_popfreqs):
+            self.update_popfreqs()
+
         self.cur.close()
         self.db.close()
 
     ###############################################################################
     # database query methods
     ###############################################################################
-#    def get_snps(self):
-#        columns = [ "snp_id", "rs_id", "name", "description", "ploidy" ]
-#        try:
-#            self.cur.execute(
-#                "SELECT "
-#                ', '.join(columns)
-#                "FROM `snps`", ())
-#            res = self.cur.fetchall()
-#        except MySQLdb.Error, e:
-#                print "[WARN]\tget_snps query failed"
-#                print "\tError %d: %s" % (e.args[0], e.args[1])
-#                return None
-#        ret = {}
-#        rowi = 0
-#        for row in ret:
-#            coli = 0
-#            rs_id = res[rowi][1]; # rs_id index stupidly hardcoded to order in columns above
-#            for column in columns:
-#                ret[rsid][column] = res[coli]
-#                coli++
-#        return ret
-        
     def get_profile_dbid(self, barcode):
         try:
             self.cur.execute(
@@ -245,6 +226,19 @@ class Data_Loader:
                 return None
 
         return res[0][0]
+
+
+    def get_snp_dbids(self):
+        try:
+            self.cur.execute(
+                "SELECT `snp_id` FROM `snps`")
+            res = self.cur.fetchall()
+        except MySQLdb.Error, e:
+                print "[WARN]\tSNP dbid query failed for snp %s" % rs_id
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+                return None
+
+        return [x[0] for x in res]
 
 
     def purge_db(self):
@@ -547,7 +541,6 @@ class Data_Loader:
         """Process the PED/MAP, adding a new result record for each SNP-sample with a valid call"""
         print "[READ]\tImporting Results File (PED/MAP)"
         
-        popcounts = {} # Store counts for each detected variant
         errors = { # Used to suppress repeating errors
             'snps': [],
             'barcodes': [],
@@ -593,13 +586,6 @@ class Data_Loader:
                            % (call, current_snp_rs))
                     continue
                 
-                # Update the count for this variant
-                # TODO: this should be moved to after the import!
-                #if variant_dbid not in popcounts:
-                #    popcounts[variant_dbid] = 1
-                #else:
-                #    popcounts[variant_dbid] += 1
-              
                 valuesTuples.append((profile_dbid, variant_dbid)) 
           
             lineno += 1
@@ -614,30 +600,41 @@ class Data_Loader:
             print "\tError %d: %s" % (e.args[0], e.args[1])
                
         results_ped.close()
-        #self.update_popfreqs(popcounts)
 
 
-#    def update_popfreqs(self, popcounts):
-#        """Using the counters from the results import, calculate the population
-#        frequency for each variant at each SNP site and update the database"""
-#
-#        snps = self.get_snps()
-#
-#        for snp in snps:
-#            snp_variants = dict(((k,popcounts[k]) for k in snp['genotype'].values() if k in popcounts))
-#            total = sum(snp_variants.values())
-#
-#            for v in snp_variants:
-#                current_freq = (float(snp_variants[v])/float(total)) * 100
-#                try:
-#                    self.cur.execute(
-#                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
-#                        (round(current_freq, 4), v))
-#                    self.db.commit()
-#                except MySQLdb.Error, e:
-#                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
-#                        " with DBID %s was not updated" % (snp, v))
-#                    print "\tError %d: %s" % (e.args[0], e.args[1])
+    def update_popfreqs(self):
+        """Using the counters from the results import, calculate the population
+        frequency for each variant at each SNP site and update the database"""
+
+        snp_dbids = self.get_snp_dbids()
+
+        for snp_dbid in snp_dbids:
+            try:
+                self.cur.execute(
+                    "select v.`variant_id`, "
+                    "count(v.`genotype`) / "
+                    "(select count(r.`profile_id`) from results as r join variants as v on v.`variant_id` = r.`variant_id` where v.`snp_id` = %s) "
+                    "from results as r "
+                    "join variants as v on v.`variant_id` = r.`variant_id` "
+                    "where v.`snp_id` = %s group by v.`genotype`",
+                    (snp_dbid, snp_dbid))
+                res = self.cur.fetchall()
+            except MySQLdb.Error, e:
+                print "[WARN]\tSNP genotype frequency query failed for snp %s" % snp_dbid
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+
+            for vid_freq in res:
+                vid = vid_freq[0]
+                freq = vid_freq[1] * 100
+                try:
+                    self.cur.execute(
+                        "UPDATE variants SET popfreq = %s WHERE variant_id = %s",
+                        (round(freq, 4), vid))
+                    self.db.commit()
+                except MySQLdb.Error, e:
+                    print ("[FAIL]\tPopulation frequency for variant at SNP %s"
+                        " with DBID %s was not updated" % (snp_dbid, vid))
+                    print "\tError %d: %s" % (e.args[0], e.args[1])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
@@ -658,6 +655,9 @@ if __name__ == "__main__":
     # optional options
     parser.add_argument('--purge-all', dest="purge_all", action='store_true',
         help=("Purge all data from database before starting."))
+
+    parser.add_argument('--update-popfreqs', dest="update_popfreqs", action='store_true',
+        help=("Update genotype frequencies for population."))
 
     # optional files from which to import (if none are specified, nothing is done)
 
