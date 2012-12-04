@@ -1,13 +1,13 @@
 <div class="trait">
     <div class="snp-header">
-        <h3># <TMPL_VAR NAME="RS_ID"></h3>
+        <h3><TMPL_VAR NAME="RS_ID"></h3>
     </div>
     <div class="accordion-inner">
 <!--        <div id="populationBar<TMPL_VAR NAME=COUNT>" class="populationBar"><span id="populationBarValue<TMPL_VAR NAME=COUNT>" value="<TMPL_VAR NAME=PERCENT>" class="populationBarValue"></span></div> -->
         <br />
         <div class="row-fluid">
             <div class="span6">
-                <div class="well"><TMPL_VAR NAME=DESCRIPTION></div>
+                <div class="well"><TMPL_VAR NAME=DESCRIPTION><br><a target="iyg_ensembl" href="http://www.ensembl.org/Homo_sapiens/Location/View?db=core;source=dbSNP;vdb=variation;v=<TMPL_VAR NAME=RS_ID>"><TMPL_VAR NAME=RS_ID> in Ensembl</a></div>
             </div>                                             
             <div class="span6 pull-right">
                 <table class="table">
