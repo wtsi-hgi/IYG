@@ -45,8 +45,7 @@ fi
 (cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo)
 ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRIV_DATA_DIR}/abo-matic.txt
 
-
-#MANUAL: analyse/abo/abo-avg.pl can be used in looking at dirty intensities
+#MANUAL/OPTIONAL: analyse/abo/abo-avg.pl can be used in looking at dirty intensities
 #generate abo predictions using abo-matic.pl
 
 #4. generate sex predictions
@@ -54,13 +53,15 @@ ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRIV_DATA_DIR}/
 #MANUAL: use analyse/sex/sexer.R to produce sex assignments as sexpred.txt
 
 #5. generate Y predictions
-
+#NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
 
 #6. generate PCA predictions
 #MANUAL: create worldpca.txt
-#run analyse/pca/plotPCA.R
+#TODO Note, fix dirs to correspond to launch??
+R --no-restore --no-save --args ../pca/worldpca.txt ${PRIV_DATA_DIR}/pca/ <analyse/pca/plotPCA.R
 
 #7. generate MT predictions
+#NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
 
 #8. generate QT predictions
 #in directory with mangroveinput.ped, mangroveinput.map, *.grovebeta
