@@ -62,10 +62,32 @@ ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRED_DATA_DIR}/
 
 ##########################
 #5. generate Y predictions
+YFIT_DIR=${IYG_DIR}/analyse/tree/Yfitter
+mkdir ${PRED_DATA_DIR}/Y/
+# extract Y chromosome and convert to qcall format
+p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${PRED_DATA_DIR}/Y/out
+${YFIT_DIR}/tped2qcall.py out > out.qcall
+
+# do the haplogrouping
+${YFIT_DIR}/Yfitter -m -q 1 ${YFIT_DIR}/karafet_tree_b37.xml ${PRED_DATA_DIR}/Y/out.qcall > ${PRED_DATA_DIR}/Y/out.yfit
+
+# name the haplogroups
+awk 'NF < 5' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,$3}' > ${PRED_DATA_DIR}/Y/out.haps
+awk 'NF == 10' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"BDE"}' >> ${PRED_DATA_DIR}/Y/out.haps
+awk 'NF == 28' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig1"}' >> ${PRED_DATA_DIR}/Y/out.haps
+awk 'NF != 10 && NF != 28 && NF > 5 && NF <= 32' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Ambig2"}' >> ${PRED_DATA_DIR}/Y/out.haps
+awk 'NF > 32' ${PRED_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${PRED_DATA_DIR}/Y/out.haps
+
+#add HTML
+${YFIT_DIR}/addText.py ${PUB_DATA}/tree/Ychromtext.txt ${PRED_DATA_DIR}/Y/out.haps | sort -k1,1n > ${PRED_DATA_DIR}/Y/Youtput.txt
+
+
+##########################
+#6. generate MT predictions
 #NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
 
 ##########################
-#6. generate PCA predictions
+#7. generate PCA predictions
 mkdir ${PRED_DATA_DIR}/AIM/
 #create merged file for PCA
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${PRED_DATA_DIR}/AIM/1KG_IYG_merged --make-bed
@@ -75,10 +97,6 @@ R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca <${IYG_
 
 #make plots
 R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
-
-##########################
-#7. generate MT predictions
-#NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
 
 ##########################
 #8. generate QT predictions
