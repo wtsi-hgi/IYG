@@ -84,35 +84,32 @@ R --no-restore --no-save --args ${PRED_DATA_DIR}/AIM/PCA_worldwide.txt ${PRED_DA
 #8. generate QT predictions
 #in directory with mangroveinput.ped, mangroveinput.map, *.grovebeta
 #Standard QTs
+#Note: ones with few SNPs kind of suck!!
+mkdir ${PRED_DATA_DIR}/BALD/
+R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/BMI/ 
-R --no-restore --no-save --args BMI <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args BMI ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/BP/
-R --no-restore --no-save --args BP <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args BP ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir ${PRED_DATA_DIR}/CAFE/
+R --no-restore --no-save --args CAFE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
+mkdir ${PRED_DATA_DIR}/EYE/
+R --no-restore --no-save --args EYE ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/FPG/
-R --no-restore --no-save --args FPG <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args FPG ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/HDLC/
-R --no-restore --no-save --args HDLC <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args HDLC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/MPV/
-R --no-restore --no-save --args MPV <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args MPV ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/SMOK/ 
-R --no-restore --no-save --args SMOK <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args SMOK ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/TC/
-R --no-restore --no-save --args TC <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args TC ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 mkdir ${PRED_DATA_DIR}/WHR/
-R --no-restore --no-save --args WHR <${IYG_DIR}/analyse/qt/mangrove-it.R
-
-#this kind of sucks
-mkdir ${PRED_DATA_DIR}/BALD 
-R --no-restore --no-save --args BALD <${IYG_DIR}/analyse/qt/mangrove-it.R
+R --no-restore --no-save --args WHR ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${PRED_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R
 
 mkdir ${PRED_DATA_DIR}/NEAND 
 ##still broken
-R --no-restore --no-save --args NEAND <${IYG_DIR}/analyse/qt/mangrove-it.R
-
-#Special QTs, this is sloppy.
-mkdir ${PRED_DATA_DIR}/CAFE 
-R --no-restore --no-save <${IYG_DIR}/analyse/qt/mangrove-it-CAFE.R
-mkdir ${PRED_DATA_DIR}/EYE 
-R --no-restore --no-save <${IYG_DIR}/analyse/qt/mangrove-it-EYE.R
+#R --no-restore --no-save --args NEAND <${IYG_DIR}/analyse/qt/mangrove-it.R
 
 
