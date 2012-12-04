@@ -86,7 +86,7 @@ else{
         # Load the variant info template and pass the parameters for display.
         print $app->page->render({
             prepath => "../",
-            template => "results/default",
+            template => "results/PCA",
             params => {
                 TITLE => "View Trait",
                 TRAIT_NAME => $traitResult->{'trait_name'},
