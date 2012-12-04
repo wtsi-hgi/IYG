@@ -21,7 +21,7 @@ cols[popn %in% asia] <- "blue"
 cols[popn %in% america] <- "orange"
 
 ## make the all-sample PCA
-svg(paste(args[2],"/","all-iyg-pca.svg",sep=""))
+svg(paste(args[2],"/","all-iyg-pca.svg",sep=""),bg="transparent")
 par(mar=c(0,0,0,0))
 plot(a[,2],a[,3],col=cols,pch=20,axes=F,xlab="",ylab="",cex=2)
 legend(4,9,text.font=c(1,1,1,1,3,1),legend=c("Africans","Europeans","East Asians","Central Americans","Inside Your Genome","participants"),pch=20,col=c("red","green","blue","orange","grey",NA),cex=1.5,pt.cex=2,bty="n")
@@ -59,7 +59,7 @@ makePCA <- function(you){
 ## make all per-individual plots
 for (sam in a[popn == "IYG",1]){
 	print(sam)
-	svg(paste(args[2],"/",sam,".svg",sep=""))
+	svg(paste(args[2],"/",sam,".svg",sep=""),bg="transparent")
 	par(mar=c(0,0,0,0))
 	makePCA(sam)
 	dev.off()
