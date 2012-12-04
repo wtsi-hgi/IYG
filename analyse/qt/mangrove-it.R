@@ -131,7 +131,7 @@ write.table(output,file=paste(outdir,"/",thistrait,"-grove.out",sep=""),quote=F,
 
 for (i in 1:length(predictions)){
 	print(names(predictions)[i])
-	svg(paste(outdir,"/",names(predictions)[i],".bh.",thistrait,".svg",sep=""),bg="transparent")
+	svg(paste(outdir,"/IYGHIST/",names(predictions)[i],".svg",sep=""),bg="transparent")
 	if (thistrait == "EYE"){
 		hist(predictions,breaks=40,axes=F,xlab="",ylab="",main="",col=colors)
 	}else{
@@ -140,7 +140,7 @@ for (i in 1:length(predictions)){
 	abline(v=predictions[i],lty=2,col=2,lwd=2)
 	dev.off()
 	if (!is.na(popmean)){	
-		svg(paste(outdir,"/",names(absolutepreds)[i],".ab.",thistrait,".svg",sep=""),bg="transparent")
+		svg(paste(outdir,"/POPDIST/",names(absolutepreds)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepreds[i],popsd-sqrt(varexpl))
 		plot(popx,popy,type="l",bty="n",yaxt="n",ylab="",
 		xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(popy)),lwd=2)
@@ -148,7 +148,7 @@ for (i in 1:length(predictions)){
 		dev.off()
 	}
 	if (thistrait == "CAFE"){
-		svg(paste(outdir,"/",names(absolutepredsUK)[i],".ab.",thistrait,".svg",sep=""),bg="transparent")
+		svg(paste(outdir,"/POPDIST/",names(absolutepredsUK)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepredsUK[i],UKsd-sqrt(UKvarexpl))
 		plot(popx,UKy,type="l",bty="n",yaxt="n",ylab="",
 			xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(UKy)),lwd=2)
