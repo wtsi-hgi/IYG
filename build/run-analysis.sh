@@ -57,8 +57,7 @@ ${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${PRIV_DATA_DIR}/
 
 #6. generate PCA predictions
 #MANUAL: create worldpca.txt
-#TODO Note, fix dirs to correspond to launch??
-R --no-restore --no-save --args ../pca/worldpca.txt ${PRIV_DATA_DIR}/pca/ <analyse/pca/plotPCA.R
+R --no-restore --no-save --args ${PRIV_DATA_DIR}/worldpca.txt ${PRIV_DATA_DIR}/pca/ < ${IYG_DIR}/analyse/pca/plotPCA.R 
 
 #7. generate MT predictions
 #NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
