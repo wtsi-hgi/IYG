@@ -646,7 +646,7 @@ class Data_Loader:
             self.cur.execute("select barcode, public_id from profiles")
             res = self.cur.fetchall()
             for profile in res:
-                print>>profile_output, "%s\t%s\n" % (profile[0], profile[1])
+                print>>profile_output, "%s\t%s" % (profile[0], profile[1])
         except MySQLdb.Error, e:
             print "[WARN]\tSNP genotype frequency query failed for snp %s" % snp_dbid
             print "\tError %d: %s" % (e.args[0], e.args[1])
