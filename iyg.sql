@@ -191,40 +191,62 @@ CREATE INDEX `snp_id_idx` ON `iyg`.`snps_traits` (`snp_id` ASC) ;
 CREATE INDEX `trait_id_idx` ON `iyg`.`snps_traits` (`trait_id` ASC) ;
 
 
- -- -----------------------------------------------------
- -- Table `iyg`.`profiles_traits`
- -- -----------------------------------------------------
- DROP TABLE IF EXISTS `iyg`.`profiles_traits` ;
+-- -----------------------------------------------------
+-- Table `iyg`.`profiles_traits`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `iyg`.`profiles_traits` ;
  
- CREATE TABLE IF NOT EXISTS `iyg`.`profiles_traits` (
-   `profile_trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
-   `profile_id` INT(10) UNSIGNED NOT NULL ,
-   `trait_id` INT(10) UNSIGNED NOT NULL ,
-   `name` VARCHAR(500) ,
-   `data` MEDIUMTEXT ,
-   PRIMARY KEY (`profile_trait_id`) ,
-   CONSTRAINT `profiles_traits_trait_id`
-     FOREIGN KEY (`trait_id` )
-     REFERENCES `iyg`.`traits` (`trait_id` )
-     ON DELETE CASCADE
-     ON UPDATE CASCADE,
-   CONSTRAINT `profiles_traits_profile_id`
-     FOREIGN KEY (`profile_id` )
-     REFERENCES `iyg`.`profiles` (`profile_id` )
-     ON DELETE CASCADE
-     ON UPDATE CASCADE)
- ENGINE = InnoDB
- AUTO_INCREMENT = 1
- DEFAULT CHARACTER SET = latin1;
+CREATE TABLE IF NOT EXISTS `iyg`.`profiles_traits` (
+  `profile_trait_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `profile_id` INT(10) UNSIGNED NOT NULL ,
+  `trait_id` INT(10) UNSIGNED NOT NULL ,
+  `name` VARCHAR(500) ,
+  `data` MEDIUMTEXT ,
+  PRIMARY KEY (`profile_trait_id`) ,
+  CONSTRAINT `profiles_traits_trait_id`
+    FOREIGN KEY (`trait_id` )
+    REFERENCES `iyg`.`traits` (`trait_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `profiles_traits_profile_id`
+    FOREIGN KEY (`profile_id` )
+    REFERENCES `iyg`.`profiles` (`profile_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = latin1;
+
+CREATE UNIQUE INDEX `profile_trait_composite` ON `iyg`.`profiles_traits` (`profile_id` ASC, `trait_id` ASC, `name` ASC) ;
+
+CREATE INDEX `profile_id_idx` ON `iyg`.`profiles_traits` (`profile_id` ASC) ;
+
+CREATE INDEX `trait_id_idx` ON `iyg`.`profiles_traits` (`trait_id` ASC) ;
+
+CREATE INDEX `name_idx` ON `iyg`.`profiles_traits` (`name` ASC) ;
  
- CREATE UNIQUE INDEX `profile_trait_composite` ON `iyg`.`profiles_traits` (`profile_id` ASC, `trait_id` ASC, `name` ASC) ;
- 
- CREATE INDEX `profile_id_idx` ON `iyg`.`profiles_traits` (`profile_id` ASC) ;
- 
- CREATE INDEX `trait_id_idx` ON `iyg`.`profiles_traits` (`trait_id` ASC) ;
- 
- CREATE INDEX `name_idx` ON `iyg`.`profiles_traits` (`name` ASC) ;
- 
+
+-- -----------------------------------------------------
+-- Table `iyg`.`traits_additional`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `iyg`.`traits_additional` ;
+CREATE TABLE IF NOT EXISTS `iyg`.`traits_additional` (
+  `trait_additional_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `trait_id` INT(10) UNSIGNED NOT NULL ,
+  `name` VARCHAR(500) ,
+  `data` MEDIUMTEXT ,
+  PRIMARY KEY (`trait_additional_id`) ,
+  CONSTRAINT `traits_additional_trait_id`
+    FOREIGN KEY (`trait_id` )
+    REFERENCES `iyg`.`traits` (`trait_id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = latin1;
+CREATE UNIQUE INDEX `traits_additional_composite` ON `iyg`.`traits_additional` (`trait_id` ASC, `name` ASC) ;
+CREATE INDEX `trait_id_idx` ON `iyg`.`traits_additional` (`trait_id` ASC) ;
+CREATE INDEX `name_idx` ON `iyg`.`traits_additional` (`name` ASC) ;
 
 
 
