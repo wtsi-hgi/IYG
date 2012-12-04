@@ -124,6 +124,10 @@ class Data_Loader:
 
         if(args.update_popfreqs):
             self.update_popfreqs()
+    
+        if(args.profile_output is not None):
+            profile_data = open(args.profile_output, 'w')
+            self.dump_profiledata(profile_data)
 
         self.cur.close()
         self.db.close()
@@ -636,6 +640,20 @@ class Data_Loader:
                         " with DBID %s was not updated" % (snp_dbid, vid))
                     print "\tError %d: %s" % (e.args[0], e.args[1])
 
+
+    def dump_profiledata(self, profile_output):
+        try:
+            self.cur.execute(
+                             "select barcode, public_id from profiles",
+                             (snp_dbid, snp_dbid))
+            res = self.cur.fetchall()
+            for profile in res:
+                print>>profile_data, "%s\t%s\n" % (profile[0], profile[1])
+        except MySQLdb.Error, e:
+            print "[WARN]\tSNP genotype frequency query failed for snp %s" % snp_dbid
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
         "Import genotyping data to an Inside your Genome Database"))
@@ -679,9 +697,12 @@ if __name__ == "__main__":
     parser.add_argument('--trait-snp-description-fofn', metavar="trait_snp_description_fofn", dest="trait_snp_description_fofn",
         help=("File Of File Names (FOFN) giving the path to an HTML file for each of the trait-SNP descriptions"))
 
-    ## finally, you need to load the results either from a CSV or PED/MAP
+    ## also, you need to load the results either from a CSV or PED/MAP
     parser.add_argument('--results-file', metavar="results_file", dest="results_file",
         help=("Fluidigm Results (Converted to CSV)"))
+    
+    parser.add_argument('--profile_output', metavar="profile_output", dest="profile_output",
+        help=("Profile barcode data"))
 
     Data_Loader(parser.parse_args())
 
