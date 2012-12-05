@@ -29,7 +29,7 @@ export LOG_DIR
 
 
 echo "Running convert delivery script... "
-${IYG_DIR}/build/run-content-delivery.sh 2>&1 > ${LOG_DIR}/run-content-delivery.log
+${IYG_DIR}/build/run-convert-delivery.sh 2>&1 > ${LOG_DIR}/run-convert-delivery.log
 
 
 echo "Running import script... "
