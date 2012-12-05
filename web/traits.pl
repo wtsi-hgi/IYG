@@ -29,12 +29,10 @@ my $profile;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('barcode'))){
-    $barcode_flag = 1;
     my $barcode = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
     $profile = $app->dbh->barcodeToProfile($barcode);
 }
 elsif(defined($app->page->cgi->param('profile'))){
-    $barcode_flag = 0;
     $profile = $app->page->cgi->param('profile');
 }
 
