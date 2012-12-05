@@ -96,6 +96,22 @@ sub query_all_genotypes_for_variant{
     return $variantsQuery;
 }
 
+sub query_profile_trait{
+    my $self = shift;
+    my $query = q(
+      SELECT profiles_traits.name, profiles_traits.data
+      FROM profiles
+      LEFT JOIN profiles_traits ON profiles.profile_id = profiles_traits.profile_id
+      JOIN traits ON profiles_traits.trait_id = traits.trait_id AND traits.trait_id = ?
+      WHERE profiles.public_id = ?
+      AND profiles.consent_flag = 1
+      AND traits.active_flag = 1;
+    );                     
+    my $snpResultQuery = $self->dbh->prepare($query);
+    $snpResultQuery->execute( $_[0]->{'trait'}, $_[0]->{'publicid'} );
+    return $snpResultQuery;
+}
+
 sub query_all_snp_results_for_trait{
     my $self = shift;
     my $query = q(

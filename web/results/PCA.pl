@@ -47,6 +47,12 @@ else{
         trait => $app->page->cgi->param('trait')
     });
 
+    # Get additional profile-trait information (e.g. prediction results and resource links)
+    my $profilesTraitsResultSet = $app->dbh->query_profile_trait({
+	trait => $app->page->cgi->param('trait'),
+        publicid => $app->page->cgi->param('profile'),
+    });
+    
     my $variantGenotypeResultSet; # Placeholder for use in loop
 
     # Ensure at least one SNP and one trait is returned.
