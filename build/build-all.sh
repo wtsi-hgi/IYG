@@ -10,7 +10,7 @@ else
 fi
 PUB_DATA_DIR=${IYG_DIR}/public_data/
 
-if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
+if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
     then
     echo "Must specify PRIV_DATA_DIR as first argument"
     exit 1
@@ -29,7 +29,7 @@ export LOG_DIR
 
 
 echo "Running convert delivery script... "
-${IYG_DIR}/build/content-delivery.sh
+${IYG_DIR}/build/run-content-delivery.sh 2>&1 > ${LOG_DIR}/run-content-delivery.log
 
 
 echo "Running import script... "
