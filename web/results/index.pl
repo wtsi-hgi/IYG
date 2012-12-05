@@ -39,7 +39,7 @@ else{
     # Get the SNPs this profile_id has results for that relate to this trait.
     my $snpResultSet = $app->dbh->query_all_snp_results_for_trait({
         trait => $app->page->cgi->param('trait'),
-        profile => $app->page->cgi->param('profile')
+        publicid => $app->page->cgi->param('profile')
     });
 
     # Get some information on the selected trait

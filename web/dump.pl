@@ -26,11 +26,11 @@ use IYG::App;
 my $conf_path = $ENV{"IYG_CONF_PATH"};
 my $app = IYG::App->new(conf_path => $conf_path);
 
-my $profile;
+my $publicid;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('profile'))){
-    $profile = $app->page->cgi->param('profile');
+    $publicid = $app->page->cgi->param('profile');
 }
 
 # Ensure a barcode was submitted, if not; error out.
@@ -40,7 +40,7 @@ if(!$profile){
 else{
     # Get all variants for which the barcode has a result.
     my $traitResultSet = $app->dbh->query_all_snps_with_results({
-        profile => $profile,
+        publicid => $publicid,
     });
 
     my @traitList;

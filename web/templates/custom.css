@@ -116,3 +116,9 @@ form .no-margin {
   padding: 0px 10px;
   color: white;
 }
+/* QC Flagged
+.warning{
+  background-color:yellow;
+  text-align: center;
+  width: 100%;
+}
