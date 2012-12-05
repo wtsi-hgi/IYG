@@ -39,7 +39,7 @@ else{
     # Get the SNPs this profile_id has results for that relate to this trait.
     my $snpResultSet = $app->dbh->query_all_snp_results_for_trait({
         trait => $app->page->cgi->param('trait'),
-        profile => $app->page->cgi->param('profile'),
+        publicid => $app->page->cgi->param('profile'),
     });
 
     # Get some information on the selected trait
@@ -47,6 +47,13 @@ else{
         trait => $app->page->cgi->param('trait')
     });
 
+    # Get additional profile-trait information (e.g. prediction results and resource links)
+    my $profileTraitResultSet = $app->dbh->query_profile_trait({
+	trait => $app->page->cgi->param('trait'),
+        publicid => $app->page->cgi->param('profile'),
+    });
+    my $profileTraitResult = $profileTraitResultSet->fetchall_hashref('name');
+    
     my $variantGenotypeResultSet; # Placeholder for use in loop
 
     # Ensure at least one SNP and one trait is returned.
@@ -93,7 +100,8 @@ else{
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
                 PROFILE_ID => $app->page->cgi->param('profile'),
-		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
+#		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
+		PCA_URI => '/public_data/webresource/' . $profileTraitResult->{'AIM_AIM'}->{'data'},
             },
         });
     }

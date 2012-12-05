@@ -64,12 +64,10 @@ p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-g
 
 #view missing rates in this file (autosomes only)
 #MANUAL: produce sample-fails.txt for exclusions (currently MISS > 0.5)
-#MANUAL: produce flagged-samples.txt for flagging (currently 0.05 > MISS > 0.50)
 
 #MANUAL: negative-snps.txt is file of SNPs on - strand in Source file
 #analyse/qc/negative-snps.txt can be reproduced using matchalleles.pl, ensembl-alleles.txt, compare-alleles.pl, snpseqs.txt
-# TODO use flagged-samples.txt somewhere
-qc_files="sample-fails.txt flagged-samples.txt negative-snps.txt"
+qc_files="sample-fails.txt negative-snps.txt"
 for qc_file in ${qc_files}
 do 
     if [[ ! -e ${PRIV_DATA_DIR}/qc/${qc_file} ]]
@@ -129,6 +127,12 @@ awk 'NF > 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${OUT_D
 #add HTML
 ${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/Youtput.txt &> ${LOG_DIR}/addText.log
 
+##########################
+#5.1. generate BALD predictions
+echo "Predicting baldness state..."
+mkdir -p ${OUT_DATA_DIR}/BALD/
+R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/tree/bald-cat.R &> ${LOG_DIR}/bald-mangroveit.log
+
 
 ##########################
 #6. generate MT predictions
@@ -158,12 +162,12 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/nopred.PCA.txt ${WEB_DATA_DI
 
 # These three have no population data
 echo -n "Predicting QTs and generating images for qt1 traits... "
-for trait in BALD EYE NEAND
+for trait in EYE NEAND
 do
     echo -n "${trait} "
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt1-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt1-mangroveit.log
 done
 echo "done."
 
@@ -175,7 +179,7 @@ do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${WEB_DATA_DIR}/${trait}/POPDIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt2-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt2-mangroveit.log
 done
 echo "done."
 
