@@ -43,7 +43,7 @@ rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir ${OUT_DATA_DIR}
 #analyse/qc/missing-by-plate.pl
 #produce missing-by-plate.txt
 #MANUAL: look at output and produce a list of SNPs called failed-snps.txt
-if [[ ! -e ${PRIV_DATA_DIR}/failed-snps.txt ]]
+if [[ ! -e ${PRIV_DATA_DIR}/qc/failed-snps.txt ]]
 then
     echo "[ERROR] Required file ${PRIV_DATA_DIR}/failed-snps.txt not present! Please perform manual SNP QC and re-run once this file exists."
     exit 1
@@ -53,7 +53,7 @@ fi
 ##########################
 #2. run QC on Josh's input PED file
 #remove failed SNPs
-p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
+p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/qc/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
 
 #view missing rates in this file (autosomes only)
 #MANUAL: produce sample-fails.txt for exclusions (currently MISS > 0.5)
@@ -61,16 +61,17 @@ p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-g
 
 #MANUAL: negative-snps.txt is file of SNPs on - strand in Source file
 #analyse/qc/negative-snps.txt can be reproduced using matchalleles.pl, ensembl-alleles.txt, compare-alleles.pl, snpseqs.txt
-req_files="sample-fails.txt flagged-samples.txt negative-snps.txt"
-for req_file in ${req_files}
+# TODO use flagged-samples.txt somewhere
+qc_files="sample-fails.txt flagged-samples.txt negative-snps.txt"
+for qc_file in ${qc_files}
 do 
-    if [[ ! -e ${PRIV_DATA_DIR}${req_file} ]]
+    if [[ ! -e ${PRIV_DATA_DIR}/qc/${qc_file} ]]
     then
-	echo "[ERROR] Required file ${PRIV_DATA_DIR}/${req_file} not present! Please perform manual sample QC and re-run once this file exists."
+	echo "[ERROR] Required file ${PRIV_DATA_DIR}/${qc_file} not present! Please perform manual sample QC and re-run once this file exists."
 	exit 1
     fi
 done
-p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/sample-fails.txt --flip ${PRIV_DATA_DIR}/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
+p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/qc/sample-fails.txt --flip ${PRIV_DATA_DIR}/qc/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
 
 #MANUAL: max-ibs.pl can be used, along with PLINK --genome, to find duplicates.
 
