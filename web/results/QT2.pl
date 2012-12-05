@@ -36,16 +36,26 @@ if(!defined($app->page->cgi->param('profile'))){
     });
 }
 else{
+    my $trait = $app->page->cgi->param('trait');
+    my $public_id = $app->page->cgi->param('profile');
+
     # Get the SNPs this profile_id has results for that relate to this trait.
     my $snpResultSet = $app->dbh->query_all_snp_results_for_trait({
-        trait => $app->page->cgi->param('trait'),
-        profile => $app->page->cgi->param('profile')
+        trait => $trait,
+        publicid => $public_id,
     });
 
     # Get some information on the selected trait
     my $traitResultSet = $app->dbh->query_trait({
-        trait => $app->page->cgi->param('trait')
+        trait => $trait
     });
+
+    # Get additional profile-trait information (e.g. prediction results and resource links)
+    my $profileTraitResultSet = $app->dbh->query_profile_trait({
+	trait => $trait,
+        publicid => $public_id,
+    });
+    my $profileTraitResult = $profileTraitResultSet->fetchall_hashref('name');
 
     my $variantGenotypeResultSet; # Placeholder for use in loop
 
@@ -61,7 +71,7 @@ else{
             # Descriptions for the outcome of each genotype result will be given
             # in the context of the selected trait.
             $variantGenotypeResultSet = $app->dbh->query_all_genotypes_for_variant({
-                trait => $app->page->cgi->param('trait'),
+                trait => $trait,
                 snp => $snp->{'snp_id'}
             });
       
@@ -83,16 +93,26 @@ else{
             }
         }
 
+	my $popdist_uri = $profileTraitResult->{$trait.'_POPDIST'}->{'data'};
+	# strip off extension so we can use content negotiation
+	$popdist_uri =~ s/\.[^.]+$//;
+
+	my $iyghist_uri = $profileTraitResult->{$trait.'_IYGHIST'}->{'data'};
+	# strip off extension so we can use content negotiation
+	$iyghist_uri =~ s/\.[^.]+$//;
+
         # Load the variant info template and pass the parameters for display.
         print $app->page->render({
             prepath => "../",
-            template => "results/default",
+            template => "results/QT2",
             params => {
                 TITLE => "View Trait",
                 TRAIT_NAME => $traitResult->{'trait_name'},
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
-                PROFILE_ID => $app->page->cgi->param('profile'),
+                PROFILE_ID => $public_id,
+		POPDIST_URI => '/public_data/webresource/' . $popdist_uri,
+		IYGHIST_URI => '/public_data/webresource/' . $iyghist_uri,
             },
         });
     }

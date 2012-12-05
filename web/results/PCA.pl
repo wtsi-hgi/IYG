@@ -104,7 +104,6 @@ else{
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
                 PROFILE_ID => $app->page->cgi->param('profile'),
-#		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
 		PCA_URI => '/public_data/webresource/' . $pca_uri,
             },
         });
