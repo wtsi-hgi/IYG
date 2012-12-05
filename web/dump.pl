@@ -26,27 +26,21 @@ use IYG::App;
 my $conf_path = $ENV{"IYG_CONF_PATH"};
 my $app = IYG::App->new(conf_path => $conf_path);
 
-my $barcode_flag;
-my $barcode_or_publicid;
+my $profile;
 
 # Get either the decrypted barcode, or "public id" of the current user
-if(defined($app->page->cgi->param('barcode'))){
-    $barcode_flag = 1;
-    $barcode_or_publicid = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
-}
-elsif(defined($app->page->cgi->param('profile'))){
-    $barcode_flag = 0;
+if(defined($app->page->cgi->param('profile'))){
     $barcode_or_publicid = $app->page->cgi->param('profile');
 }
 
 # Ensure a barcode was submitted, if not; error out.
-if(!$barcode_or_publicid){
+if(!$profile){
     print "Content-Type:text/plain\n\nnot logged in";
 }
 else{
     # Get all variants for which the barcode has a result.
     my $traitResultSet = $app->dbh->query_all_snps_with_results({
-        is_barcode => $barcode_flag,
+        is_barcode => 0,
         barcode_or_publicid => $barcode_or_publicid,
     });
 
