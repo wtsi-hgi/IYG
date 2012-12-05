@@ -129,7 +129,7 @@ if (!is.na(popmean)){
 	output<-cbind(ped$ID,thistrait,predictions)
 	headernames<-c("Barcode","TraitShortname","IYGHIST")
 }
-write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames)
+write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames,sep="\t")
 
 
 for (i in 1:length(predictions)){
