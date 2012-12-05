@@ -24,6 +24,11 @@ echo "build-all using ${PRIV_DATA_DIR} for private data and ${IYG_DIR} as iyg ro
 
 
 echo "Running import script... "
-${IYG_DIR}/build/run-import.sh ${IYG_DIR} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${LOG_DIR}
+${IYG_DIR}/build/run-import.sh ${IYG_DIR} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${LOG_DIR} 2>&1 > ${LOG_DIR}/run-import.log
+
+
+echo "Running analysis... "
+${IYG_DIR}/build/run-analysis.sh ${IYG_DIR} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${LOG_DIR} 2>&1 > ${LOG_DIR}/run-analysis.log
+
 
 
