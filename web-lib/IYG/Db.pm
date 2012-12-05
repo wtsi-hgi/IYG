@@ -169,9 +169,24 @@ sub query_all_snps_with_results{
       ";
     my $barcode_or_publicid = $_[0]->{'barcode_or_publicid'};
     print STDERR "query_all_snps_with_results: query=[$query] value=[$barcode_or_publicid]\n";
-    my $traitResultQuery = $self->dbh->prepare($query);
-    $traitResultQuery->execute( $barcode_or_publicid );
-    return $traitResultQuery;
+    my $snpResultQuery = $self->dbh->prepare($query);
+    $snpResultQuery->execute( $barcode_or_publicid );
+    return $snpResultQuery;
+}
+
+sub barcodeToProfile{
+    my $self = shift;
+    my $query = "SELECT public_id FROM profiles WHERE profiles.barcode = ?";
+
+    my $profileResultSet = $self->dbh->prepare($query);
+    $profileResultSet->execute( $_[0] );
+
+    if($profileResultSet->rows > 0){
+        my $trait = $traitResultSet->fetchrow_hashref();
+        return $trait->{'public_id'};
+    } else{
+        return undef;
+    }
 }
 
 no Moose;
