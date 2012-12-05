@@ -182,8 +182,8 @@ sub barcodeToProfile{
     $profileResultSet->execute( $_[0] );
 
     if($profileResultSet->rows > 0){
-        my $trait = $traitResultSet->fetchrow_hashref();
-        return $trait->{'public_id'};
+        my $profile = $profileResultSet->fetchrow_hashref();
+        return $profile->{'public_id'};
     } else{
         return undef;
     }
