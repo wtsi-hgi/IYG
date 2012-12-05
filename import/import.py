@@ -23,7 +23,6 @@ __maintainer__ = "Joshua Randall <joshua.randall@sanger.ac.uk>"
 import MySQLdb # apt-get install python-mysqldb
 import string
 import random
-import csv
 import argparse
 import re
 import collections
@@ -393,10 +392,8 @@ class Data_Loader:
                     "short_name, units, mean, sd) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
                     (name, predictability, 1, handler, short_name, units, mean, sd))
                 self.db.commit()
-                current_trait_dbid = self.cur.lastrowid
-
+               
             except MySQLdb.Error, e:
-                current_trait_dbid = 0
                 print "[FAIL]\tTrait '%s' not added to database" % name
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
@@ -500,7 +497,6 @@ class Data_Loader:
         header = Delimited_text_header(snp_trait_genotype_effect, "\t")
 
         snp_dbid_trait_dbid = collections.defaultdict(dict)
-        seen = []
         for line in snp_trait_genotype_effect:
             fields = line.strip().split("\t")
 
