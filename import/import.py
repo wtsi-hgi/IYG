@@ -669,13 +669,35 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO traits_additional (trait_id, name, description) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
+            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
-            print "[WARN]\tloadTraitAdditional query failed"
+            print "[WARN]\timport_trait_additional query failed"
             print "\tError %d: %s" % (e.args[0], e.args[1])
         trait_file.close()
+
+    def import_profile_trait(self, profile_trait_file):
+        # Read header to get keys for each column
+        header = Delimited_text_header(profile_trait_file, "\t")
+        
+        # Loop through rows of file building up list of files to add
+        key_value_tuple = []
+        for line in profile_trait_file:
+            fields = line.strip().split("\t")
+            for item in range(2, len(fields)):
+                key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0], fields[1]))
+        
+        # write to DB
+        print "[INFO]\tInserting %d records into profile trait additional table." % (len(key_value_tuple))
+        try:
+            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE traits.name = %s AND profiles.barcode = %s"
+            self.cur.executemany(query, key_value_tuple)
+            self.db.commit()
+        except MySQLdb.Error, e:
+            print "[WARN]\timport_profile_trait query failed"
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+        profile_trait_file.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
