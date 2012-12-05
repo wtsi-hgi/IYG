@@ -152,7 +152,7 @@ sub query_all_traits_with_results{
         GROUP BY traits.trait_id
       ";
     my $publicid = $_[0]->{'publicid'};
-    print STDERR "query_all_traits_with_results: query=[$query] value=[$publicid]\n";
+    #print STDERR "query_all_traits_with_results: query=[$query] value=[$publicid]\n";
     my $traitResultQuery = $self->dbh->prepare($query);
     $traitResultQuery->execute( $publicid );
     return $traitResultQuery;
@@ -177,18 +177,45 @@ sub query_all_snps_with_results{
     return $snpResultQuery;
 }
 
-sub barcodeToProfile{
+sub barcode_to_profile {
     my $self = shift;
+    my $barcode = shift;
     my $query = "SELECT public_id, consent_flag, quality_flagged FROM profiles WHERE profiles.barcode = ?";
 
     my $profileResultSet = $self->dbh->prepare($query);
-    $profileResultSet->execute( $_[0] );
+    $profileResultSet->execute( $barcode );
 
-    if($profileResultSet->rows > 0){
+    my $rows = $profileResultSet->rows;
+    if($rows == 1){
         my $profile = $profileResultSet->fetchrow_hashref();
-        return ($profile->{'public_id'}, $profile->{'consent_flag'}, $profile->{'quality_flagged'});
-    } else{
-        return undef;
+        #return ($profile->{'public_id'}, $profile->{'consent_flag'}, $profile->{'quality_flagged'});
+	return $profile;
+    } elsif($rows > 1) {
+	print STDERR "[ERROR]\tIYG::Db::barcode_to_profile: got $rows profiles back for barcode=$barcode\n";
+	return undef;
+    } else {
+	print STDERR "[ERROR]\tIYG::Db::barcode_to_profile: got no profiles back for barcode=$barcode\n";
+    }
+}
+
+sub public_id_to_profile {
+    my $self = shift;
+    my $public_id = shift;
+    my $query = "SELECT public_id, consent_flag, quality_flagged FROM profiles WHERE profiles.public_id = ?";
+
+    my $profileResultSet = $self->dbh->prepare($query);
+    $profileResultSet->execute( $public_id );
+
+    my $rows = $profileResultSet->rows;
+    if($rows == 1){
+        my $profile = $profileResultSet->fetchrow_hashref();
+        #return ($profile->{'public_id'}, $profile->{'consent_flag'}, $profile->{'quality_flagged'});
+	return $profile;
+    } elsif($rows > 1) {
+	print STDERR "[ERROR]\tIYG::Db::public_id_to_profile: got $rows profiles back for public_id=$public_id\n";
+	return undef;
+    } else {
+	print STDERR "[ERROR]\tIYG::Db::public_id_to_profile: got no profiles back for public_id=$public_id\n";
     }
 }
 
