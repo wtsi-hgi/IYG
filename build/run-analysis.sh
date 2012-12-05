@@ -1,13 +1,32 @@
 #!/bin/bash
 
-IYG_DIR=$1
-PRIV_DATA_DIR=$2
-PUB_DATA_DIR=$3
-LOG_DIR=$4
+if [[ -z "${IYG_DIR}" || ! -d ${IYG_DIR} ]]; 
+    then
+    echo "Must set environment variable IYG_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ -z "${PRIV_DATA_DIR}" || ! -d ${PRIV_DATA_DIR} ]]; 
+    then
+    echo "Must set environment variable PRIV_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ -z "${PUB_DATA_DIR}" || ! -d ${PUB_DATA_DIR} ]]; 
+    then
+    echo "Must set environment variable PUB_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ -z "${LOG_DIR}" || ! -d ${LOG_DIR} ]]; 
+    then
+    echo "Must set environment variable LOG_DIR to a valid directory"
+    exit 1
+fi
 
 if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
     then
-    echo "Must specify PRIV_DATA_DIR as second argument"
+    echo "PRIV_DATA_DIR does not contain iyg.ped"
     exit 1
 fi
 

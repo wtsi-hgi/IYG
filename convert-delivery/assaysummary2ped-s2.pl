@@ -69,7 +69,7 @@ foreach my $line (<>) {
 my @snps = sort {$a cmp $b} keys %snps;
 
 open MAP, ">$pedmapout.map";
-print MAP join("\n",map {join("\t", [$snp2chr{$_}, $_, $snp2pos{$_}] )} @snps)."\n";
+print MAP join("\n",map {join("\t", ($snp2chr{$_}, $_, $snp2pos{$_}) )} @snps)."\n";
 close MAP;
 
 open PED, ">$pedmapout.ped";

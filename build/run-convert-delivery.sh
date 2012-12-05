@@ -1,21 +1,35 @@
 #!/bin/bash
 
-PRIV_DATA_DIR=$1
-
-reldir=`dirname $0`
-if [[ `echo "${reldir}" | cut -c1` = "/" ]]
-then
-    IYG_DIR=${reldir}/../
-else
-    IYG_DIR=`pwd`/${reldir}/../
-fi
-PUB_DATA_DIR=${IYG_DIR}/public_data/
-
-if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
+if [[ ! ( -n "${IYG_DIR}" && -d ${IYG_DIR} ) ]]; 
     then
-    echo "Must specify PRIV_DATA_DIR as first argument"
+    echo "Must set environment variable IYG_DIR to a valid directory"
     exit 1
 fi
+
+if [[ ! ( -n "${PRIV_DATA_DIR}" && -d ${PRIV_DATA_DIR} ) ]]; 
+    then
+    echo "Must set environment variable PRIV_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! ( -n "${PUB_DATA_DIR}" && -d ${PUB_DATA_DIR} ) ]]; 
+    then
+    echo "Must set environment variable PUB_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! ( -n "${LOG_DIR}" && -d ${LOG_DIR} ) ]]; 
+    then
+    echo "Must set environment variable LOG_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
+    then
+    echo "PRIV_DATA_DIR does not contain delivery subdirectory"
+    exit 1
+fi
+
 
 # input data goes in ${PRIV_DATA_DIR}/delivery as zip files
 
@@ -24,6 +38,11 @@ echo -n "unzipping raw plate data... "
 rm -rf ${PRIV_DATA_DIR}/delivery-unzip
 mkdir -p ${PRIV_DATA_DIR}/delivery-unzip
 zipfiles=`find ${PRIV_DATA_DIR}/delivery/* -name \*.zip -type f`
+if [[ -z "${zipfiles}" ]]
+    then
+    echo "PRIV_DATA_DIR/delivery does not contain any zip files"
+    exit 1
+fi
 for zipfile in ${zipfiles}
 do
     echo -n "${zipfile} "
