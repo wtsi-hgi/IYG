@@ -30,7 +30,7 @@ my $profile;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('profile'))){
-    $barcode_or_publicid = $app->page->cgi->param('profile');
+    $profile = $app->page->cgi->param('profile');
 }
 
 # Ensure a barcode was submitted, if not; error out.
