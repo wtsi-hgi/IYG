@@ -99,6 +99,14 @@ class Data_Loader:
             unconsented_barcodes_file = open(args.unconsented_barcodes_file, 'r')
             self.import_profiles(unconsented_barcodes_file,0)
 
+        if(args.failed_barcodes_file is not None):
+            failed_barcodes_file = open(args.failed_barcodes_file, 'r')
+            self.import_profiles(failed_barcodes_file,2)
+        
+        if(args.flagged_barcodes_file is not None):
+            flagged_barcodes_file = open(args.flagged_barcodes_file, 'r')
+            self.flag_profiles(flagged_barcodes_file)
+
         if(args.snp_info_file is not None):
             snp_info = open(args.snp_info_file, 'r')
             self.import_snp_info(snp_info)
@@ -302,6 +310,29 @@ class Data_Loader:
                 print "[FAIL]\tBarcode %s not added to database" % barcode
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
+        barcodes.close()
+
+
+    def flag_profiles(self, barcodes):
+        """Process the list of barcodes, updating each profile row in the
+            database to flag the barcode"""
+        print "[READ]\tImporting Flagged Barcode List"
+        
+        for line in barcodes:
+            if line[0] == "#": #Skip comments
+                continue
+            
+            barcode = line.strip()
+        
+            try:
+                self.cur.execute(
+                    "UPDATE profiles SET quality_flagged = 1 "
+                    "WHERE barcode = %s", (barcode))
+                self.db.commit()
+            except MySQLdb.Error, e:
+                print "[FAIL]\tBarcode %s not flagged" % barcode
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+        
         barcodes.close()
 
 
@@ -739,7 +770,14 @@ if __name__ == "__main__":
         help=("New line delimited list of *consenting* barcodes"))
     parser.add_argument('--unconsented-barcodes-file', metavar="unconsented_barcodes_file", dest="unconsented_barcodes_file",
         help=("New line delimited list of *unconsenting* barcodes"))
+    parser.add_argument('--failed-barcodes-file', metavar="failed_barcodes_file", dest="failed_barcodes_file",
+        help=("New line delimited list of *failed* barcodes"))
 
+    ## these are barcodes with data that's a bit suspect, sets a flag on them
+    parser.add_argument('--flagged-barcodes-file', metavar="flagged_barcodes_file", dest="flagged_barcodes_file",
+        help=("New line delimited list of barcodes which have data but the data has failed qc"))
+
+    
     ## then you need to load trait info, snp info, and snp-trait-genotype-effect files
     parser.add_argument('--trait-info-file', metavar="trait_info_file", dest="trait_info_file",
         help=("Trait Info File"))
