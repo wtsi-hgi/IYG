@@ -63,7 +63,6 @@ class Data_Loader:
         """Initialise the Database Connection and Cursor, call import_main"""
         print(args.__dict__)
         self.db = self.connect(args.db_user, args.db_host, args.db_port, args.db_name)
-
         self.cur = self.db.cursor()
         self.import_main(args)
         
@@ -103,7 +102,7 @@ class Data_Loader:
         
         if(args.trait_info_file is not None):
             trait_info = open(args.trait_info_file, 'r')
-            traits = self.import_trait_info(trait_info)
+            self.import_trait_info(trait_info)
 
         if(args.snp_trait_genotype_effect_file is not None):
             snp_trait_genotype_effect = open(args.snp_trait_genotype_effect_file, 'r')
@@ -125,7 +124,18 @@ class Data_Loader:
         if(args.update_popfreqs):
             self.update_popfreqs()
     
+        if(args.trait_pred_file):
+            print args.trait_pred_file
+            for trait_file in args.trait_pred_file:
+                trait_file_fd = open(trait_file, 'r')
+                self.import_trait_additional(trait_file_fd)
         
+        if(args.trait_profile_pred_file):
+            print args.trait_profile_pred_file
+            for profile_trait_file in args.trait_profile_pred_file:
+                profile_trait_file_fd = open(profile_trait_file, 'r')
+                self.import_profile_trait(profile_trait_file_fd)
+                
     
     
         if(args.profile_output is not None):
@@ -241,7 +251,7 @@ class Data_Loader:
                 "SELECT `snp_id` FROM `snps`")
             res = self.cur.fetchall()
         except MySQLdb.Error, e:
-                print "[WARN]\tSNP dbid query failed for snp %s" % rs_id
+                print "[WARN]\tSNP dbid query failed for snp " 
                 print "\tError %d: %s" % (e.args[0], e.args[1])
                 return None
 
@@ -425,7 +435,7 @@ class Data_Loader:
                 self.db.commit()
                 
             except MySQLdb.Error, e:
-                print "[FAIL]\tTrait '%s' not added to database" % name
+                print "[FAIL]\tTrait '%s' not added to database" % short_name
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
             trait_description.close()
@@ -669,13 +679,35 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO traits_additional (trait_id, name, description) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
+            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
-            print "[WARN]\tloadTraitAdditional query failed"
+            print "[WARN]\timport_trait_additional query failed"
             print "\tError %d: %s" % (e.args[0], e.args[1])
         trait_file.close()
+
+    def import_profile_trait(self, profile_trait_file):
+        # Read header to get keys for each column
+        header = Delimited_text_header(profile_trait_file, "\t")
+        
+        # Loop through rows of file building up list of files to add
+        key_value_tuple = []
+        for line in profile_trait_file:
+            fields = line.strip().split("\t")
+            for item in range(2, len(fields)):
+                key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0], fields[1]))
+        
+        # write to DB
+        print "[INFO]\tInserting %d records into profile trait additional table." % (len(key_value_tuple))
+        try:
+            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE traits.name = %s AND profiles.barcode = %s"
+            self.cur.executemany(query, key_value_tuple)
+            self.db.commit()
+        except MySQLdb.Error, e:
+            print "[WARN]\timport_profile_trait query failed"
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+        profile_trait_file.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
@@ -729,6 +761,9 @@ if __name__ == "__main__":
     
     parser.add_argument('--trait-pred-file', metavar="trait_pred_file", dest="trait_pred_file",
         action='append')
+    
+    parser.add_argument('--trait-profile-pred-file', metavar="trait_profile_pred_file",
+        dest="trait_profile_pred_file", action='append')
 
     Data_Loader(parser.parse_args())
 
