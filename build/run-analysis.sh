@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#To run in testing mode;
+# IYG_DIR=.
+# PRIV_DATA_DIR=${IYG_DIR}/priv/
+# PUB_DATA_DIR=${IYG_DIR}/public_data/
+# LOG_DIR=${IYG_DIR}/log/
+
+
 if [[ -z "${IYG_DIR}" || ! -d ${IYG_DIR} ]]; 
     then
     echo "Must set environment variable IYG_DIR to a valid directory"
@@ -26,7 +33,7 @@ fi
 
 if [[ ! -e ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink.ped ]]
     then
-    echo "PRIV_DATA_DIR does not contain iyg.ped"
+    echo "PRIV_DATA_DIR does not contain ALL_assay_summary.masterplink.ped"
     exit 1
 fi
 
@@ -45,7 +52,7 @@ rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir ${OUT_DATA_DIR}
 #MANUAL: look at output and produce a list of SNPs called failed-snps.txt
 if [[ ! -e ${PRIV_DATA_DIR}/qc/failed-snps.txt ]]
 then
-    echo "[ERROR] Required file ${PRIV_DATA_DIR}/failed-snps.txt not present! Please perform manual SNP QC and re-run once this file exists."
+    echo "[ERROR] Required file ${PRIV_DATA_DIR}/qc/failed-snps.txt not present! Please perform manual SNP QC and re-run once this file exists."
     exit 1
 fi
 
@@ -67,7 +74,7 @@ for qc_file in ${qc_files}
 do 
     if [[ ! -e ${PRIV_DATA_DIR}/qc/${qc_file} ]]
     then
-	echo "[ERROR] Required file ${PRIV_DATA_DIR}/${qc_file} not present! Please perform manual sample QC and re-run once this file exists."
+	echo "[ERROR] Required file ${PRIV_DATA_DIR}/qc/${qc_file} not present! Please perform manual sample QC and re-run once this file exists."
 	exit 1
     fi
 done
@@ -86,8 +93,8 @@ echo "Initializing the jammer..."
 #put in public_data/pred_results/
 echo "Predicting ABO blood type..."
 mkdir -p ${OUT_DATA_DIR}/ABO/
-(cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo) &> ${LOG_DIR}/plink-abo.log
-${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${OUT_DATA_DIR}/ABO/abo-matic.txt &> ${LOG_DIR}/abo-matic.log
+p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
+${IYG_DIR}/analyse/abo/abo-matic.pl ${OUT_DATA_DIR}/ABO/abo.ped > ${OUT_DATA_DIR}/ABO/pred.ABO.txt 2> ${LOG_DIR}/abo-matic.log
 
 ##########################
 #4. generate sex predictions

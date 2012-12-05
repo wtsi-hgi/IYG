@@ -2,16 +2,27 @@
 
 use strict;
 
+my %infotext = (
+	"A" => "You are likely blood type A. Type A blood can receive blood from types O and A, and can donate to A and AB.",
+	"B" => "You are likely blood type A. Type B blood can receive blood from types O and B, and can donate to B and AB.",
+	"B*" => "You have an uncommon combination of genotypes at this locus. We estimate you have an 80% chance of being type B. Type B blood can receive blood from types O and B, and can donate to B and AB.",
+	"AB" => "You are likely blood type AB. Type AB is the universal recipient (can receive any other blood type), but can only be donated to other AB individuals.",
+	"O" => "You are likely blood type O. Type O blood can only receive blood from other O individuals, but is the universal donor (can be given to anyone).",
+	"Unknown" => "We were unable to determine your likely blood type. The genetic markers in this region are difficult to assay, so some samples didn't provide a strong enough signal for a prediction."
+	);
+
 my $aboped = shift;
 
 #algorithm from https://docs.google.com/spreadsheet/ccc?key=0Aix0fqaSeLD1cHdJQ2RDa3hhZEJCSVA0V0Zsc2I5UkE&hl=en#gid=0
 #LD for 7,6,3 GCG / CAA
 
-open (my $in, "<", "$aboped");
+print "Barcode\tTraitShortName\tBloodType\tInfoText\n";
+
+open (my $in, "<", $aboped);
 while (<$in>) {
 	my @f = split;
 	
-	my $exp = "U";
+	my $exp = "Unknown";
 	if (($f[6] ne $f[7] || $f[6] eq "N") 
 	&& ($f[8] ne $f[9] || $f[8] eq "N") 
 	&& ($f[10] ne $f[11]) || $f[10] eq "N"){
@@ -25,25 +36,26 @@ while (<$in>) {
 	(($f[10] eq "A" && $f[11] eq "A") || $f[10] eq "N")){
 		$exp = "B";
 	}else{
+		#WTF is this?
 		#print "$f[0]\t$f[6]$f[7]$f[8]$f[9]$f[10]$f[11]\n";
 	}
 	
 	
-	if ($f[12] eq "N"){
-		print "$f[0]\tU\n";
+	if ($f[12] eq "N" && $f[13] eq "N"){
+		$exp = "Unknown";
 	}elsif ($f[12] eq "-" && $f[13] eq "-"){
 		#homoz del
-		print "$f[0]\tO\n";
+		$exp = "O";
 	}elsif ($f[12] eq "G"){
 		if ($f[13] eq "G"){
 			#hom WT
-			print "$f[0]\t$exp\n";
+			$exp = $exp;
 		}elsif ($f[13] eq "-"){
 			#het del
 			if ($exp eq "AB"){
-				print "$f[0]\tB*\n";
+				$exp="B*";
 			}else{
-				print "$f[0]\t$exp\n";
+				$exp=$exp;
 			}
 		}else{
 			die "WTF? $_";
@@ -51,6 +63,7 @@ while (<$in>) {
 	}else{
 		die "WTF? $_";
 	}
+	print "$f[0]\tABO\t$exp\t$infotext{$exp}\n";
 }
 
 close $in;
