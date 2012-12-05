@@ -1,4 +1,5 @@
 sotdata.tar.gz
+priv/
 web/templates/gpg_key.tmpl
 .pversion
 *~

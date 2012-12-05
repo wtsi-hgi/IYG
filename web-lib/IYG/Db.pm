@@ -170,14 +170,14 @@ sub query_all_snps_with_results{
 
 sub barcodeToProfile{
     my $self = shift;
-    my $query = "SELECT public_id FROM profiles WHERE profiles.barcode = ?";
+    my $query = "SELECT public_id, consent_flag FROM profiles WHERE profiles.barcode = ?";
 
     my $profileResultSet = $self->dbh->prepare($query);
     $profileResultSet->execute( $_[0] );
 
     if($profileResultSet->rows > 0){
         my $profile = $profileResultSet->fetchrow_hashref();
-        return $profile->{'public_id'};
+        return ($profile->{'public_id'}, $profile->{'consent_flag'});
     } else{
         return undef;
     }

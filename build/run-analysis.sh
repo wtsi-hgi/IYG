@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#To run in testing mode;
+# IYG_DIR=.
+# PRIV_DATA_DIR=${IYG_DIR}/priv/
+# PUB_DATA_DIR=${IYG_DIR}/public_data/
+# LOG_DIR=${IYG_DIR}/log/
+
+
 if [[ -z "${IYG_DIR}" || ! -d ${IYG_DIR} ]]; 
     then
     echo "Must set environment variable IYG_DIR to a valid directory"
@@ -26,7 +33,7 @@ fi
 
 if [[ ! -e ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink.ped ]]
     then
-    echo "PRIV_DATA_DIR does not contain iyg.ped"
+    echo "PRIV_DATA_DIR does not contain ALL_assay_summary.masterplink.ped"
     exit 1
 fi
 
@@ -45,7 +52,7 @@ rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir -p ${OUT_DATA_DIR}
 #MANUAL: look at output and produce a list of SNPs called failed-snps.txt
 if [[ ! -e ${PRIV_DATA_DIR}/qc/failed-snps.txt ]]
 then
-    echo "[ERROR] Required file ${PRIV_DATA_DIR}/failed-snps.txt not present! Please perform manual SNP QC and re-run once this file exists."
+    echo "[ERROR] Required file ${PRIV_DATA_DIR}/qc/failed-snps.txt not present! Please perform manual SNP QC and re-run once this file exists."
     exit 1
 fi
 
@@ -67,7 +74,7 @@ for qc_file in ${qc_files}
 do 
     if [[ ! -e ${PRIV_DATA_DIR}/qc/${qc_file} ]]
     then
-	echo "[ERROR] Required file ${PRIV_DATA_DIR}/${qc_file} not present! Please perform manual sample QC and re-run once this file exists."
+	echo "[ERROR] Required file ${PRIV_DATA_DIR}/qc/${qc_file} not present! Please perform manual sample QC and re-run once this file exists."
 	exit 1
     fi
 done
@@ -86,8 +93,8 @@ echo "Initializing the jammer..."
 #put in public_data/pred_results/
 echo "Predicting ABO blood type..."
 mkdir -p ${OUT_DATA_DIR}/ABO/
-(cd ${PRIV_DATA_DIR} && p-link --noweb --file iyg --missing-genotype 0 --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out abo) &> ${LOG_DIR}/plink-abo.log
-${IYG_DIR}/analyse/abo/abo-matic.pl ${PRIV_DATA_DIR}/abo.ped > ${OUT_DATA_DIR}/ABO/abo-matic.txt &> ${LOG_DIR}/abo-matic.log
+p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
+${IYG_DIR}/analyse/abo/abo-matic.pl ${OUT_DATA_DIR}/ABO/abo.ped > ${OUT_DATA_DIR}/ABO/pred.ABO.txt 2> ${LOG_DIR}/abo-matic.log
 
 ##########################
 #4. generate sex predictions
@@ -130,7 +137,7 @@ ${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out
 ##########################
 #7. generate PCA predictions
 echo "Performing world-wide PCA..."
-mkdir -p ${WEB_DATA_DIR}/AIM/
+mkdir -p ${WEB_DATA_DIR}/AIM/AIM/
 mkdir -p ${OUT_DATA_DIR}/AIM/
 #create merged file for PCA
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
@@ -138,8 +145,9 @@ p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.
 #run PCA
 R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R &> ${LOG_DIR}/pca-doPCA.log
 
+echo "Making world-wide PCA plots..."
 #make plots
-R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/nopred.PCA.txt ${WEB_DATA_DIR}/AIM/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
 
 
 ##########################
@@ -155,7 +163,7 @@ do
     echo -n "${trait} "
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R &>> ${LOG_DIR}/qt1-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt1-mangroveit.log
 done
 echo "done."
 
@@ -167,7 +175,7 @@ do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${WEB_DATA_DIR}/${trait}/POPDIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R &>> ${LOG_DIR}/qt2-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt2-mangroveit.log
 done
 echo "done."
 

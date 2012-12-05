@@ -93,8 +93,20 @@ class Data_Loader:
 
         if(args.barcodes_file is not None):
             barcodes_file = open(args.barcodes_file, 'r')
-            self.import_profiles(barcodes_file)
+            self.import_profiles(barcodes_file,1)
  
+        if(args.unconsented_barcodes_file is not None):
+            unconsented_barcodes_file = open(args.unconsented_barcodes_file, 'r')
+            self.import_profiles(unconsented_barcodes_file,0)
+
+        if(args.failed_barcodes_file is not None):
+            failed_barcodes_file = open(args.failed_barcodes_file, 'r')
+            self.import_profiles(failed_barcodes_file,2)
+        
+        if(args.flagged_barcodes_file is not None):
+            flagged_barcodes_file = open(args.flagged_barcodes_file, 'r')
+            self.flag_profiles(flagged_barcodes_file)
+
         if(args.snp_info_file is not None):
             snp_info = open(args.snp_info_file, 'r')
             self.import_snp_info(snp_info)
@@ -272,7 +284,7 @@ class Data_Loader:
             exit(0)
 
 
-    def import_profiles(self, barcodes):
+    def import_profiles(self, barcodes,consent):
         """Process the list of barcodes, inserting a new profile row in the
         database for each consenting barcode"""
         print "[READ]\tImporting Barcode List"
@@ -292,12 +304,35 @@ class Data_Loader:
             try:
                 self.cur.execute(
                     "INSERT INTO profiles (barcode, consent_flag, public_id)"
-                    "VALUES (%s, %s, SHA1(%s))", (barcode, 1, public_id))
+                    "VALUES (%s, %s, SHA1(%s))", (barcode, consent, public_id))
                 self.db.commit()
             except MySQLdb.Error, e:
                 print "[FAIL]\tBarcode %s not added to database" % barcode
                 print "\tError %d: %s" % (e.args[0], e.args[1])
 
+        barcodes.close()
+
+
+    def flag_profiles(self, barcodes):
+        """Process the list of barcodes, updating each profile row in the
+            database to flag the barcode"""
+        print "[READ]\tImporting Flagged Barcode List"
+        
+        for line in barcodes:
+            if line[0] == "#": #Skip comments
+                continue
+            
+            barcode = line.strip()
+        
+            try:
+                self.cur.execute(
+                    "UPDATE profiles SET quality_flagged = 1 "
+                    "WHERE barcode = %s", (barcode))
+                self.db.commit()
+            except MySQLdb.Error, e:
+                print "[FAIL]\tBarcode %s not flagged" % barcode
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+        
         barcodes.close()
 
 
@@ -675,7 +710,7 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
+            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE short_name = %s"
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
@@ -697,7 +732,7 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into profile trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE traits.name = %s AND profiles.barcode = %s"
+            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE profiles.barcode = %s AND traits.short_name = %s "
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
@@ -733,7 +768,16 @@ if __name__ == "__main__":
     ## you need a barcodes file loaded first which will limit samples to those listed
     parser.add_argument('--barcodes-file', metavar="barcodes_file", dest="barcodes_file",
         help=("New line delimited list of *consenting* barcodes"))
+    parser.add_argument('--unconsented-barcodes-file', metavar="unconsented_barcodes_file", dest="unconsented_barcodes_file",
+        help=("New line delimited list of *unconsenting* barcodes"))
+    parser.add_argument('--failed-barcodes-file', metavar="failed_barcodes_file", dest="failed_barcodes_file",
+        help=("New line delimited list of *failed* barcodes"))
 
+    ## these are barcodes with data that's a bit suspect, sets a flag on them
+    parser.add_argument('--flagged-barcodes-file', metavar="flagged_barcodes_file", dest="flagged_barcodes_file",
+        help=("New line delimited list of barcodes which have data but the data has failed qc"))
+
+    
     ## then you need to load trait info, snp info, and snp-trait-genotype-effect files
     parser.add_argument('--trait-info-file', metavar="trait_info_file", dest="trait_info_file",
         help=("Trait Info File"))
