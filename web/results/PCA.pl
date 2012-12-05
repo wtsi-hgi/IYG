@@ -90,6 +90,10 @@ else{
             }
         }
 
+	my $pca_uri = $profileTraitResult->{'AIM_AIM'}->{'data'};
+	# strip off extension so we can use content negotiation
+	$pca_uri =~ s/\.[^.]+$//;
+
         # Load the variant info template and pass the parameters for display.
         print $app->page->render({
             prepath => "../",
@@ -101,7 +105,7 @@ else{
                 SNPS => [@snps],
                 PROFILE_ID => $app->page->cgi->param('profile'),
 #		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
-		PCA_URI => '/public_data/webresource/' . $profileTraitResult->{'AIM_AIM'}->{'data'},
+		PCA_URI => '/public_data/webresource/' . $pca_uri,
             },
         });
     }
