@@ -1,9 +1,34 @@
 #!/bin/bash
 
-IYG_DIR=$1
-PRIV_DATA_DIR=$2
-PUB_DATA_DIR=$3
-LOG_DIR=$4
+if [[ ! ( -n "${IYG_DIR}" && -d ${IYG_DIR} ) ]]; 
+    then
+    echo "Must set environment variable IYG_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! ( -n "${PRIV_DATA_DIR}" && -d ${PRIV_DATA_DIR} ) ]]; 
+    then
+    echo "Must set environment variable PRIV_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! ( -n "${PUB_DATA_DIR}" && -d ${PUB_DATA_DIR} ) ]]; 
+    then
+    echo "Must set environment variable PUB_DATA_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! ( -n "${LOG_DIR}" && -d ${LOG_DIR} ) ]]; 
+    then
+    echo "Must set environment variable LOG_DIR to a valid directory"
+    exit 1
+fi
+
+if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
+    then
+    echo "PRIV_DATA_DIR does not contain delivery subdirectory"
+    exit 1
+fi
 
 echo "Getting description text from SOT..."
 (${IYG_DIR}/import/get-sot/get-sot.sh ${PUB_DATA_DIR}/sot-snp-category-trait-shortname.txt ${PUB_DATA_DIR} 2>&1 ) > ${LOG_DIR}/get-sot.log
