@@ -115,7 +115,7 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA
 #Note: ones with few SNPs kind of suck!!
 echo "Predicting QTs and generating images..."
 
-# These two have no population data
+# These three have no population data
 for trait in BALD EYE NEAND
 do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
