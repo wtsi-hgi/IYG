@@ -1,21 +1,16 @@
 #!/bin/bash
 
-PRIV_DATA_DIR=$1
+IYG_DIR=$1
+PRIV_DATA_DIR=$2
+PUB_DATA_DIR=$3
+LOG_DIR=$4
 
 if [[ ! -e ${PRIV_DATA_DIR}/iyg.ped ]]
     then
-    echo "Must specify PRIV_DATA_DIR as first argument"
+    echo "Must specify PRIV_DATA_DIR as second argument"
     exit 1
 fi
 
-reldir=`dirname $0`
-if [[ `echo "${reldir}" | cut -c1` = "/" ]]
-then
-    IYG_DIR=${reldir}/../
-else
-    IYG_DIR=`pwd`/${reldir}/../
-fi
-PUB_DATA_DIR=${IYG_DIR}/public_data/
 WEB_DATA_DIR=${PUB_DATA_DIR}/pred_results/web/
 OUT_DATA_DIR=${PUB_DATA_DIR}/pred_results/out/
 
@@ -115,7 +110,7 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA
 #Note: ones with few SNPs kind of suck!!
 echo "Predicting QTs and generating images..."
 
-# These two have no population data
+# These three have no population data
 for trait in BALD EYE NEAND
 do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
