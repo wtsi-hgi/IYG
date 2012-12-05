@@ -2,6 +2,7 @@
 
 import sys
 
+print "Barcode\tTraitShortname\tHaplogroup\tInfoText\n";
 TEXTFILE=open(sys.argv[1])
 HAPFILE=open(sys.argv[2])
 textdict = {}
@@ -11,4 +12,4 @@ for line_raw in TEXTFILE:
 
 for line_raw in HAPFILE:
     line=line_raw.split()
-    print line[0] + "\t" + line[1] + "\t" + textdict[line[1]],
+    print line[0] + "\tY\t" + line[1] + "\t" + textdict[line[1]],
