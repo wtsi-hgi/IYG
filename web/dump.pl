@@ -34,7 +34,7 @@ if(defined($app->page->cgi->param('profile'))){
 }
 
 # Ensure a barcode was submitted, if not; error out.
-if(!$profile){
+if(!$publicid){
     print "Content-Type:text/plain\n\nnot logged in";
 }
 else{
