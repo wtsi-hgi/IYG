@@ -48,8 +48,8 @@ if(!$profile){
     });
 }
 elsif( $consented == 0 ){
-    print app->page->render({
-        template => 'unconsented',
+    print $app->page->render({
+        template => 'login',
         params => {
             TITLE => "Unconsented barcode",
             MESSAGE => "Sorry, the consent form for this barcode was not completed. The sample was destroyed and no genetic data were generated.",
@@ -57,8 +57,8 @@ elsif( $consented == 0 ){
     });
 }
 elsif( $consented == 2 ){
-    print app->page->render({
-        template => 'failed',
+    print $app->page->render({
+        template => 'login',
         params => {
             TITLE => "Sample failed",
             MESSAGE => "Sorry, the DNA sample matching this barcode did not produce any valid genetic data.",
