@@ -647,10 +647,32 @@ class Data_Loader:
             res = self.cur.fetchall()
             for profile in res:
                 print>>profile_output, "%s\t%s" % (profile[0], profile[1])
+            profile_output.close()
         except MySQLdb.Error, e:
-            print "[WARN]\tSNP genotype frequency query failed for snp %s" % snp_dbid
+            print "[WARN]\tDump profile barcodes query failed"
             print "\tError %d: %s" % (e.args[0], e.args[1])
 
+    def loadTraitAdditional(self, trait_file)
+        # Read header to get keys for each column
+        header = Delimited_text_header(trait_file, "\t")
+
+        # Loop through rows of file building up list of files to add
+        key_value_tuple = []
+        for line in trait_file:
+            fields = line.strip().split("\t")
+            for item in range(1, len(fields))
+                key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0]))
+
+        # write to DB
+        print "[INFO]\tInserting %d records into trait addtional table." % (len(key_value_tuple))
+        try:
+            query = "INSERT INTO traits_additional (trait_id, name, description) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
+            self.cur.executemany(query, key_value_tuple)
+            self.db.commit()
+        except MySQLdb.Error, e:
+            print "[WARN]\tloadTraitAdditional query failed"
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+        trait_file.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=(
