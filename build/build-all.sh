@@ -1,6 +1,15 @@
 #!/bin/bash
 
 PRIV_DATA_DIR=$1
+runscripts=$2
+
+if [[ -z "${runscripts}" || "${runscripts}" == "all" ]]
+then
+    # default to run all
+    runscripts="convert-delivery import analysis"
+fi
+
+
 reldir=`dirname $0`
 if [[ `echo "${reldir}" | cut -c1` = "/" ]]
 then
@@ -25,18 +34,20 @@ echo "build-all using ${PRIV_DATA_DIR} for private data and ${IYG_DIR} as iyg ro
 export IYG_DIR
 export PRIV_DATA_DIR
 export PUB_DATA_DIR
-export LOG_DIR
+export LOG_DIR_TOP=${LOG_DIR}
 
-
-echo "Running convert delivery script... "
-${IYG_DIR}/build/run-convert-delivery.sh 2>&1 > ${LOG_DIR}/run-convert-delivery.log
-
-
-echo "Running import script... "
-${IYG_DIR}/build/run-import.sh 2>&1 > ${LOG_DIR}/run-import.log
-
-
-echo "Running analysis... "
-${IYG_DIR}/build/run-analysis.sh 2>&1 > ${LOG_DIR}/run-analysis.log
-
+# run all run scripts 
+for runscript in ${runscripts}; 
+do
+    echo "Running convert delivery script... "
+    if [[ -e  ${IYG_DIR}/build/run-${runscript}.sh ]]
+    then
+	export LOG_DIR=${LOG_DIR_TOP}/run-${runscript}/
+	mkdir -p ${LOG_DIR}
+	${IYG_DIR}/build/run-${runscript}.sh 2>&1 > ${LOG_DIR}/run-${runscript}.log
+    else
+	echo "[ERROR] ${IYG_DIR}/build/run-${runscript}.sh does not exist!"
+	exit 1
+    fi
+done
 
