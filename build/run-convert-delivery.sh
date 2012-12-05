@@ -71,6 +71,13 @@ echo -n "${xlsxes} "
 ${IYG_DIR}/convert-delivery/assay-summary-combine.pl ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${xlsxes} &>> ${LOG_DIR}/assay-summary-combine.log
 echo ">> ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv"
 
+# Override fake data if requested
+if [[ -n "${IYG_FAKEOUT}" ]]
+then
+    echo "********** OVERRIDING RAW DATA WITH FAKE FOR TESTING, to disable, unset IYG_FAKEOUT"
+    cp ${PRIV_DATA_DIR}/fake-data-raw/ALL_assay_summary.fakebarcode.tsv ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv
+fi
+
 # Generate initial PED/MAP from assay summary TSV
 echo -n "generating PED from assay summary TSV... "
 ${IYG_DIR}/convert-delivery/assaysummary2ped.sh ${IYG_DIR}/public_data/SNP-CHR-POS_GRCh37.txt ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink &>> ${LOG_DIR}/assaysummary2ped.log

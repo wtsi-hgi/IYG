@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #To run in testing mode;
-# IYG_DIR=.
-# PRIV_DATA_DIR=${IYG_DIR}/priv/
-# PUB_DATA_DIR=${IYG_DIR}/public_data/
-# LOG_DIR=${IYG_DIR}/log/
+IYG_DIR=.
+PRIV_DATA_DIR=${IYG_DIR}/priv/
+PUB_DATA_DIR=${IYG_DIR}/public_data/
+LOG_DIR=${IYG_DIR}/log/
 
 
 if [[ -z "${IYG_DIR}" || ! -d ${IYG_DIR} ]]; 
@@ -60,16 +60,14 @@ fi
 ##########################
 #2. run QC on Josh's input PED file
 #remove failed SNPs
-p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/qc/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
+plink --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/qc/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
 
 #view missing rates in this file (autosomes only)
 #MANUAL: produce sample-fails.txt for exclusions (currently MISS > 0.5)
-#MANUAL: produce flagged-samples.txt for flagging (currently 0.05 > MISS > 0.50)
 
 #MANUAL: negative-snps.txt is file of SNPs on - strand in Source file
 #analyse/qc/negative-snps.txt can be reproduced using matchalleles.pl, ensembl-alleles.txt, compare-alleles.pl, snpseqs.txt
-# TODO use flagged-samples.txt somewhere
-qc_files="sample-fails.txt flagged-samples.txt negative-snps.txt"
+qc_files="sample-fails.txt negative-snps.txt"
 for qc_file in ${qc_files}
 do 
     if [[ ! -e ${PRIV_DATA_DIR}/qc/${qc_file} ]]
@@ -78,12 +76,12 @@ do
 	exit 1
     fi
 done
-p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/qc/sample-fails.txt --flip ${PRIV_DATA_DIR}/qc/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
+plink --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/qc/sample-fails.txt --flip ${PRIV_DATA_DIR}/qc/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
 
 #MANUAL: max-ibs.pl can be used, along with PLINK --genome, to find duplicates.
 
 #create input pedfile for DB load
-p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg --recode --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-final-recodeped.log
+plink --noweb --bfile ${PRIV_DATA_DIR}/iyg --recode --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-final-recodeped.log
 
 echo "Initializing the jammer..."
 
@@ -93,7 +91,7 @@ echo "Initializing the jammer..."
 #put in public_data/pred_results/
 echo "Predicting ABO blood type..."
 mkdir -p ${OUT_DATA_DIR}/ABO/
-p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
+plink --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
 ${IYG_DIR}/analyse/abo/abo-matic.pl ${OUT_DATA_DIR}/ABO/abo.ped > ${OUT_DATA_DIR}/ABO/pred.ABO.txt 2> ${LOG_DIR}/abo-matic.log
 
 ##########################
@@ -113,7 +111,7 @@ then
 fi
 mkdir -p ${OUT_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
-p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
+plink --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
 ${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall &> ${LOG_DIR}/tped2qcall.log
 
 # do the haplogrouping
@@ -140,7 +138,7 @@ echo "Performing world-wide PCA..."
 mkdir -p ${WEB_DATA_DIR}/AIM/AIM/
 mkdir -p ${OUT_DATA_DIR}/AIM/
 #create merged file for PCA
-p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
+plink --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
 
 #run PCA
 R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R &> ${LOG_DIR}/pca-doPCA.log
