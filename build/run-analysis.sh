@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #To run in testing mode;
-IYG_DIR=.
-PRIV_DATA_DIR=${IYG_DIR}/priv/
-PUB_DATA_DIR=${IYG_DIR}/public_data/
-LOG_DIR=${IYG_DIR}/log/
+# IYG_DIR=.
+# PRIV_DATA_DIR=${IYG_DIR}/priv/
+# PUB_DATA_DIR=${IYG_DIR}/public_data/
+# LOG_DIR=${IYG_DIR}/log/
 
 
 if [[ -z "${IYG_DIR}" || ! -d ${IYG_DIR} ]]; 
@@ -60,7 +60,7 @@ fi
 ##########################
 #2. run QC on Josh's input PED file
 #remove failed SNPs
-plink --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/qc/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
+p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --exclude ${PRIV_DATA_DIR}/qc/failed-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg-snpqc &> ${LOG_DIR}/plink-snpqc.log
 
 #view missing rates in this file (autosomes only)
 #MANUAL: produce sample-fails.txt for exclusions (currently MISS > 0.5)
@@ -76,12 +76,12 @@ do
 	exit 1
     fi
 done
-plink --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/qc/sample-fails.txt --flip ${PRIV_DATA_DIR}/qc/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
+p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg-snpqc --remove ${PRIV_DATA_DIR}/qc/sample-fails.txt --flip ${PRIV_DATA_DIR}/qc/negative-snps.txt --make-bed --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-finalqc.log
 
 #MANUAL: max-ibs.pl can be used, along with PLINK --genome, to find duplicates.
 
 #create input pedfile for DB load
-plink --noweb --bfile ${PRIV_DATA_DIR}/iyg --recode --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-final-recodeped.log
+p-link --noweb --bfile ${PRIV_DATA_DIR}/iyg --recode --out ${PRIV_DATA_DIR}/iyg &> ${LOG_DIR}/plink-final-recodeped.log
 
 echo "Initializing the jammer..."
 
@@ -91,7 +91,7 @@ echo "Initializing the jammer..."
 #put in public_data/pred_results/
 echo "Predicting ABO blood type..."
 mkdir -p ${OUT_DATA_DIR}/ABO/
-plink --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
+p-link --noweb --file ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink --missing-genotype N --snps rs8176743,rs8176746,rs8176747,rs8176719 --recode --out ${OUT_DATA_DIR}/ABO/abo &> ${LOG_DIR}/plink-abo.log
 ${IYG_DIR}/analyse/abo/abo-matic.pl ${OUT_DATA_DIR}/ABO/abo.ped > ${OUT_DATA_DIR}/ABO/pred.ABO.txt 2> ${LOG_DIR}/abo-matic.log
 
 ##########################
@@ -111,7 +111,7 @@ then
 fi
 mkdir -p ${OUT_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
-plink --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
+p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
 ${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall &> ${LOG_DIR}/tped2qcall.log
 
 # do the haplogrouping
@@ -127,6 +127,12 @@ awk 'NF > 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${OUT_D
 #add HTML
 ${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/Youtput.txt &> ${LOG_DIR}/addText.log
 
+##########################
+#5.1. generate BALD predictions
+echo "Predicting baldness state..."
+mkdir -p ${OUT_DATA_DIR}/BALD/
+R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/tree/bald-cat.R &> ${LOG_DIR}/bald-mangroveit.log
+
 
 ##########################
 #6. generate MT predictions
@@ -138,7 +144,7 @@ echo "Performing world-wide PCA..."
 mkdir -p ${WEB_DATA_DIR}/AIM/AIM/
 mkdir -p ${OUT_DATA_DIR}/AIM/
 #create merged file for PCA
-plink --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
+p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
 
 #run PCA
 R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R &> ${LOG_DIR}/pca-doPCA.log
@@ -156,12 +162,12 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/nopred.PCA.txt ${WEB_DATA_DI
 
 # These three have no population data
 echo -n "Predicting QTs and generating images for qt1 traits... "
-for trait in BALD EYE NEAND
+for trait in EYE NEAND
 do
     echo -n "${trait} "
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt1-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt1-mangroveit.log
 done
 echo "done."
 
@@ -173,7 +179,7 @@ do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${WEB_DATA_DIR}/${trait}/POPDIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R 2> ${LOG_DIR}/qt2-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt2-mangroveit.log
 done
 echo "done."
 
