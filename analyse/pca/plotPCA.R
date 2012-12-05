@@ -2,6 +2,7 @@
 args <- commandArgs(trailingOnly = TRUE)
 infile<-args[1]
 outdir<-args[2]
+puboutdir<-args[3]
 
 ## read in the data
 a <- read.table(infile,header=T)
@@ -23,7 +24,7 @@ cols[popn %in% asia] <- "blue"
 cols[popn %in% america] <- "orange"
 
 ## make the all-sample PCA
-svg(paste(outdir,"/","all-iyg-pca.svg",sep=""),bg="transparent")
+svg(paste(puboutdir,"/","all-iyg-pca.svg",sep=""),bg="transparent")
 par(mar=c(0,0,0,0))
 plot(a[,2],a[,3],col=cols,pch=20,axes=F,xlab="",ylab="",cex=2)
 legend(4,9,text.font=c(1,1,1,1,3,1),legend=c("Africans","Europeans","East Asians","Central Americans","Inside Your Genome","participants"),pch=20,col=c("red","green","blue","orange","grey",NA),cex=1.5,pt.cex=2,bty="n")
