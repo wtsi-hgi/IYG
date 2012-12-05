@@ -675,7 +675,7 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
+            query = "INSERT INTO traits_additional (trait_id, name, data) SELECT trait_id, %s, %s FROM traits WHERE short_name = %s"
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
@@ -697,7 +697,7 @@ class Data_Loader:
         # write to DB
         print "[INFO]\tInserting %d records into profile trait additional table." % (len(key_value_tuple))
         try:
-            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE traits.name = %s AND profiles.barcode = %s"
+            query = "INSERT INTO profiles_traits (profile_id, trait_id, name, data) SELECT profile_id, trait_id, %s, %s FROM traits, profiles WHERE profiles.barcode = %s AND traits.short_name = %s "
             self.cur.executemany(query, key_value_tuple)
             self.db.commit()
         except MySQLdb.Error, e:
