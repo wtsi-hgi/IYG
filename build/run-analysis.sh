@@ -43,6 +43,8 @@ rm -rf ${PRIV_DATA_DIR}/pred_results/web/ && mkdir -p ${WEB_DATA_DIR}
 OUT_DATA_DIR=${PRIV_DATA_DIR}/pred_results/out/
 rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir -p ${OUT_DATA_DIR}
 
+PUB_OUT_DIR=${PUB_DATA_DIR}/pred_results/
+rm -rf ${PUB_DATA_DIR}/pred_results/ && mkdir -p ${PUB_OUT_DIR}
 
 ##########################
 #1. run QC on raw TSV
@@ -143,6 +145,7 @@ R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${OUT_DATA
 echo "Performing world-wide PCA..."
 mkdir -p ${WEB_DATA_DIR}/AIM/AIM/
 mkdir -p ${OUT_DATA_DIR}/AIM/
+mkdir -p ${PUB_OUT_DIR}/AIM/
 #create merged file for PCA
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
 
@@ -151,8 +154,9 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_
 
 echo "Making world-wide PCA plots..."
 #make plots
-R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/nopred.PCA.txt ${WEB_DATA_DIR}/AIM/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
-
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/nopred.PCA.txt ${WEB_DATA_DIR}/AIM/AIM/ ${PUB_OUT_DIR}/AIM/ x1< ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
+gzip ${PUB_OUT_DIR}/AIM/all-iyg-pca.svg
+mv ${PUB_OUT_DIR}/AIM/all-iyg-pca.svg.gz ${PUB_OUT_DIR}/AIM/all-iyg-pca.svgz 
 
 ##########################
 #8. generate QT predictions
@@ -167,7 +171,7 @@ do
     echo -n "${trait} "
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt1-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/qt/mangrove-it.R >> ${LOG_DIR}/qt1-mangroveit.log
 done
 echo "done."
 
@@ -179,7 +183,7 @@ do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir -p ${WEB_DATA_DIR}/${trait}/POPDIST/
     mkdir -p ${OUT_DATA_DIR}/${trait}/
-    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R &> ${LOG_DIR}/qt2-mangroveit.log
+    R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R >> ${LOG_DIR}/qt2-mangroveit.log
 done
 echo "done."
 

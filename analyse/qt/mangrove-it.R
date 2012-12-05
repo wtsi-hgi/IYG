@@ -46,6 +46,9 @@ betas<-readBetas(paste(pubdir,"/qt/",thistrait,".grovebeta",sep=""),h=T)
 traitinfo<-read.table(paste(pubdir,"/","master-trait-info.txt",sep=""),h=T,sep="\t")
 
 thisunits<-traitinfo$Units[traitinfo$ShortName==thistrait]
+if (is.na(thisunits)){
+	thisunits<-""
+}
 popmean<-traitinfo$Mean[traitinfo$ShortName==thistrait]
 popsd<-traitinfo$SD[traitinfo$ShortName==thistrait]
 
@@ -149,16 +152,26 @@ for (i in 1:length(predictions)){
 	if (!is.na(popmean)){	
 		svg(paste(webdir,"/POPDIST/",names(absolutepreds)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepreds[i],popsd-sqrt(varexpl))
+		if (length(which(!is.na(thisy))) == 0){
+			ph<-max(popy)
+		}else{
+			ph<-max(thisy,na.rm=T)
+		}
 		plot(popx,popy,type="l",bty="n",yaxt="n",ylab="",
-		xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(popy)),lwd=2)
+			xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,ph),lwd=2)
 		lines(popx,thisy,col=2,lwd=2)
 		dev.off()
 	}
 	if (thistrait == "CAFE"){
 		svg(paste(webdir,"/POPDIST/",names(absolutepredsUK)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepredsUK[i],UKsd-sqrt(UKvarexpl))
+		if (length(which(!is.na(thisy))) == 0){
+			ph<-max(popy)
+		}else{
+			ph<-max(thisy,na.rm=T)
+		}
 		plot(popx,UKy,type="l",bty="n",yaxt="n",ylab="",
-			xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(UKy)),lwd=2)
+			xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,ph),lwd=2)
 		lines(popx,thisy,col=2,lwd=2)
 		lines(popx,NLy,lwd=2,lty=2)
 		thisy<-dnorm(popx,absolutepredsNL[i],NLsd-sqrt(NLvarexpl))
