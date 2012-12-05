@@ -7,6 +7,7 @@ if [[ -z "${runscripts}" || "${runscripts}" == "all" ]]
 then
     # default to run all
     runscripts="convert-delivery import analysis"
+    echo "individual runscripts not specified, defaulting to: [${runscripts}]"
 fi
 
 
@@ -25,9 +26,11 @@ if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
     exit 1
 fi
 
-build_date=`date +'%s'`
-LOG_DIR=${IYG_DIR}/build/log-${build_date}
-mkdir -p ${LOG_DIR}
+#build_date=`date +'%s'`
+#LOG_DIR=${IYG_DIR}/build/log-${build_date}
+#mkdir -p ${LOG_DIR}
+rm -rf ${IYG_DIR}/build/log && mkdir ${IYG_DIR}/build/log
+LOG_DIR=${IYG_DIR}/build/log
 
 echo "build-all using ${PRIV_DATA_DIR} for private data and ${IYG_DIR} as iyg root dir, logging in ${LOG_DIR}"
 
@@ -39,12 +42,12 @@ export LOG_DIR_TOP=${LOG_DIR}
 # run all run scripts 
 for runscript in ${runscripts}; 
 do
-    echo "Running convert delivery script... "
+    echo "Running ${runscript} script... "
     if [[ -e  ${IYG_DIR}/build/run-${runscript}.sh ]]
     then
 	export LOG_DIR=${LOG_DIR_TOP}/run-${runscript}/
 	mkdir -p ${LOG_DIR}
-	${IYG_DIR}/build/run-${runscript}.sh 2>&1 > ${LOG_DIR}/run-${runscript}.log
+	${IYG_DIR}/build/run-${runscript}.sh          # &> ${LOG_DIR}/run-${runscript}.log
     else
 	echo "[ERROR] ${IYG_DIR}/build/run-${runscript}.sh does not exist!"
 	exit 1
