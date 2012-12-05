@@ -31,10 +31,10 @@ if [[ ! -e ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink.ped ]]
 fi
 
 WEB_DATA_DIR=${PRIV_DATA_DIR}/pred_results/web/
-rm -rf ${PRIV_DATA_DIR}/pred_results/web/ && mkdir ${WEB_DATA_DIR}
+rm -rf ${PRIV_DATA_DIR}/pred_results/web/ && mkdir -p ${WEB_DATA_DIR}
 
 OUT_DATA_DIR=${PRIV_DATA_DIR}/pred_results/out/
-rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir ${OUT_DATA_DIR}
+rm -rf ${PRIV_DATA_DIR}/pred_results/out/ && mkdir -p ${OUT_DATA_DIR}
 
 
 ##########################

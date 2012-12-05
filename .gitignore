@@ -1,10 +1,13 @@
 sotdata.tar.gz
 web/templates/gpg_key.tmpl
+.pversion
 *~
 public_data/desc
 public_data/pred_results
+public_data/webresource
 build/log-*
 *.log
 #*
 *#
 .#*
+analyse/tree/Yfitter
