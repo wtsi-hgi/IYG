@@ -145,8 +145,10 @@ p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.
 #run PCA
 R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R &> ${LOG_DIR}/pca-doPCA.log
 
+echo "Making world-wide PCA plots..."
 #make plots
-R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
+R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/pred.PCA.txt ${WEB_DATA_DIR}/AIM/ < ${IYG_DIR}/analyse/pca/plotPCA.R  &> ${LOG_DIR}/pca-plotPCA.log
+exit 1
 
 
 ##########################

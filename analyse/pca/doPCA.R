@@ -30,4 +30,4 @@ pcs <- snp.post.multiply(dat, t(btr))
 labs <- dimnames(dat)[[1]]
 labs[hapmap] <- paste(labs[hapmap],popn[labs[hapmap]],sep="-")
 
-write.table(data.frame(IDs=labs,PC1 = pcs[,1],PC2 = pcs[,2], PC3=pcs[,3]),file=paste(indir,"/",'PCA_worldwide.txt',sep=""),row.names=F,sep="\t",quote=F)
+write.table(data.frame(IDs=labs,PC1 = pcs[,1],PC2 = pcs[,2], PC3=pcs[,3]),file=paste(indir,"/",'pred.PCA.txt',sep=""),row.names=F,sep="\t",quote=F)
