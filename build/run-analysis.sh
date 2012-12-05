@@ -115,8 +115,8 @@ R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM/PCA_worldwide.txt ${WEB_DATA
 #Note: ones with few SNPs kind of suck!!
 echo "Predicting QTs and generating images..."
 
-# These two have no population data
-for trait in BALD EYE
+# These three have no population data
+for trait in BALD EYE NEAND
 do
     mkdir -p ${WEB_DATA_DIR}/${trait}/IYGHIST/
     mkdir ${OUT_DATA_DIR}/${trait}/
@@ -131,10 +131,5 @@ do
     mkdir ${OUT_DATA_DIR}/${trait}/
     R --no-restore --no-save --args ${trait} ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${WEB_DATA_DIR} ${OUT_DATA_DIR} < ${IYG_DIR}/analyse/qt/mangrove-it.R
 done
-
-
-mkdir ${WEB_DATA_DIR}/NEAND 
-##still broken
-#R --no-restore --no-save --args NEAND < ${IYG_DIR}/analyse/qt/mangrove-it.R
 
 

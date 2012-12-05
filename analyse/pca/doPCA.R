@@ -1,13 +1,15 @@
 #usage: doPCA.R --args indir pubdatadir
 args <- commandArgs(trailingOnly = TRUE)
+indir<-args[1]
+refdir<-args[2]
 
 library(snpStats)
 
 # read in a merge ped file with 1KG and IYG individuals in
-dat <- read.plink(paste(args[1],"/",'1KG_IYG_merged',sep=""))$genotypes
+dat <- read.plink(paste(indir,"/",'1KG_IYG_merged',sep=""))$genotypes
 
 # read in populations
-pops <- read.table(paste(args[2],"/",'./1KG_pops.txt',sep=""),sep="\t",header=T)
+pops <- read.table(paste(refdir,"/",'./1KG_pops.txt',sep=""),sep="\t",header=T)
 popn <- pops[,2]
 names(popn) <- pops[,1]
 
@@ -28,4 +30,4 @@ pcs <- snp.post.multiply(dat, t(btr))
 labs <- dimnames(dat)[[1]]
 labs[hapmap] <- paste(labs[hapmap],popn[labs[hapmap]],sep="-")
 
-write.table(data.frame(IDs=labs,PC1 = pcs[,1],PC2 = pcs[,2], PC3=pcs[,3]),file=paste(args[1],"/",'PCA_worldwide.txt',sep=""),row.names=F,sep="\t",quote=F)
+write.table(data.frame(IDs=labs,PC1 = pcs[,1],PC2 = pcs[,2], PC3=pcs[,3]),file=paste(indir,"/",'PCA_worldwide.txt',sep=""),row.names=F,sep="\t",quote=F)

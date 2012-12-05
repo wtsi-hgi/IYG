@@ -3,7 +3,8 @@ args <- commandArgs(trailingOnly = TRUE)
 thistrait<-args[1]
 privdir<-args[2]
 pubdir<-args[3]
-outdir<-paste(args[4],"/",thistrait,sep="")
+webdir<-paste(args[4],"/",thistrait,sep="")
+outdir<-paste(args[5],"/",thistrait,sep="")
 
 library(Mangrove)
 
@@ -131,7 +132,7 @@ write.table(output,file=paste(outdir,"/",thistrait,"-grove.out",sep=""),quote=F,
 
 for (i in 1:length(predictions)){
 	print(names(predictions)[i])
-	svg(paste(outdir,"/IYGHIST/",names(predictions)[i],".svg",sep=""),bg="transparent")
+	svg(paste(webdir,"/IYGHIST/",names(predictions)[i],".svg",sep=""),bg="transparent")
 	if (thistrait == "EYE"){
 		hist(predictions,breaks=40,axes=F,xlab="",ylab="",main="",col=colors)
 	}else{
@@ -140,7 +141,7 @@ for (i in 1:length(predictions)){
 	abline(v=predictions[i],lty=2,col=2,lwd=2)
 	dev.off()
 	if (!is.na(popmean)){	
-		svg(paste(outdir,"/POPDIST/",names(absolutepreds)[i],".svg",sep=""),bg="transparent")
+		svg(paste(webdir,"/POPDIST/",names(absolutepreds)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepreds[i],popsd-sqrt(varexpl))
 		plot(popx,popy,type="l",bty="n",yaxt="n",ylab="",
 		xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(popy)),lwd=2)
@@ -148,7 +149,7 @@ for (i in 1:length(predictions)){
 		dev.off()
 	}
 	if (thistrait == "CAFE"){
-		svg(paste(outdir,"/POPDIST/",names(absolutepredsUK)[i],".svg",sep=""),bg="transparent")
+		svg(paste(webdir,"/POPDIST/",names(absolutepredsUK)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepredsUK[i],UKsd-sqrt(UKvarexpl))
 		plot(popx,UKy,type="l",bty="n",yaxt="n",ylab="",
 			xlab=paste(thistrait,thisunits,sep=" "),ylim=c(0,1.1*max(UKy)),lwd=2)
