@@ -46,7 +46,7 @@ fi
 for zipfile in ${zipfiles}
 do
     echo -n "${zipfile} "
-    unzip ${zipfile} -d ${PRIV_DATA_DIR}/delivery-unzip
+    unzip ${zipfile} -d ${PRIV_DATA_DIR}/delivery-unzip &>> ${LOG_DIR}/unzip.log
 done
 echo "done."
 
@@ -59,7 +59,7 @@ platedirs=`find ${PRIV_DATA_DIR}/delivery-unzip/ -name plate_\* -type d`
 for platedir in ${platedirs}
 do
     echo -n "${platedir} "
-    ln -s ${platedir} ${PRIV_DATA_DIR}/all-data-raw/
+    ln -s ${platedir} ${PRIV_DATA_DIR}/all-data-raw/ &>> ${LOG_DIR}/link_plate.log
 done
 echo "done."
 
@@ -68,13 +68,20 @@ echo "done."
 echo -n "generating assay summary TSV from XLSXes... "
 xlsxes=`find -L ${PRIV_DATA_DIR}/all-data-raw/ -name assay_summary\*.xlsx -type f`
 echo -n "${xlsxes} "
-${IYG_DIR}/convert-delivery/assay-summary-combine.pl ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${xlsxes}
+${IYG_DIR}/convert-delivery/assay-summary-combine.pl ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${xlsxes} &>> ${LOG_DIR}/assay-summary-combine.log
 echo ">> ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv"
 
-
-# Generate PED/snpchrpos from assay summary TSV
+# Generate initial PED/MAP from assay summary TSV
 echo -n "generating PED from assay summary TSV... "
-${IYG_DIR}/convert-delivery/assaysummary2ped.sh ${IYG_DIR}/public_data/SNP-CHR-POS_GRCh37.txt ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink
+${IYG_DIR}/convert-delivery/assaysummary2ped.sh ${IYG_DIR}/public_data/SNP-CHR-POS_GRCh37.txt ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink &>> ${LOG_DIR}/assaysummary2ped.log
+echo ">> ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink.ped ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink.map"
+
+# Generate list of NTC samples to remove
+awk 'BEGIN {FS="\t";} $1 ~ "^NTC-" {print $1" "$1;}' ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink.ped > ${PRIV_DATA_DIR}/ALL_assay_summary.NTC.indlist 
+
+# Recode PED/MAP to standard format and remove NTC samples
+echo -n "generating PED from assay summary TSV... "
+p-link --no-fid --no-parents --no-sex --allow-no-sex --missing-genotype N --map3 --nonfounders --remove ${PRIV_DATA_DIR}/ALL_assay_summary.NTC.indlist --file ${PRIV_DATA_DIR}/ALL_assay_summary.initialplink --recode --out ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink &>> ${LOG_DIR}/initialplink2masterplink.log
 echo ">> ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink.ped ${PRIV_DATA_DIR}/ALL_assay_summary.masterplink.map"
 
 

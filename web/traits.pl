@@ -25,25 +25,19 @@ use IYG::App;
 my $conf_path = $ENV{"IYG_CONF_PATH"};
 my $app = IYG::App->new(conf_path => $conf_path);
 
-my $barcode_flag;
-my $barcode_or_publicid;
-my $barcode;
 my $profile;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('barcode'))){
-    $barcode_flag = 1;
-    $barcode_or_publicid = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
-    $barcode = $app->page->cgi->param('barcode');
+    my $barcode = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
+    $profile = $app->dbh->barcodeToProfile($barcode);
 }
 elsif(defined($app->page->cgi->param('profile'))){
-    $barcode_flag = 0;
-    $barcode_or_publicid = $app->page->cgi->param('profile');
     $profile = $app->page->cgi->param('profile');
 }
 
 # Ensure a barcode was submitted, if not; load login template.
-if(!$barcode_or_publicid){
+if(!$profile){
     print $app->page->render({
         template => 'login',
         params => {
@@ -54,8 +48,8 @@ if(!$barcode_or_publicid){
 else{
     # Get all Traits for which the barcode has a result.
     my $traitResultSet = $app->dbh->query_all_traits_with_results({
-        is_barcode => $barcode_flag,
-        barcode_or_publicid => $barcode_or_publicid,
+        is_barcode => 0,
+        barcode_or_publicid => $profile,
     });
 
     my @traitList;
@@ -106,7 +100,6 @@ else{
                 TITLE => "View Trait List",
                 RESULT => [@traitList],
                 PROFILE => $profile,
-		BARCODE => $barcode,
             },
         });
     }
