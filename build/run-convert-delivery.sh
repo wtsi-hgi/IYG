@@ -63,16 +63,22 @@ do
 done
 echo "done."
 
+echo "disable: ${IYG_DISABLE_XLSX} fakeout: ${IYG_FAKEOUT}"
 
 # Generate assay summary TSV from Fluidigm plate XLSXes
-echo -n "generating assay summary TSV from XLSXes... "
-xlsxes=`find -L ${PRIV_DATA_DIR}/all-data-raw/ -name assay_summary\*.xlsx -type f`
-echo -n "${xlsxes} "
-${IYG_DIR}/convert-delivery/assay-summary-combine.pl ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${xlsxes} &>> ${LOG_DIR}/assay-summary-combine.log
-echo ">> ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv"
+if [[ "${IYG_DISABLE_XLSX}" != "" ]]
+then
+    echo -n "generating assay summary TSV from XLSXes... "
+    xlsxes=`find -L ${PRIV_DATA_DIR}/all-data-raw/ -name assay_summary\*.xlsx -type f`
+    echo -n "${xlsxes} "
+    ${IYG_DIR}/convert-delivery/assay-summary-combine.pl ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv ${xlsxes} &>> ${LOG_DIR}/assay-summary-combine.log
+    echo ">> ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv"
+else
+    echo "XLSX import disabled by environment variable (IYG_DISABLE_XLSX)"
+fi
 
 # Override fake data if requested
-if [[ -n "${IYG_FAKEOUT}" ]]
+if [[ "${IYG_FAKEOUT}" != "" ]]
 then
     echo "********** OVERRIDING RAW DATA WITH FAKE FOR TESTING, to disable, unset IYG_FAKEOUT"
     cp ${PRIV_DATA_DIR}/fake-data-raw/ALL_assay_summary.fakebarcode.tsv ${PRIV_DATA_DIR}/all-data-raw/ALL_assay_summary.tsv

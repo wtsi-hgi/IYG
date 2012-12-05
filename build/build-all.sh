@@ -6,7 +6,7 @@ runscripts=$2
 if [[ -z "${runscripts}" || "${runscripts}" == "all" ]]
 then
     # default to run all
-    runscripts="convert-delivery analysis import import_pred"
+    runscripts="convert-delivery analysis webresource_prep import"
     echo "individual runscripts not specified, defaulting to: [${runscripts}]"
 fi
 

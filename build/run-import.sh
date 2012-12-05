@@ -39,3 +39,5 @@ ${IYG_DIR}/build/init-db.sh ${PRIV_DATA_DIR} &> ${LOG_DIR}/init-db.log
 echo "Importing into database..."
 ${IYG_DIR}/import/import-db.sh ${PRIV_DATA_DIR} &> ${LOG_DIR}/import-db.log
 
+echo "Importing predictions and resource URIs into database..."
+${IYG_DIR}/import_pred/import_pred-db.sh ${PRIV_DATA_DIR}
