@@ -113,19 +113,12 @@ sub query_all_snp_results_for_trait{
       AND traits.active_flag = 1;
     );                                                                                 
     my $snpResultQuery = $self->dbh->prepare($query);
-    $snpResultQuery->execute( $_[0]->{'trait'}, $_[0]->{'profile'} );
+    $snpResultQuery->execute( $_[0]->{'trait'}, $_[0]->{'publicid'} );
     return $snpResultQuery;
 }
 
 sub query_all_traits_with_results{
     my $self = shift;
-    my $qtype = "";
-    if($_[0]->{'is_barcode'} == 1){
-        $qtype = "WHERE profiles.barcode = ?";
-    }
-    else{ #Else assume it's a "public id"
-        $qtype = "WHERE profiles.public_id = ?";
-    }
 
     my $query = "
         SELECT COUNT(*) as snp_count, ROUND(AVG(results.confidence),2) as trait_conf,
@@ -137,15 +130,15 @@ sub query_all_traits_with_results{
         JOIN variants ON results.variant_id = variants.variant_id
         JOIN snps ON variants.snp_id = snps.snp_id
         JOIN variants_traits ON variants.variant_id = variants_traits.variant_id
-        JOIN traits ON variants_traits.trait_id = traits.trait_id ".$qtype." 
+        JOIN traits ON variants_traits.trait_id = traits.trait_id WHERE profiles.public_id = ? 
         AND profiles.consent_flag = 1
         AND traits.active_flag = 1
         GROUP BY traits.trait_id
       ";
-    my $barcode_or_publicid = $_[0]->{'barcode_or_publicid'};
-    print STDERR "query_all_traits_with_results: query=[$query] value=[$barcode_or_publicid]\n";
+    my $publicid = $_[0]->{'publicid'};
+    print STDERR "query_all_traits_with_results: query=[$query] value=[$publicid]\n";
     my $traitResultQuery = $self->dbh->prepare($query);
-    $traitResultQuery->execute( $barcode_or_publicid );
+    $traitResultQuery->execute( $publicid );
     return $traitResultQuery;
 }
 
@@ -161,23 +154,23 @@ sub query_all_snps_with_results{
         WHERE profiles.public_id = ?
         AND profiles.consent_flag = 1
       ";
-    my $profile = $_[0]->{'profile'};
-    print STDERR "query_all_snps_with_results: query=[$query] value=[$profile]\n";
+    my $publicid = $_[0]->{'publicid'};
+    print STDERR "query_all_snps_with_results: query=[$query] value=[$publicid]\n";
     my $snpResultQuery = $self->dbh->prepare($query);
-    $snpResultQuery->execute( $profile );
+    $snpResultQuery->execute( $publicid );
     return $snpResultQuery;
 }
 
 sub barcodeToProfile{
     my $self = shift;
-    my $query = "SELECT public_id, consent_flag FROM profiles WHERE profiles.barcode = ?";
+    my $query = "SELECT public_id, consent_flag, quality_flagged FROM profiles WHERE profiles.barcode = ?";
 
     my $profileResultSet = $self->dbh->prepare($query);
     $profileResultSet->execute( $_[0] );
 
     if($profileResultSet->rows > 0){
         my $profile = $profileResultSet->fetchrow_hashref();
-        return ($profile->{'public_id'}, $profile->{'consent_flag'});
+        return ($profile->{'public_id'}, $profile->{'consent_flag'}, $profile->{'quality_flagged'});
     } else{
         return undef;
     }

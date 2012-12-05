@@ -27,11 +27,12 @@ my $app = IYG::App->new(conf_path => $conf_path);
 
 my $profile;
 my $consented;
+my $quality_flagged;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('barcode'))){
     my $barcode = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
-    ($profile, $consented) = $app->dbh->barcodeToProfile($barcode);
+    ($profile, $consented, $quality_flagged) = $app->dbh->barcodeToProfile($barcode);
 }
 elsif(defined($app->page->cgi->param('profile'))){
     $profile = $app->page->cgi->param('profile');
@@ -68,8 +69,7 @@ elsif( $consented == 2 ){
 else{
     # Get all Traits for which the barcode has a result.
     my $traitResultSet = $app->dbh->query_all_traits_with_results({
-        is_barcode => 0,
-        barcode_or_publicid => $profile,
+        publicid => $profile,
     });
 
     my @traitList;
@@ -120,6 +120,7 @@ else{
                 TITLE => "View Trait List",
                 RESULT => [@traitList],
                 PROFILE => $profile,
+                QC_FLAG => $quality_flagged,
             },
         });
     }
