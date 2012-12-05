@@ -151,26 +151,20 @@ sub query_all_traits_with_results{
 
 sub query_all_snps_with_results{
     my $self = shift;
-    my $qtype = "";
-    if($_[0]->{'is_barcode'} == 1){
-        $qtype = "WHERE profiles.barcode = ?";
-    }
-    else{ #Else assume it's a "public id"
-        $qtype = "WHERE profiles.public_id = ?";
-    }
 
     my $query = "
         SELECT snps.rs_id, variants.genotype
         FROM profiles
         JOIN results ON results.profile_id = profiles.profile_id
         JOIN variants ON results.variant_id = variants.variant_id
-        JOIN snps ON variants.snp_id = snps.snp_id ".$qtype." 
+        JOIN snps ON variants.snp_id = snps.snp_id
+        WHERE profiles.public_id = ?
         AND profiles.consent_flag = 1
       ";
-    my $barcode_or_publicid = $_[0]->{'barcode_or_publicid'};
-    print STDERR "query_all_snps_with_results: query=[$query] value=[$barcode_or_publicid]\n";
+    my $profile = $_[0]->{'profile'};
+    print STDERR "query_all_snps_with_results: query=[$query] value=[$profile]\n";
     my $snpResultQuery = $self->dbh->prepare($query);
-    $snpResultQuery->execute( $barcode_or_publicid );
+    $snpResultQuery->execute( $profile );
     return $snpResultQuery;
 }
 

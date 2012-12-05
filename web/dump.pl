@@ -40,8 +40,7 @@ if(!$profile){
 else{
     # Get all variants for which the barcode has a result.
     my $traitResultSet = $app->dbh->query_all_snps_with_results({
-        is_barcode => 0,
-        barcode_or_publicid => $barcode_or_publicid,
+        profile => $profile,
     });
 
     my @traitList;
