@@ -15,6 +15,7 @@ CREATE  TABLE IF NOT EXISTS `iyg`.`profiles` (
   `barcode` VARCHAR(15) NOT NULL ,
   `consent_flag` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `public_id` VARCHAR(40) NOT NULL ,
+  `quality_flagged` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`profile_id`) )
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

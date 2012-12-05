@@ -26,11 +26,12 @@ my $conf_path = $ENV{"IYG_CONF_PATH"};
 my $app = IYG::App->new(conf_path => $conf_path);
 
 my $profile;
+my $consented;
 
 # Get either the decrypted barcode, or "public id" of the current user
 if(defined($app->page->cgi->param('barcode'))){
     my $barcode = $app->decryptBarcode($app->page->cgi->param('barcode'))->decrypt();
-    $profile = $app->dbh->barcodeToProfile($barcode);
+    ($profile, $consented) = $app->dbh->barcodeToProfile($barcode);
 }
 elsif(defined($app->page->cgi->param('profile'))){
     $profile = $app->page->cgi->param('profile');
@@ -42,6 +43,25 @@ if(!$profile){
         template => 'login',
         params => {
             TITLE => "Login",
+            MESSAGE => "Sorry, this barcode was not recognised.",
+        },
+    });
+}
+elsif( $consented == 0 ){
+    print app->page->render({
+        template => 'unconsented',
+        params => {
+            TITLE => "Unconsented barcode",
+            MESSAGE => "Sorry, the consent form for this barcode was not completed. The sample was destroyed and no genetic data were generated.",
+        },
+    });
+}
+elsif( $consented == 2 ){
+    print app->page->render({
+        template => 'failed',
+        params => {
+            TITLE => "Sample failed",
+            MESSAGE => "Sorry, the DNA sample matching this barcode did not produce any valid genetic data.",
         },
     });
 }
