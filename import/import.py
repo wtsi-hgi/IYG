@@ -104,7 +104,7 @@ class Data_Loader:
 
         if(args.failed_barcodes_file is not None):
             failed_barcodes_file = open(args.failed_barcodes_file, 'r')
-            self.import_profiles(failed_barcodes_file,2)
+            self.fail_profiles(failed_barcodes_file)
         
         if(args.flagged_barcodes_file is not None):
             flagged_barcodes_file = open(args.flagged_barcodes_file, 'r')
@@ -328,6 +328,27 @@ class Data_Loader:
 
         barcodes.close()
 
+    def fail_profiles(self, barcodes):
+        """Process the list of barcodes, updating each profile row in the
+            database to fail the barcode (consent status = 2)"""
+        print "[READ]\tImporting Failed Barcode List"
+        
+        for line in barcodes:
+            if line[0] == "#": #Skip comments
+                continue
+            
+            barcode = line.strip()
+        
+            try:
+                self.cur.execute(
+                    "UPDATE profiles SET consent_flag = 2 "
+                    "WHERE barcode = %s", (barcode))
+                self.db.commit()
+            except MySQLdb.Error, e:
+                print "[FAIL]\tBarcode %s not failed" % barcode
+                print "\tError %d: %s" % (e.args[0], e.args[1])
+        
+        barcodes.close()
 
     def flag_profiles(self, barcodes):
         """Process the list of barcodes, updating each profile row in the
