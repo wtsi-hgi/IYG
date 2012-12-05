@@ -31,7 +31,7 @@ if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
 fi
 
 
-echo "run-import_pred.sh"
+echo "run-webresource_prep.sh"
 
 # TODO load data files
 
@@ -47,7 +47,8 @@ for trait in `(cd ${PRIV_DATA_DIR}/pred_results/web && (find * -maxdepth 0 -type
 do
     echo -n "${trait} "
     vars=`(cd ${PRIV_DATA_DIR}/pred_results/web/${trait} && (find * -maxdepth 0 -type d))`
-    (echo "Barcode	TraitShorname	"`for var in ${vars}; do echo -n "${trait}_${var}	"; done`) | perl -pi -e 's/\t$//' > ${OUT_DIR}/${trait}.resourcemd5.txt
+    (echo "Barcode TraitShortName "`for var in ${vars}; do echo -n "${trait}_${var} "; done`) | perl -pi -e 's/[[:space:]]+$//; s/[[:space:]]+/\t/g;' > ${OUT_DIR}/${trait}.resourcemd5.txt
+    echo >> ${OUT_DIR}/${trait}.resourcemd5.txt
     barcodes=$((for rescpath in `(cd ${PRIV_DATA_DIR}/pred_results/web/${trait} && (find * -maxdepth 1 -type f))`; do basename ${rescpath} .`echo ${rescpath} | awk 'BEGIN {FS=".";} NR==1 {print $NF}'`; done) | sort | uniq)
     for barcode in ${barcodes}
     do
@@ -75,7 +76,10 @@ do
 		fi
 	    done
 	done
-	echo "${barcode}	${trait}	${values}" | perl -pi -e 's/\t$//' >> ${OUT_DIR}/${trait}.resourcemd5.txt
+	echo "${barcode} ${trait} ${values}" | perl -pi -e 's/[[:space:]]+$//; s/[[:space:]]+/\t/g;' >> ${OUT_DIR}/${trait}.resourcemd5.txt
+	echo >> ${OUT_DIR}/${trait}.resourcemd5.txt
     done
 done
 echo "done."
+
+

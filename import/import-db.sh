@@ -13,14 +13,20 @@ IMPORT_PY=${IYG_DIR}/import/import.py
 if [[ -n "${IYG_PRIVATE_DATA_DIR}" ]] && \
     [[ -d ${IYG_PRIVATE_DATA_DIR} ]] 
 then
-    if [[ -f ${IYG_PRIVATE_DATA_DIR}/barcodes.list ]] && \
+    if [[ -f ${IYG_PRIVATE_DATA_DIR}/qc/consented-barcodes.list ]] && \
+	[[ -f ${IYG_PRIVATE_DATA_DIR}/qc/unconsented-barcodes.list ]] && \
+	[[ -f ${IYG_PRIVATE_DATA_DIR}/qc/failed-barcodes.list ]] && \
+	[[ -f ${IYG_PRIVATE_DATA_DIR}/qc/flagged-barcodes.list ]] && \
 	[[ -f ${IYG_PRIVATE_DATA_DIR}/iyg.ped ]] && \
  	[[ -f ${IYG_PRIVATE_DATA_DIR}/iyg.map ]] 
     then
 	awk 'BEGIN {FS="\t";} $1=="iygrw" {print $2;}' ${IYG_PRIVATE_DATA_DIR}/mysql-user-pass.txt |  ${IMPORT_PY} \
 	    --db-user iygrw \
 	    --purge-all \
-	    --barcodes-file ${IYG_PRIVATE_DATA_DIR}/barcodes.list \
+	    --barcodes-file ${IYG_PRIVATE_DATA_DIR}/qc/consented-barcodes.list \
+	    --unconsented-barcodes-file ${IYG_PRIVATE_DATA_DIR}/qc/unconsented-barcodes.list \
+	    --failed-barcodes-file ${IYG_PRIVATE_DATA_DIR}/qc/failed-barcodes.list \
+	    --flagged-barcodes-file ${IYG_PRIVATE_DATA_DIR}/qc/flagged-barcodes.list \
 	    --snp-info-file ${IYG_PUBLIC_DATA_DIR}/master-snp-info.txt \
 	    --trait-info-file ${IYG_PUBLIC_DATA_DIR}/master-trait-info.txt \
 	    --snp-trait-genotype-effect-file ${IYG_PUBLIC_DATA_DIR}/master-snp-trait-genotype-effect.txt \
@@ -29,7 +35,7 @@ then
 	    --results-file ${IYG_PRIVATE_DATA_DIR}/iyg \
 	    --update-popfreqs
     else 
-	echo "Error: required files are issing in ${IYG_PRIVATE_DATA_DIR}"
+	echo "Error: required files are missing in ${IYG_PRIVATE_DATA_DIR}"
 	exit 2
     fi
     else

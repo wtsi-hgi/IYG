@@ -48,10 +48,11 @@ else{
     });
 
     # Get additional profile-trait information (e.g. prediction results and resource links)
-    my $profilesTraitsResultSet = $app->dbh->query_profile_trait({
+    my $profileTraitResultSet = $app->dbh->query_profile_trait({
 	trait => $app->page->cgi->param('trait'),
         publicid => $app->page->cgi->param('profile'),
     });
+    my $profileTraitResult = $profileTraitResultSet->fetchall_hashref('name');
     
     my $variantGenotypeResultSet; # Placeholder for use in loop
 
@@ -99,7 +100,8 @@ else{
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
                 PROFILE_ID => $app->page->cgi->param('profile'),
-		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
+#		PCA_URI => '/public_data/pred_results/' . $traitResult->{'trait_short_name'} . '/' . $app->page->cgi->param('profile'),
+		PCA_URI => '/public_data/webresource/' . $profileTraitResult->{'AIM_AIM'}->{'data'},
             },
         });
     }

@@ -91,6 +91,9 @@ class Data_Loader:
         if(args.purge_all):
             self.purge_db()
 
+        if(args.purge_pred):
+            self.purge_pred()
+
         if(args.barcodes_file is not None):
             barcodes_file = open(args.barcodes_file, 'r')
             self.import_profiles(barcodes_file,1)
@@ -280,6 +283,19 @@ class Data_Loader:
             self.db.commit()
         except MySQLdb.OperationalError, e:
             print "[FAIL]\tUnable to purge current records before new import"
+            print "\tError %d: %s" % (e.args[0], e.args[1])
+            exit(0)
+
+    def purge_pred(self):
+        """Purge the data from pred database"""
+        print "[_DB_]\tPurging Existing Records before New Import"
+
+        try:
+            self.cur.execute("DELETE FROM profiles_traits")
+            self.cur.execute("DELETE FROM traits_additional")
+            self.db.commit()
+        except MySQLdb.OperationalError, e:
+            print "[FAIL]\tUnable to purge current pred records before new import"
             print "\tError %d: %s" % (e.args[0], e.args[1])
             exit(0)
 
@@ -697,15 +713,22 @@ class Data_Loader:
             print "\tError %d: %s" % (e.args[0], e.args[1])
 
     def import_trait_additional(self, trait_file):
+        print "[INFO]\tImporting traits additional data"
         # Read header to get keys for each column
         header = Delimited_text_header(trait_file, "\t")
+        trait_col = header.get_col_for_header("TraitShortName")
 
         # Loop through rows of file building up list of files to add
         key_value_tuple = []
         for line in trait_file:
             fields = line.strip().split("\t")
-            for item in range(1, len(fields)):
-                key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0]))
+            coli = 0
+            for item in fields:
+                if coli != trait_col:
+                    trait_short_name = fields[trait_col]
+                    varname = header.get_header_for_col(coli)
+                    key_value_tuple.append((varname, item, trait_short_name))
+                coli += 1
 
         # write to DB
         print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
@@ -718,16 +741,26 @@ class Data_Loader:
             print "\tError %d: %s" % (e.args[0], e.args[1])
         trait_file.close()
 
+
     def import_profile_trait(self, profile_trait_file):
+        print "[INFO]\tImporting profile-trait data"
         # Read header to get keys for each column
         header = Delimited_text_header(profile_trait_file, "\t")
+        barcode_col = header.get_col_for_header("Barcode")
+        trait_col = header.get_col_for_header("TraitShortName")
         
         # Loop through rows of file building up list of files to add
         key_value_tuple = []
         for line in profile_trait_file:
             fields = line.strip().split("\t")
-            for item in range(2, len(fields)):
-                key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0], fields[1]))
+            coli = 0
+            for item in fields:
+                if coli != trait_col and coli != barcode_col:
+                    trait_short_name = fields[trait_col]
+                    barcode = fields[barcode_col]
+                    varname = header.get_header_for_col(coli)
+                    key_value_tuple.append((varname, item, barcode, trait_short_name))
+                coli += 1
         
         # write to DB
         print "[INFO]\tInserting %d records into profile trait additional table." % (len(key_value_tuple))
@@ -759,6 +792,8 @@ if __name__ == "__main__":
     # optional options
     parser.add_argument('--purge-all', dest="purge_all", action='store_true',
         help=("Purge all data from database before starting."))
+    parser.add_argument('--purge-pred', dest="purge_pred", action='store_true',
+        help=("Purge extra pred data from database before starting."))
 
     parser.add_argument('--update-popfreqs', dest="update_popfreqs", action='store_true',
         help=("Update genotype frequencies for population."))
