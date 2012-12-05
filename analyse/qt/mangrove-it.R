@@ -123,12 +123,14 @@ if (thistrait == "EYE"){
 }
 
 if (!is.na(popmean)){
-	output<-cbind(ped$ID,predictions,absolutepreds)
+	output<-cbind(ped$ID,thistrait,predictions,absolutepreds)
+	headernames<-c("Barcode","TraitShortname","IYGHIST","POPDIST")
 }else{
-	output<-cbind(ped$ID,predictions,NA)
+	output<-cbind(ped$ID,thistrait,predictions)
+	headernames<-c("Barcode","TraitShortname","IYGHIST")
 }
-	
-write.table(output,file=paste(outdir,"/",thistrait,"-grove.out",sep=""),quote=F,row.names=F,col.names=F)
+write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames)
+
 
 for (i in 1:length(predictions)){
 	print(names(predictions)[i])
