@@ -53,6 +53,10 @@ popsd<-traitinfo$SD[traitinfo$ShortName==thistrait]
 
 #Run Mangrove
 predictions<-calcBetas(ped,betas)
+pctile<-vector()
+for (i in 1:length(predictions)){
+	pctile[i]<-length(which(predictions<=predictions[i]))/length(predictions)
+}
 
 #does this trait have population data?
 if (!is.na(popmean)){
@@ -123,11 +127,11 @@ if (thistrait == "EYE"){
 }
 
 if (!is.na(popmean)){
-	output<-cbind(ped$ID,thistrait,predictions,absolutepreds)
-	headernames<-c("Barcode","TraitShortname","IYGHIST","POPDIST")
+	output<-cbind(ped$ID,thistrait,predictions,absolutepreds,pctile)
+	headernames<-c("Barcode","TraitShortname","IYGHIST","POPDIST","Pctile")
 }else{
-	output<-cbind(ped$ID,thistrait,predictions)
-	headernames<-c("Barcode","TraitShortname","IYGHIST")
+	output<-cbind(ped$ID,thistrait,predictions,pctile)
+	headernames<-c("Barcode","TraitShortname","IYGHIST","Pctile")
 }
 write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames,sep="\t")
 

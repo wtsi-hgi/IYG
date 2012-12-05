@@ -43,6 +43,11 @@ betas<-readBetas(paste(pubdir,"/qt/",thistrait,".grovebeta",sep=""),h=T)
 
 #Run Mangrove
 predictions<-calcBetas(ped,betas)
+pctile<-vector()
+for (i in 1:length(predictions)){
+       pctile[i]<-length(which(predictions<=predictions[i]))/length(predictions)
+}
+
 values<-rev(as.numeric(names(table(predictions))))
 baldlvl<-vector()
 for (i in 1:length(predictions)){
@@ -53,7 +58,7 @@ for (i in 1:length(predictions)){
 	}
 }
 
-output<-cbind(ped$ID,thistrait,baldlvl)
-headernames<-c("Barcode","TraitShortname","BaldLvl")
+output<-cbind(ped$ID,thistrait,baldlvl,pctile)
+headernames<-c("Barcode","TraitShortname","BaldLvl","Pctile")
 
 write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames)
