@@ -125,6 +125,9 @@ class Data_Loader:
         if(args.update_popfreqs):
             self.update_popfreqs()
     
+        
+    
+    
         if(args.profile_output is not None):
             profile_data = open(args.profile_output, 'w')
             self.dump_profiledata(profile_data)
@@ -652,7 +655,7 @@ class Data_Loader:
             print "[WARN]\tDump profile barcodes query failed"
             print "\tError %d: %s" % (e.args[0], e.args[1])
 
-    def loadTraitAdditional(self, trait_file)
+    def import_trait_additional(self, trait_file):
         # Read header to get keys for each column
         header = Delimited_text_header(trait_file, "\t")
 
@@ -660,11 +663,11 @@ class Data_Loader:
         key_value_tuple = []
         for line in trait_file:
             fields = line.strip().split("\t")
-            for item in range(1, len(fields))
+            for item in range(1, len(fields)):
                 key_value_tuple.append((header.get_header_for_col(item),fields[item],fields[0]))
 
         # write to DB
-        print "[INFO]\tInserting %d records into trait addtional table." % (len(key_value_tuple))
+        print "[INFO]\tInserting %d records into trait additional table." % (len(key_value_tuple))
         try:
             query = "INSERT INTO traits_additional (trait_id, name, description) SELECT trait_id, %s, %s FROM traits WHERE name = %s"
             self.cur.executemany(query, key_value_tuple)
@@ -723,6 +726,9 @@ if __name__ == "__main__":
     
     parser.add_argument('--profile_output', metavar="profile_output", dest="profile_output",
         help=("Profile barcode data"))
+    
+    parser.add_argument('--trait-pred-file', metavar="trait_pred_file", dest="trait_pred_file",
+        action='append')
 
     Data_Loader(parser.parse_args())
 
