@@ -143,7 +143,7 @@ else{
     }
 
     $snpResultSet->finish;
-    $variantGenotypeResultSet->finish;
+    if (defined($variantGenotypeResultSet)) { $variantGenotypeResultSet->finish; }
     $traitResultSet->finish;
     $app->dbh->disconnectDb();
 }
