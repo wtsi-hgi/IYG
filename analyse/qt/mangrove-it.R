@@ -166,7 +166,7 @@ for (i in 1:length(predictions)){
 		svg(paste(webdir,"/POPDIST/",names(absolutepredsUK)[i],".svg",sep=""),bg="transparent")
 		thisy<-dnorm(popx,absolutepredsUK[i],UKsd-sqrt(UKvarexpl))
 		if (length(which(!is.na(thisy))) == 0){
-			ph<-max(popy)
+			ph<-max(UKy)
 		}else{
 			ph<-max(thisy,na.rm=T)
 		}
