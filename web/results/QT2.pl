@@ -127,6 +127,7 @@ else{
                 PROFILE_ID => $public_id,
 		POPDIST_URI => $popdist_uri,
 		IYGHIST_URI => $iyghist_uri,
+		PCTILE => $profileTraitResult->{'Pctile'}->{'data'} * 100.0,
             },
         });
     } # either no SNPs or no trait or greater than one train was found

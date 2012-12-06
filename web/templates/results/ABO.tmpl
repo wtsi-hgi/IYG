@@ -1,0 +1,38 @@
+<TMPL_INCLUDE NAME="../includes/result_header.tmpl">
+  <div class="variants">
+    <div class="trait">
+      <div class="trait-header">
+        <b><h2><TMPL_VAR NAME=TRAIT_NAME></h2></b>
+      </div>
+      <div class="row-fluid">
+        <div class="accordion-inner">
+          <p><TMPL_VAR NAME=TRAIT_DESCRIPTION></p>
+        </div>
+      </div>
+      <div class="row-fluid">
+	<div class="span2"></div>
+	<div class="span8">
+	  <div class="row-fluid">
+	    <div class="span2"></div>
+	    <div class="span8 ">
+	      <div class="hero-unit">
+		<h1>
+		  <TMPL_VAR NAME=BLOOD_TYPE>
+		</h1>
+		<p>
+		  <TMPL_VAR NAME=INFO_TEXT>
+		</p>
+	      </div>
+	    </div>
+	    <div class="span2"></div>
+	  </div>
+	</div>
+	<div class="span2"></div>
+      </div>
+    </div>
+    <TMPL_LOOP NAME=SNPS>
+      <TMPL_INCLUDE NAME="snp_box.tmpl">
+    </TMPL_LOOP>
+  </div>
+<TMPL_INCLUDE NAME="../includes/footer.tmpl">
+    
