@@ -150,6 +150,7 @@ sub query_all_traits_with_results{
         AND profiles.consent_flag = 1
         AND traits.active_flag = 1
         GROUP BY traits.trait_id
+        ORDER BY traits.name
       ";
     my $publicid = $_[0]->{'publicid'};
     #print STDERR "query_all_traits_with_results: query=[$query] value=[$publicid]\n";
