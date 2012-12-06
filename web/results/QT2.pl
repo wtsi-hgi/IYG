@@ -47,8 +47,10 @@ else{
 
     # Get some information on the selected trait
     my $traitResultSet = $app->dbh->query_trait({
-        trait => $trait
+        trait => $trait,
     });
+
+    my $variantGenotypeResultSet; # Placeholder for use in loop
 
     # Get additional profile-trait information (e.g. prediction results and resource links)
     my $profileTraitResultSet = $app->dbh->query_profile_trait({
@@ -59,7 +61,7 @@ else{
 
     my $variantGenotypeResultSet; # Placeholder for use in loop
 
-    # Ensure at least one SNP and one trait is returned.
+    # Ensure at least one SNP and exactly one trait is returned.
     if($snpResultSet->rows > 0 && $traitResultSet->rows == 1){
         my $traitResult = $traitResultSet->fetchrow_hashref();
         my @snps;
@@ -93,13 +95,25 @@ else{
             }
         }
 
-	my $popdist_uri = $profileTraitResult->{$trait.'_POPDIST'}->{'data'};
-	# strip off extension so we can use content negotiation
-	$popdist_uri =~ s/\.[^.]+$//;
+	my $trait_short_name = $traitResult->{'trait_short_name'};
 
-	my $iyghist_uri = $profileTraitResult->{$trait.'_IYGHIST'}->{'data'};
-	# strip off extension so we can use content negotiation
-	$iyghist_uri =~ s/\.[^.]+$//;
+	my $popdist_uri = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; #blank
+	if(exists($profileTraitResult->{$trait_short_name.'_POPDIST'}->{'data'})) {
+	    $popdist_uri = '/public_data/webresource/' . $profileTraitResult->{$trait_short_name.'_POPDIST'}->{'data'};
+	    # strip off extension so we can use content negotiation
+	    $popdist_uri =~ s/\.[^.]+$//;
+	} else {
+	    print STDERR "[ERROR]\t QT2.pl data for ".$trait_short_name."_IYGHIST not found\n";
+	}
+	
+	my $iyghist_uri= "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; #blank
+	if(exists($profileTraitResult->{$trait_short_name.'_IYGHIST'}->{'data'})) {
+	    $iyghist_uri = '/public_data/webresource/' . $profileTraitResult->{$trait_short_name.'_IYGHIST'}->{'data'};
+	    # strip off extension so we can use content negotiation
+	    $iyghist_uri =~ s/\.[^.]+$//;
+	} else {
+	    print STDERR "[ERROR]\t QT2.pl data for ".$trait_short_name."_IYGHIST not found\n";
+	}
 
         # Load the variant info template and pass the parameters for display.
         print $app->page->render({
@@ -111,11 +125,11 @@ else{
                 TRAIT_DESCRIPTION => $traitResult->{'trait_description'},
                 SNPS => [@snps],
                 PROFILE_ID => $public_id,
-		POPDIST_URI => '/public_data/webresource/' . $popdist_uri,
-		IYGHIST_URI => '/public_data/webresource/' . $iyghist_uri,
+		POPDIST_URI => $popdist_uri,
+		IYGHIST_URI => $iyghist_uri,
             },
         });
-    }
+    } # either no SNPs or no trait or greater than one train was found
     else{
         #TODO Should probably return user to trait page instead?
         print $app->page->render({
