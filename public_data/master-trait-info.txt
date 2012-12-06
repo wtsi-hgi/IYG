@@ -1,23 +1,23 @@
 TraitName	ShortName	Pred	Units	Mean	SD	Type
 ABO blood type	ABO	2	NA	NA	NA	ABO
-Body mass index	BMI	1	kg/m2	26.3	3.4	QT2
-Total cholesterol	TC	1	mg/dL	200	40	QT2
+Body shape: Body mass index	BMI	1	kg/m2	26.3	3.4	QT2
+Cholesterol: total	TC	1	mg/dL	200	40	QT2
 Coffee consumption	CAFE	1	cups/day	NA	NA	QT2
 Eye color	EYE	2	NA	NA	NA	QT1
 Fasting glucose	FPG	1	mmol/L	5.2	0.45	QT2
-HDL cholesterol	HDLC	1	mg/dL	60	15	QT2
+Cholesterol: HDL	HDLC	1	mg/dL	60	15	QT2
 Lactose intolerance	LACT	3	NA	NA	NA	SingleSNP
-Maternal ancestry	MT	2	NA	NA	NA	Tree
+Ancestry: maternal	MT	2	NA	NA	NA	Tree
 Male pattern baldness	BALD	2	NA	NA	NA	Tree
-Mean platelet volume	MPV	1	fL	9.5	1.03	QT2
+Platelets: mean volume	MPV	1	fL	9.5	1.03	QT2
 Muscle performance	MUSC	0	NA	NA	NA	SingleSNP
-Neanderthal	NEAND	0	NA	NA	NA	QT1
+Ancestry: Neanderthal	NEAND	0	NA	NA	NA	QT1
 Norovirus resistance	FUT2	2	NA	NA	NA	SingleSNP
-Overall ancestry	AIM	2	NA	NA	NA	PCA
-Platelet aggregation	PA	1	NA	NA	NA	SingleSNP
+Ancestry: overall	AIM	2	NA	NA	NA	PCA
+Platelets: aggregation	PA	1	NA	NA	NA	SingleSNP
 Smoking behavior	SMOK	1	cig/day	16	11.7	QT2
 Systolic blood pressure	BP	1	mmHg	119	15	QT2
 Taste and smell	TASTE	2	NA	NA	NA	SingleSNP
 Urinary metabolite levels	URINE	1	NA	NA	NA	SingleSNP
-Waist-hip ratio	WHR	1	NA	0.85	0.08	QT2
-Paternal ancestry	Y	2	NA	NA	NA	Tree
+Body shape: Waist-hip ratio	WHR	1	NA	0.85	0.08	QT2
+Ancestry: paternal	Y	2	NA	NA	NA	Tree
