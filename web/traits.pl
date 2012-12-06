@@ -36,9 +36,8 @@ elsif(defined($app->page->cgi->param('profile'))){
     $profile = $app->dbh->public_id_to_profile($public_id);
 }
 
-
 # Ensure a barcode was submitted, if not; load login template.
-if(!$profile){
+if(!defined($profile)){
     print $app->page->render({
         template => 'login',
         params => {
