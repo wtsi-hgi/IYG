@@ -3,9 +3,9 @@
 PRIV_DATA_DIR=$1
 runscripts=$2
 
-if [[ -z "${runscripts}" || "${runscripts}" == "all" ]]
+if [[ "${runscripts}" == "all" ]]
 then
-    # default to run all
+    # run all steps in order
     runscripts="convert-delivery analysis webresource_prep import"
     echo "individual runscripts not specified, defaulting to: [${runscripts}]"
 fi

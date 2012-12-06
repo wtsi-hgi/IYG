@@ -32,7 +32,7 @@ do
     url="https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID=trait_description_${trait_shortname}"
     echo "fetching ${url}"
     ${WGET} -O - "${url}" > ${TRAIT_DESC_DIR}/${trait_shortname}.json
-    cat ${TRAIT_DESC_DIR}/${trait_shortname}.json | ${IYG_DIR}/analyse/get-sot/json2html.pl > ${TRAIT_DESC_DIR}/${trait_shortname}.html
+    cat ${TRAIT_DESC_DIR}/${trait_shortname}.json | ${IYG_DIR}/import/get-sot/json2html.pl > ${TRAIT_DESC_DIR}/${trait_shortname}.html
 done;
 
 # get trait_snp_description_SHORTNAME_SNPNAME from https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID=trait_snp_description_SHORTNAME_SNPNAME
@@ -49,7 +49,7 @@ do
     url="https://sot.iyg-results.org/ep/api/1/getHTML?apikey=snp-o-trait&padID=trait_snp_description_${trait_shortname_snp}"
     echo "fetching ${url}"
     ${WGET} -O - "${url}" > ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.json
-    cat ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.json | ${IYG_DIR}/analyse/get-sot/json2html.pl > ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.html
+    cat ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.json | ${IYG_DIR}/import/get-sot/json2html.pl > ${TRAIT_SNP_DESC_DIR}/${trait_shortname_snp}.html
 done;
 
 
@@ -58,7 +58,7 @@ mkdir -p ${DEST_DIR}/trait_descriptions
 rm -f ${DEST_DIR}/trait_descriptions/*.html
 mkdir -p ${DEST_DIR}/trait_snp_descriptions
 rm -f ${DEST_DIR}/trait_snp_descriptions/*.html
-${IYG_DIR}/analyse/get-sot/translatesot.pl ${PUB_DATA_DIR}
+${IYG_DIR}/import/get-sot/translatesot.pl ${PUB_DATA_DIR}
 
 echo "Generating Files Of File Names..."
 find ${PUB_DATA_DIR}/desc/trait_descriptions/*.html > ${DEST_DIR}/trait_descriptions.fofn

@@ -13,6 +13,9 @@ while ( my $line = <STDIN> ) {
 } 
 
 my $doc = decode_json $buffer; 
+my $decoded_doc = decode_entities($doc->{'data'}->{'html'});
 
-print encode_entities(decode_entities($doc->{'data'}->{'html'}), '^\n\x20-\x25\x27-\x7e');
+$decoded_doc =~ s/\[\[[^\]]+\<a\ href=\"([^\"]+)\"[^\]]*\]\[([^\]]+)\]\]/\<a\ href=\"$1\"\>$2\<\/a\>/g;
+
+print encode_entities($decoded_doc, '^\n\x20-\x25\x27-\x7e');
 

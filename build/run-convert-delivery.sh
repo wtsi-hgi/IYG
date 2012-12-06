@@ -66,7 +66,7 @@ echo "done."
 echo "disable: ${IYG_DISABLE_XLSX} fakeout: ${IYG_FAKEOUT}"
 
 # Generate assay summary TSV from Fluidigm plate XLSXes
-if [[ "${IYG_DISABLE_XLSX}" != "" ]]
+if [[ "${IYG_DISABLE_XLSX}" == "" ]]
 then
     echo -n "generating assay summary TSV from XLSXes... "
     xlsxes=`find -L ${PRIV_DATA_DIR}/all-data-raw/ -name assay_summary\*.xlsx -type f`
