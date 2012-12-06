@@ -114,10 +114,11 @@ fi
 mkdir -p ${OUT_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
 p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
-${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall &> ${LOG_DIR}/tped2qcall.log
+
+${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall 2> ${LOG_DIR}/tped2qcall.log
 
 # do the haplogrouping
-${YFIT_BIN} -m -q 1 ${TREE_DIR}/karafet_tree_b37.xml ${OUT_DATA_DIR}/Y/out.qcall > ${OUT_DATA_DIR}/Y/out.yfit &> ${LOG_DIR}/Yfitter.log
+${YFIT_BIN} -m -q 1 ${TREE_DIR}/karafet_tree_b37.xml ${OUT_DATA_DIR}/Y/out.qcall > ${OUT_DATA_DIR}/Y/out.yfit 2> ${LOG_DIR}/Yfitter.log
 
 # name the haplogroups
 awk 'NF < 5' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,$3}' > ${OUT_DATA_DIR}/Y/out.haps
@@ -127,13 +128,13 @@ awk 'NF != 10 && NF != 28 && NF > 5 && NF <= 32' ${OUT_DATA_DIR}/Y/out.yfit | aw
 awk 'NF > 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${OUT_DATA_DIR}/Y/out.haps
 
 #add HTML
-${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/pred.Y.txt &> ${LOG_DIR}/addText.log
+${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/pred.Y.txt 2> ${LOG_DIR}/addText.log
 
 ##########################
 #5.1. generate BALD predictions
 echo "Predicting baldness state..."
 mkdir -p ${OUT_DATA_DIR}/BALD/
-R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/tree/bald-cat.R &> ${LOG_DIR}/bald-mangroveit.log
+(R --no-restore --no-save --args BALD ${PRIV_DATA_DIR} ${PUB_DATA_DIR} ${OUT_DATA_DIR} <${IYG_DIR}/analyse/tree/bald-cat.R) &> ${LOG_DIR}/bald-mangroveit.log
 
 
 ##########################
@@ -150,7 +151,7 @@ mkdir -p ${PUB_OUT_DIR}/AIM/
 p-link --noweb --bfile ${PUB_DATA_DIR}/pca/1KGdata --merge ${PRIV_DATA_DIR}/iyg.ped ${PRIV_DATA_DIR}/iyg.map --extract ${PUB_DATA_DIR}/pca/PCAsnps.txt --out ${OUT_DATA_DIR}/AIM/1KG_IYG_merged --make-bed &> ${LOG_DIR}/pca-plink-merge.log
 
 #run PCA
-R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R &> ${LOG_DIR}/pca-doPCA.log
+(R --no-restore --no-save --args ${OUT_DATA_DIR}/AIM ${PUB_DATA_DIR}/pca < ${IYG_DIR}/analyse/pca/doPCA.R) &> ${LOG_DIR}/pca-doPCA.log
 
 echo "Making world-wide PCA plots..."
 #make plots

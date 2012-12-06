@@ -142,6 +142,7 @@ write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=
 for (i in 1:length(predictions)){
 	print(names(predictions)[i])
 	svg(paste(webdir,"/IYGHIST/",names(predictions)[i],".svg",sep=""),bg="transparent")
+	par(mar=c(0,0,0,0))
 	if (thistrait == "EYE"){
 		hist(predictions,breaks=40,axes=F,xlab="",ylab="",main="",col=colors)
 	}else{
@@ -151,6 +152,7 @@ for (i in 1:length(predictions)){
 	dev.off()
 	if (!is.na(popmean)){	
 		svg(paste(webdir,"/POPDIST/",names(absolutepreds)[i],".svg",sep=""),bg="transparent")
+		par(mar=c(4,0,0,0))
 		thisy<-dnorm(popx,absolutepreds[i],popsd-sqrt(varexpl))
 		if (length(which(!is.na(thisy))) == 0){
 			ph<-max(popy)
