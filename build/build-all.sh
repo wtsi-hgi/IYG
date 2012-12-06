@@ -3,9 +3,9 @@
 PRIV_DATA_DIR=$1
 runscripts=$2
 
-if [[ -z "${runscripts}" || "${runscripts}" == "all" ]]
+if [[ "${runscripts}" == "all" ]]
 then
-    # default to run all
+    # run all steps in order
     runscripts="convert-delivery analysis webresource_prep import"
     echo "individual runscripts not specified, defaulting to: [${runscripts}]"
 fi
@@ -29,7 +29,7 @@ fi
 #build_date=`date +'%s'`
 #LOG_DIR=${IYG_DIR}/build/log-${build_date}
 #mkdir -p ${LOG_DIR}
-rm -rf ${IYG_DIR}/build/log && mkdir ${IYG_DIR}/build/log
+mkdir -p ${IYG_DIR}/build/log
 LOG_DIR=${IYG_DIR}/build/log
 
 echo "build-all using ${PRIV_DATA_DIR} for private data and ${IYG_DIR} as iyg root dir, logging in ${LOG_DIR}"
@@ -47,6 +47,7 @@ do
     then
 	export LOG_DIR=${LOG_DIR_TOP}/run-${runscript}/
 	mkdir -p ${LOG_DIR}
+	rm -f ${LOG_DIR}/*
 	${IYG_DIR}/build/run-${runscript}.sh          # &> ${LOG_DIR}/run-${runscript}.log
     else
 	echo "[ERROR] ${IYG_DIR}/build/run-${runscript}.sh does not exist!"

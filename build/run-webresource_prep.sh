@@ -31,10 +31,6 @@ if [[ ! -d ${PRIV_DATA_DIR}/delivery ]]
 fi
 
 
-echo "run-webresource_prep.sh"
-
-# TODO load data files
-
 
 echo -n "creating md5sum versions of all resource files to be put on the web/... "
 rm -rf ${PRIV_DATA_DIR}/pred_results/web-barcode-traitshortname-md5.d
@@ -65,11 +61,13 @@ do
 		    gzip -c ${PRIV_DATA_DIR}/pred_results/web/${trait}/${var}/${resource} > ${OUT_WEB_RESOURCE_DIR}/${svgmd5}.svgz
 		    md5sum=`md5sum ${OUT_WEB_RESOURCE_DIR}/${svgmd5}.svgz | awk '{print $1;}'`
 		    mv ${OUT_WEB_RESOURCE_DIR}/${svgmd5}.svgz ${OUT_WEB_RESOURCE_DIR}/${md5sum}.svgz
-		    # TODO gen PNG here?
+  	            # generate PNG version alongside the SVG (but keep the SVG md5sum!) -- content negoiation will sort this
+		    convert ${OUT_WEB_RESOURCE_DIR}/${md5sum}.svgz ${OUT_WEB_RESOURCE_DIR}/${md5sum}.png
 		    values="${values}${md5sum}.svgz	"
 		elif [[ "${rescext}" == "svgz" ]]; then
 		    cp ${PRIV_DATA_DIR}/pred_results/web/${trait}/${var}/${resource} ${OUT_WEB_RESOURCE_DIR}/${md5sum}.svgz
-		    # TODO gen PNG here?
+	            # generate PNG version alongside the SVG (but keep the SVG md5sum!) -- content negoiation will sort this
+		    convert ${OUT_WEB_RESOURCE_DIR}/${md5sum}.svgz ${OUT_WEB_RESOURCE_DIR}/${md5sum}.png
 		    values="${values}${md5sum}.svgz	"
 		else 
 		    echo "Encountered resource with unsupported extension ${rescext}"
