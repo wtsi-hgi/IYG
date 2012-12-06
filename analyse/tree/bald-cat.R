@@ -61,4 +61,4 @@ for (i in 1:length(predictions)){
 output<-cbind(ped$ID,thistrait,baldlvl,pctile)
 headernames<-c("Barcode","TraitShortName","BaldLvl","Pctile")
 
-write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames)
+write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames,sep="\t")
