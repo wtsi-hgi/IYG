@@ -131,10 +131,10 @@ if (thistrait == "EYE"){
 
 if (!is.na(popmean)){
 	output<-cbind(ped$ID,thistrait,predictions,absolutepreds,pctile)
-	headernames<-c("Barcode","TraitShortname","IYGHIST","POPDIST","Pctile")
+	headernames<-c("Barcode","TraitShortName","IYGHIST","POPDIST","Pctile")
 }else{
 	output<-cbind(ped$ID,thistrait,predictions,pctile)
-	headernames<-c("Barcode","TraitShortname","IYGHIST","Pctile")
+	headernames<-c("Barcode","TraitShortName","IYGHIST","Pctile")
 }
 write.table(output,file=paste(outdir,"/","pred.",thistrait,".txt",sep=""),quote=F,row.names=F,col.names=headernames,sep="\t")
 
@@ -180,4 +180,6 @@ for (i in 1:length(predictions)){
 		dev.off()
 	}
 }
+
+
 

@@ -127,7 +127,7 @@ awk 'NF != 10 && NF != 28 && NF > 5 && NF <= 32' ${OUT_DATA_DIR}/Y/out.yfit | aw
 awk 'NF > 32' ${OUT_DATA_DIR}/Y/out.yfit | awk '{print $1,"Unknown"}' >> ${OUT_DATA_DIR}/Y/out.haps
 
 #add HTML
-${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/Youtput.txt &> ${LOG_DIR}/addText.log
+${TREE_DIR}/addText.py ${PUB_DATA_DIR}/tree/Ychromtext.txt ${OUT_DATA_DIR}/Y/out.haps | sort -k1,1n > ${OUT_DATA_DIR}/Y/pred.Y.txt &> ${LOG_DIR}/addText.log
 
 ##########################
 #5.1. generate BALD predictions
