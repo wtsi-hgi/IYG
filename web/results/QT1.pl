@@ -112,6 +112,7 @@ else{
                 SNPS => [@snps],
                 PROFILE_ID => $public_id,
 		IYGHIST_URI => '/public_data/webresource/' . $iyghist_uri,
+		PCTILE => $profileTraitResult->{'Pctile'}->{'data'} * 100.0,
             },
         });
     }
