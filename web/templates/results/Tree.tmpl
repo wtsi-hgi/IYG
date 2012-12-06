@@ -14,26 +14,18 @@
 	<div class="span8">
 	  <div class="row-fluid">
 	    <div class="span12">
-	      <img src="<TMPL_VAR NAME=IYGHIST_URI>" alt="Trait Distribution in Inside Your Genome"/>
+	      <img src="<TMPL_VAR NAME=TREE_URI>" alt="Your Tree"/>
 	    </div>
 	  </div>
+	  <TMPL_IF NAME=TREE_DESC>
 	  <div class="row-fluid">
 	    <div class="span12 center">
-	      This histogram is the distribution of risk scores in all the IYG samples. Individuals toward the left have lower than average levels, while individuals on the right have higher. The vertical dashed line shows your position. The percentage bar below shows exactly where you fall in the IYG distribution.
+	      <TMPL_VAR NAME=TREE_DESC>
 	    </div>
 	  </div>
+	  </TMPL_IF>
 	</div>
 	<div class="span2"></div>
-      </div>
-      <div class="row-fluid">
-	<div class="span1">
-	</div>
-	<div class="span10">
-          <div id="populationBar1" class="populationBar"><span id="populationBarValue1" value="<TMPL_VAR NAME=PCTILE>" class="populationBarValue"></span></div>
-	  &nbsp;<br/>
-	</div>
-	<div class="span1">
-	</div>
       </div>
     </div>
     <TMPL_LOOP NAME=SNPS>
