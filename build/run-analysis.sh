@@ -140,6 +140,8 @@ mkdir -p ${OUT_DATA_DIR}/BALD/
 ##########################
 #6. generate MT predictions
 #NOTE! This currently is not easily pipelineable. We can add the processed files for v1, and discuss options for v2. We'll need to do a pi->barcode transform, though.
+mkdir -p ${OUT_DATA_DIR}/MT/
+cp ${PRIV_DATA_DIR}/qc/pred.MT.txt ${OUT_DATA_DIR}/MT/
 
 ##########################
 #7. generate PCA predictions
