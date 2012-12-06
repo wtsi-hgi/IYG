@@ -195,6 +195,7 @@ sub barcode_to_profile {
 	return undef;
     } else {
 	print STDERR "[ERROR]\tIYG::Db::barcode_to_profile: got no profiles back for barcode=$barcode\n";
+	return undef;
     }
 }
 
@@ -216,6 +217,7 @@ sub public_id_to_profile {
 	return undef;
     } else {
 	print STDERR "[ERROR]\tIYG::Db::public_id_to_profile: got no profiles back for public_id=$public_id\n";
+	return undef;
     }
 }
 

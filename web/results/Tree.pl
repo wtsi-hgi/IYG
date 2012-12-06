@@ -111,6 +111,7 @@ else{
                 SNPS => [@snps],
                 PROFILE_ID => $public_id,
 		TREE_URI => "/public_data/tree/$trait_short_name/".$profileTraitResult->{'TreeState'}->{'data'},
+		TREE_STATE => $profileTraitResult->{'TreeState'}->{'data'},
 		TREE_DESC => $tree_desc,
             },
         });
