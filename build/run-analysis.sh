@@ -114,7 +114,8 @@ fi
 mkdir -p ${OUT_DATA_DIR}/Y/
 # extract Y chromosome and convert to qcall format
 p-link --noweb --file ${PRIV_DATA_DIR}/iyg --chr Y --transpose --recode --out ${OUT_DATA_DIR}/Y/out &> ${LOG_DIR}/plink-Yextract.log
-${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall &> ${LOG_DIR}/tped2qcall.log
+
+${TREE_DIR}/tped2qcall.py ${OUT_DATA_DIR}/Y/out > ${OUT_DATA_DIR}/Y/out.qcall 2> ${LOG_DIR}/tped2qcall.log
 
 # do the haplogrouping
 ${YFIT_BIN} -m -q 1 ${TREE_DIR}/karafet_tree_b37.xml ${OUT_DATA_DIR}/Y/out.qcall > ${OUT_DATA_DIR}/Y/out.yfit &> ${LOG_DIR}/Yfitter.log
