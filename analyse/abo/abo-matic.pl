@@ -4,7 +4,7 @@ use strict;
 
 my %infotext = (
 	"A" => "You are likely blood type A. Type A blood can receive blood from types O and A, and can donate to A and AB.",
-	"B" => "You are likely blood type A. Type B blood can receive blood from types O and B, and can donate to B and AB.",
+	"B" => "You are likely blood type B. Type B blood can receive blood from types O and B, and can donate to B and AB.",
 	"B*" => "You have an uncommon combination of genotypes at this locus. We estimate you have an 80% chance of being type B. Type B blood can receive blood from types O and B, and can donate to B and AB.",
 	"AB" => "You are likely blood type AB. Type AB is the universal recipient (can receive any other blood type), but can only be donated to other AB individuals.",
 	"O" => "You are likely blood type O. Type O blood can only receive blood from other O individuals, but is the universal donor (can be given to anyone).",
