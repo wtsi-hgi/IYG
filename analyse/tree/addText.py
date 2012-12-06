@@ -2,7 +2,7 @@
 
 import sys
 
-print "Barcode\tTraitShortName\tHaplogroup\tInfoText\n";
+print "Barcode\tTraitShortName\tTreeState\tTreeDesc";
 TEXTFILE=open(sys.argv[1])
 HAPFILE=open(sys.argv[2])
 textdict = {}

@@ -1,5 +1,5 @@
 library(ReadImages)
-gorb<-read.jpeg("Reagan_and_Gorbachev_signing.jpg")
+gorb<-read.jpeg("analyse/qt/Reagan_and_Gorbachev_signing.jpg")
 grn<-rgb(0,0.8,0.3,alpha=0.3)
 red<-rgb(0.9,0,0,alpha=0.3)
 
