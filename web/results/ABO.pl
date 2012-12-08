@@ -59,8 +59,6 @@ else{
     });
     my $profileTraitResult = $profileTraitResultSet->fetchall_hashref('name');
 
-    my $variantGenotypeResultSet; # Placeholder for use in loop
-
     # Ensure at least one SNP and exactly one trait is returned.
     if($snpResultSet->rows > 0 && $traitResultSet->rows == 1){
         my $traitResult = $traitResultSet->fetchrow_hashref();

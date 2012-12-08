@@ -50,8 +50,6 @@ else{
         trait => $trait,
     });
 
-    my $variantGenotypeResultSet; # Placeholder for use in loop
-
     # Get additional profile-trait information (e.g. prediction results and resource links)
     my $profileTraitResultSet = $app->dbh->query_profile_trait({
 	trait => $trait,
