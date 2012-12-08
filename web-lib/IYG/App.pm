@@ -27,7 +27,6 @@ use IYG::Page;
 
 sub _build_conf { 
     my $self = shift;
-    print STDERR "_build_conf\n";
     IYG::Conf->new({
       conf_path => $self->conf_path(),
     }); 
@@ -52,9 +51,7 @@ has page => (
 
 sub _build_page {
     my $self = shift;
-    print STDERR "_build_page\n";
     my $conf = $self->conf();
-    print STDERR "_build_page have conf $conf\n";
     return IYG::Page->new({
 	prepath => $conf->getDocRoot(),
     });
