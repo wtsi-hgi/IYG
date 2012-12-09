@@ -6,7 +6,7 @@ runscripts=$2
 if [[ "${runscripts}" == "all" ]]
 then
     # run all steps in order
-    runscripts="convert-delivery analysis webresource_prep import"
+    runscripts="convert-delivery analysis webresource_prep import deploy"
     echo "individual runscripts not specified, defaulting to: [${runscripts}]"
 fi
 
